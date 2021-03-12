@@ -1,6 +1,10 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.ships.DestroyerShip;
+import com.mygdx.game.model.ships.Ship;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -10,12 +14,14 @@ public class Board {
     //private Collection<Ship> boardListeners;
 
     private ArrayList<List<Integer>> board;
+    private ArrayList<Ship> ships;
 
     private Cell cell;
 
 
     public Board(int size){
         cell = new Cell();
+        ships = new ArrayList<>();
         makeBoard(size);
         System.out.println("Nytt brett kommer nå \n");
         initShips();
@@ -31,23 +37,20 @@ public class Board {
             }
             board.add(kolonne);
         }
-
         printBoard();
     }
 
 
     private void initShips(){
-        //init ships from Ship class
-        // for now
-        Random random  = new Random();
-        for (int number = 0; number < 5; number ++) {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-            List<Integer> tmpboard = board.get(x);
-            tmpboard.set(y, cell.SHIP);
-            board.set(x, tmpboard);
+        // init ships from Ship class
+        ships.add(new DestroyerShip());
+        for (Ship ship: ships){
+            for (List<Integer> coordinate: ship.getLocation()) {
+                int x = coordinate.get(0);
+                int y = coordinate.get(1);
+                updateBoard(x, y, cell.SHIP);
+            }
         }
-
         printBoard();
     }
 
@@ -60,9 +63,10 @@ public class Board {
     }
 
     private boolean isValidMove(int x, int y){
-        if (( 0 <= x || x < 10) && (0 <= y || y < 10) ){
-            // coordiantes is within range, check if cell is already shot at
-            int value = board.get(x).get(y);
+        if (( x >= 0 || x < 10) && (y >= 0 || y < 10) ){
+            System.out.println("Valid coordinates");
+            // coordinates is within range, check if cell is already been shot at
+            int value = board.get(y).get(x);
             return cell.isValidMove(value);
         }
         return false;
@@ -70,21 +74,33 @@ public class Board {
 
 
     void shoot(int x, int y){
-       int value = board.get(x).get(y);
+       int value = board.get(y).get(x);
        if (isValidMove(x, y)){
+           System.out.println("Valid move");
+           if (cell.isHit(value)){
+               for (Ship ship : ships){
+                   ship.boardChange(x, y);
+               }
+           }
            updateBoard(x, y,cell.setCell(value));
        }
     }
 
     public void updateBoard(int x, int y, int value){
-        List<Integer> tmp = board.get(x);
-        tmp.set(y, value);
-        board.set(x,tmp);
+        List<Integer> tmp = board.get(y);
+        tmp.set(x, value);
+        board.set(y,tmp);
     }
 
     public static void main(String[] args) {
         Board test = new Board(10);
+        test.shoot(2,1);
+        System.out.println("Skutt på 2, 1");
+        test.printBoard();
+
     }
+
+
 
 
 }
