@@ -1,14 +1,14 @@
-package com.mygdx.game.view;
+package com.mygdx.game.view;//package com.mygdx.game.view; //endret
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.battleships;
 import com.mygdx.game.model.Board;
-import com.mygdx.game.states.State;
-import com.mygdx.game.views.GameStateManager;
+import com.mygdx.game.view.GameStateManager;
+import com.mygdx.game.view.State; //endret
 
-public class MultiplayerView extends  State{
+public class PlayView extends  State {
 
     private int width = battleships.WIDTH;
     private int height = battleships.HEIGHT;
@@ -28,8 +28,8 @@ public class MultiplayerView extends  State{
 
      */
 
-    public MultiplayerView(GameStateManager gsm, Board board){
-        super(gsm); //vet ikke helt hva dette betyr, må finne ut
+    public PlayView(GameStateManager gsm, Board board){
+        super(gsm);
 
         background = new Texture("ocean.jpeg");
 
@@ -51,6 +51,7 @@ public class MultiplayerView extends  State{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background,width,height);
+        sb.end();
 
     }
 
