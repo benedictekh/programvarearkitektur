@@ -10,30 +10,16 @@ import com.mygdx.game.view.State; //endret
 
 public class PlayView extends  State {
 
-    private int width = battleships.WIDTH;
-    private int height = battleships.HEIGHT;
-
-    private Board board;
-    private Pixmap map;
-    private GameStateManager gsm;
     private Texture background;
-    /*
-    private Player player;
-    private Cell cell;
-    private DestroyerShip destroyerShip;
-    private CarrierShip carrierShip;
-    private BattleShip battleShip;
-    private CruiserShip cruiserShip;
-    private SubmarineShip submarineShip;
+    private Texture board;
 
-     */
-
-    public PlayView(GameStateManager gsm, Board board){
+    public PlayView(GameStateManager gsm){
         super(gsm);
 
-        background = new Texture("ocean.jpeg");
+        background = new Texture("background.PNG");
+        board = new Texture("board.PNG");
 
-        //map = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
     }
 
 
@@ -50,7 +36,8 @@ public class PlayView extends  State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(background,width,height);
+        sb.draw(background,0,0,battleships.WIDTH,battleships.HEIGHT);
+        sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
         sb.end();
 
     }

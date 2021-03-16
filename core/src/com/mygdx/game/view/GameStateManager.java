@@ -16,26 +16,26 @@ public class GameStateManager {
 
     public void push(State state){
 
-        //states.push(state);
+        states.push(state);
     }
 
     public void pop(){
 
-        //states.pop().dispose();
+        states.pop().dispose();
     }
 
     public void set(State state){
-        //states.pop().dispose();
-        //states.push(state);
+        states.pop().dispose();
+        states.push(state);
     }
 
     public void update(float dt){
 
-        //states.peek().update(dt);
+        states.peek().update(dt);
     }
 
     public void render(SpriteBatch sb){
 
-        //states.peek().render(sb);
+        states.peek().render(sb);
     }
 }
