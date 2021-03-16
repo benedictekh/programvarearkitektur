@@ -1,12 +1,12 @@
 package com.mygdx.game.model.ships;
 
-public class CarrierShip extends Ship{
+public class PatrolShip extends Ship{
 
     // the size is based on a horizontal direction
-    int sizeX = 5;
+    int sizeX = 2;
     int sizeY = 1;
 
-    public CarrierShip(boolean horizontal){
+    public PatrolShip(boolean horizontal){
         super();
         if (horizontal) {
             setSizey(sizeY);

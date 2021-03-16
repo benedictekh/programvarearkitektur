@@ -23,7 +23,6 @@ public abstract class Ship {
         // burde legge til validering om det er gyldig koordinater
         this.sizex = sizex;
         this.sizey = sizey;
-        createRandomLocation();
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
     }

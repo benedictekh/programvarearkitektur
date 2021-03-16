@@ -1,7 +1,12 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.ships.BattleShip;
+import com.mygdx.game.model.ships.CarrierShip;
+import com.mygdx.game.model.ships.CruiserShip;
 import com.mygdx.game.model.ships.DestroyerShip;
+import com.mygdx.game.model.ships.PatrolShip;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.model.ships.SubmarineShip;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,11 +48,12 @@ public class Board {
 
     private void initShips(){
         // init ships from Ship class
-        for (int i = 0 ; i < 3; i++){
-            Ship ship = new DestroyerShip(true);
-            System.out.println(ship.getLocation());
-            ships.add(new DestroyerShip(true));
-        }
+        ships.add(new DestroyerShip(true));
+        ships.add(new CarrierShip(true));
+        ships.add(new CruiserShip(false));
+        ships.add(new SubmarineShip(true));
+        ships.add(new BattleShip(true));
+        ships.add(new PatrolShip(true));
         for (Ship ship: ships){
             System.out.println("location: " + ship.getLocation());
             // while the ships random location is partly occupied, create a new random location
@@ -63,7 +69,6 @@ public class Board {
         }
         printBoard();
     }
-
 
 
     private void printBoard(){

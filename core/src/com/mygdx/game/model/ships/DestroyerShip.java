@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Random;
 
 public class DestroyerShip extends Ship{
-    // this ship has size 3x2 -> the location list cant be larger than 4
-    int sizeX = 3;
-    int sizeY = 2;
+    // this ship has size 2x1 -> the location list cant be larger than 2
+    int sizeX = 4;
+    int sizeY = 1;
 
-    public DestroyerShip(boolean vertical) {
+    public DestroyerShip(boolean horizontal) {
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
         super();
-        if (vertical) {
+        if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
         }
@@ -26,5 +26,6 @@ public class DestroyerShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
+        createRandomLocation();
     }
 }
