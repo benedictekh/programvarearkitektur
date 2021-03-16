@@ -1,7 +1,12 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.model.ships.BattleShip;
+import com.mygdx.game.model.ships.CarrierShip;
+import com.mygdx.game.model.ships.CruiserShip;
 import com.mygdx.game.model.ships.DestroyerShip;
+import com.mygdx.game.model.ships.PatrolShip;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.model.ships.SubmarineShip;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,9 +48,20 @@ public class Board {
 
     private void initShips(){
         // init ships from Ship class
-        ships.add(new DestroyerShip());
+        ships.add(new DestroyerShip(true));
+        ships.add(new CarrierShip(true));
+        ships.add(new CruiserShip(false));
+        ships.add(new SubmarineShip(true));
+        ships.add(new BattleShip(true));
+        ships.add(new PatrolShip(true));
         for (Ship ship: ships){
-            for (List<Integer> coordinate: ship.getLocation()) {
+            System.out.println("location: " + ship.getLocation());
+            // while the ships random location is partly occupied, create a new random location
+            while (!isValidLocation(ship.getLocation())) {
+                ship.createRandomLocation();
+            }
+            // the location is valid, update the values on the board
+            for (List<Integer> coordinate : ship.getLocation()) {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateBoard(x, y, cell.SHIP);
@@ -53,7 +69,6 @@ public class Board {
         }
         printBoard();
     }
-
 
 
     private void printBoard(){
@@ -91,6 +106,14 @@ public class Board {
         tmp.set(x, value);
         board.set(y,tmp);
     }
+    public boolean isValidLocation(ArrayList<List<Integer>> location){
+        for (List<Integer> coordinates : location){
+            if (board.get(coordinates.get(1)).get(coordinates.get(0)) == cell.SHIP){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         Board test = new Board(10);
@@ -99,9 +122,5 @@ public class Board {
         test.printBoard();
 
     }
-
-
-
-
 }
 
