@@ -1,5 +1,7 @@
 package com.mygdx.game.model.ships;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class CarrierShip extends Ship{
 
     // the size is based on a horizontal direction
@@ -7,7 +9,7 @@ public class CarrierShip extends Ship{
     int sizeY = 1;
 
     public CarrierShip(boolean horizontal){
-        super();
+        super(Color.YELLOW);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);

@@ -1,5 +1,6 @@
 package com.mygdx.game.model.ships;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.model.Board;
 
@@ -12,17 +13,17 @@ public abstract class Ship {
 
     private int sizex;
     private int sizey;
+    private Color color;
     private Boolean isSunk;
     private Texture texture;
     private ArrayList<List<Integer>> location;
     // example location: [[0,0],[0,1],[1,0],[1,1]]
     private ArrayList<List<Integer>> shotCoordinates;
 
-    protected Ship(){
+    protected Ship(Color color){
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
-        this.sizex = sizex;
-        this.sizey = sizey;
+        this.color = color;
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
     }
@@ -74,6 +75,10 @@ public abstract class Ship {
 
         }
         System.out.println("Randomly generated location: " + location);
+    }
+
+    public Color getColor(){
+        return color;
     }
 
     protected void setSizex(int size){

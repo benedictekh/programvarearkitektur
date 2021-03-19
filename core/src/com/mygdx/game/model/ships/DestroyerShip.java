@@ -1,5 +1,6 @@
 package com.mygdx.game.model.ships;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.model.Board;
 
@@ -14,10 +15,11 @@ public class DestroyerShip extends Ship{
     int sizeX = 4;
     int sizeY = 1;
 
+
     public DestroyerShip(boolean horizontal) {
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
-        super();
+        super(Color.PINK);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
