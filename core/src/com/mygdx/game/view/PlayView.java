@@ -1,5 +1,6 @@
 package com.mygdx.game.view;//package com.mygdx.game.view; //endret
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,8 @@ public class PlayView extends  State {
 
     private Texture background;
     private Texture board;
+    private float x_position;
+    private float y_position;
 
     public PlayView(GameStateManager gsm){
         super(gsm);
@@ -25,12 +28,23 @@ public class PlayView extends  State {
 
     @Override
     protected void handleInput() {
+        if(Gdx.input.justTouched()){
+            x_position = Gdx.input.getX();
+            y_position = Gdx.input.getY();
+        }
+
+        /*
+        Her skal det være en funksjon som sender koordiandene som blir trykket på inn
+        til controlleren. Controlleren vil videre regne ut hvilket rutenummer det er og sende dette
+        Board model.
+         */
+
 
     }
 
     @Override
     public void update(float dt) {
-
+        handleInput();
     }
 
     @Override
