@@ -6,7 +6,6 @@ public class InitializeGameView extends State{
 
     protected InitializeGameView(GameStateManager gsm) {
         super(gsm);
-
     }
 
     @Override
