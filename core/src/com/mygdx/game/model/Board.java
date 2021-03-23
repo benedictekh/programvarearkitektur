@@ -1,5 +1,9 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.battleships;
 import com.mygdx.game.model.ships.BattleShip;
 import com.mygdx.game.model.ships.CarrierShip;
 import com.mygdx.game.model.ships.CruiserShip;
@@ -18,13 +22,20 @@ public class Board {
 
     //private Collection<Ship> boardListeners;
 
+    private int sidemargin;
+
     private ArrayList<List<Integer>> board;
     private ArrayList<Ship> ships;
 
     private Cell cell;
+    private Texture texture; //the board texture
+    private ShapeRenderer shapeRenderer;
+    private float width; //board is a square -> width = height
 
 
-    public Board(int size){
+    public Board(int size, int sidemargin){
+        this.sidemargin = sidemargin;
+        shapeRenderer = new ShapeRenderer();
         cell = new Cell();
         ships = new ArrayList<>();
         makeBoard(size);
@@ -37,7 +48,7 @@ public class Board {
 
         for (int row = 0; row < size; row++) {
             List<Integer> kolonne = new ArrayList<>();
-            for (int column = 0; column < 10; column++) {
+            for (int column = 0; column < size; column++) {
                 kolonne.add(cell.EMPTY);
             }
             board.add(kolonne);
@@ -78,7 +89,7 @@ public class Board {
     }
 
     private boolean isValidMove(int x, int y){
-        if (( x >= 0 || x < 10) && (y >= 0 || y < 10) ){
+        if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
             System.out.println("Valid coordinates");
             // coordinates is within range, check if cell is already been shot at
             int value = board.get(y).get(x);
@@ -116,11 +127,68 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        Board test = new Board(10);
+        Board test = new Board(10, 10);
         test.shoot(2,1);
         System.out.println("Skutt på 2, 1");
         test.printBoard();
 
+    }
+
+    public Texture getTexture(){
+        return texture;
+    }
+
+    public ArrayList<List<Integer>> getBoard(){
+        return board;
+    }
+
+    public int getSidemargin(){
+        return sidemargin;
+    }
+
+    public float getWidth(){
+        return width;
+    }
+
+    public void drawBoard(){
+        // finds the size of each rectangle
+        // should be square
+
+
+        if (battleships.WIDTH > battleships.HEIGHT){
+            width = battleships.HEIGHT - (2 * sidemargin);
+        }
+        else{
+            width = battleships.WIDTH - (2 * sidemargin);
+        }
+        // board is square so width = height
+        float cell_width = width / getBoard().size();
+
+        for ( int i = 0;  i < getBoard().size(); i ++){
+            float y_coord = sidemargin + i * cell_width;
+            for ( int j = 0; j < getBoard().size(); j ++){
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(0,0,0,0); //black
+                shapeRenderer.rect(sidemargin +j * cell_width, y_coord, cell_width, cell_width );
+                shapeRenderer.end();
+            }
+
+        }
+
+    }
+
+    public void drawShips(){
+        float cell_width = width/ getBoard().size();
+        for (Ship ship: ships){
+            for ( List<Integer> coordinate : ship.getLocation()) {
+                float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                float y = (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(ship.getColor());
+                shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                shapeRenderer.end();
+            }
+        }
     }
 }
 
