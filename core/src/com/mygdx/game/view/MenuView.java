@@ -14,6 +14,7 @@ import java.awt.Button;
 
 public class MenuView extends State{
 
+    Texture logo;
     Texture background;
     Texture playBtn;
     Texture initButton;
@@ -21,9 +22,10 @@ public class MenuView extends State{
     public MenuView(GameStateManager gsm) {
         super(gsm);
 
-        background = new Texture("background.PNG");
-        playBtn = new Texture("button_2.png");
-        initButton = new Texture("initButton.png");
+        logo = new Texture("cover.png");
+        background = new Texture("background1.jpg");
+        playBtn = new Texture("playbtn1.png");
+        initButton = new Texture("Settings.png");
 
     }
 
@@ -54,10 +56,11 @@ public class MenuView extends State{
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(background, 0, 0, battleships.WIDTH, battleships.HEIGHT);
 
-        sb.draw(playBtn,(battleships.WIDTH/2-100),battleships.HEIGHT-200,200 ,100);
-        sb.draw(initButton,(battleships.WIDTH/2-100),100,200,100);
+        sb.draw(background, 0, 0, battleships.WIDTH, battleships.HEIGHT);
+        sb.draw(logo,battleships.WIDTH/2-275, battleships.HEIGHT-150, 500, 200);
+        sb.draw(playBtn,(battleships.WIDTH/2-100),battleships.HEIGHT-200,200 ,75);
+        sb.draw(initButton,(battleships.WIDTH/2-100),100,200,75);
         sb.end();
     }
 
