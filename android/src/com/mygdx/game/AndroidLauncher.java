@@ -37,13 +37,14 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseServi
 		//vet ikke hva sharedPrefrences gjør enda
 		SharedPreferences preferences = getSharedPreferences("PREFS", 0);
 		playerName = preferences.getString("playerName", "");
-		if (!playerName.equals("")){
+		/*if (!playerName.equals("")){
 			//må ha referanse i firebase til dette
 			playerRef = database.getReference("players/" + playerName);
 			//addEventListener;
 			playerRef.setValue("");
-		}
-
+		}*/
+		playerRef = database.getReference();
+		testWriteDatabase();
 		//må få inn playerName fra core
 
 		initialize(new battleships(this), config);
@@ -54,6 +55,15 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseServi
 		System.out.println(hei);
 	}*/
 
+	public void testWriteDatabase(){
+		String playerId = "1";
+		String playerName = "Anne";
+		playerRef.child("GameState").child("Player1").child("Score").setValue("1");
+	}
+
+	public void testReadDatabase(){
+		//String player2 = dataSnapshot
+	}
 
 
 
