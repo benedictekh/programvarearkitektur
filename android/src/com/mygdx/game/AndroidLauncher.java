@@ -31,20 +31,23 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseServi
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		database = FirebaseDatabase.getInstance();
+		database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
+		playerRef = database.getReference("GameState/Player1/Score");
+		playerRef.setValue(100);
+
 
 		//check if the player exists and get refrence
 		//vet ikke hva sharedPrefrences gjør enda
-		SharedPreferences preferences = getSharedPreferences("PREFS", 0);
-		playerName = preferences.getString("playerName", "");
+		//SharedPreferences preferences = getSharedPreferences("PREFS", 0);
+		//playerName = preferences.getString("playerName", "");
 		/*if (!playerName.equals("")){
 			//må ha referanse i firebase til dette
 			playerRef = database.getReference("players/" + playerName);
 			//addEventListener;
 			playerRef.setValue("");
 		}*/
-		playerRef = database.getReference();
-		testWriteDatabase();
+		//playerRef = database.getReference();
+		//testWriteDatabase();
 		//må få inn playerName fra core
 
 		initialize(new battleships(this), config);

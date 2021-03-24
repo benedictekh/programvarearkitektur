@@ -65,6 +65,7 @@ project(":android") {
         implementation project(":core")
         implementation platform('com.google.firebase:firebase-bom:26.7.0')
         implementation 'com.google.firebase:firebase-analytics'
+        implementation 'com.google.firebase:firebase-database'
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
