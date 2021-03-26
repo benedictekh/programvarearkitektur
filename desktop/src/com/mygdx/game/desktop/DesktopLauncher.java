@@ -7,6 +7,6 @@ import com.mygdx.game.battleships;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new battleships(), config);
+		new LwjglApplication(new battleships(null), config);
 	}
 }

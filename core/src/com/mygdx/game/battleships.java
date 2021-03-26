@@ -17,7 +17,10 @@ public class battleships extends ApplicationAdapter {
 	private GameStateManager gsm;
 	public static int WIDTH;
 	public static int HEIGHT;
-
+	FirebaseServices firebaseServices;
+	public battleships(FirebaseServices firebaseServices) {
+		this.firebaseServices = firebaseServices;
+	}
 
 	@Override
 	public void create () {
