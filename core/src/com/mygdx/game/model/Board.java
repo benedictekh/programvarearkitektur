@@ -101,8 +101,8 @@ public class Board {
 
 
     public void shoot(int x, int y){
-       int value = board.get(y).get(x);
        if (isValidMove(x, y)){
+           int value = board.get(y).get(x);
            System.out.println("Valid move");
            if (cell.isHit(value)){
                for (Ship ship : ships){
@@ -110,6 +110,9 @@ public class Board {
                }
            }
            updateBoard(x, y,cell.setCell(value));
+       }
+       else{
+           System.out.println("Not a valid move");
        }
     }
 
@@ -131,9 +134,10 @@ public class Board {
 
     public static void main(String[] args) {
         Board test = new Board(10, 10);
-        test.shoot(2,1);
+        /*test.shoot(2,1);
         System.out.println("Skutt på 2, 1");
         test.printBoard();
+        System.out.println(test.isValidMove(11, 3)); */
 
     }
 
@@ -183,13 +187,27 @@ public class Board {
     public void drawShips(){
         float cell_width = width/ getBoard().size();
         for (Ship ship: ships){
-            for ( List<Integer> coordinate : ship.getLocation()) {
-                float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
-                float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.setColor(ship.getColor());
-                shapeRenderer.circle(x, y, cell_width / 2 - 2);
-                shapeRenderer.end();
+            if (ship.isSunk()){
+                // draws filled circles
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
+
+            }
+            else {
+                for (List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width / 2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width / 2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
             }
         }
     }
@@ -198,26 +216,36 @@ public class Board {
 
         float cell_width = width/ getBoard().size();
         for ( int i = 0;  i < getBoard().size(); i ++){
-            float y_coord = sidemargin + i * cell_width;
+            float y_coord = i * cell_width;
             for ( int j = 0; j < getBoard().size(); j ++){
                 if (board.get(i).get(j) == Cell.HIT) {
                     // draw a cross
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.x(sidemargin +j * cell_width, y_coord, cell_width);
+                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
+                    shapeRenderer.line(sidemargin + j*cell_width, width + sidemargin - y_coord, sidemargin + j*cell_width + cell_width, width + sidemargin - y_coord - cell_width);
                     shapeRenderer.end();
                 }
                 else if (board.get(i).get(j) == Cell.MISS) {
                     // draws a diagonal line
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.line(sidemargin +j * cell_width, y_coord, sidemargin +j * cell_width + cell_width, y_coord + cell_width);
+                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
                     shapeRenderer.end();
                 }
             }
 
         }
 
+    }
+
+    public boolean isFinished(){
+        for(Ship ship: ships){
+            if (!ship.isSunk()){
+                return false;
+            }
+        }
+        return true;
     }
 
 
