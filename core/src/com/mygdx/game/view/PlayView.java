@@ -37,7 +37,8 @@ public class PlayView extends  State {
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             System.out.println("Input position. " + x_position + ", " + y_position);
-            controller.getIndex(x_position, y_position);
+            controller.shoot(controller.getIndex(x_position, y_position));
+
         }
 
 
@@ -66,6 +67,7 @@ public class PlayView extends  State {
         sb.end();
         controller.getBoard().drawBoard();
         controller.getBoard().drawShips();
+        controller.getBoard().drawUpdatedBoard();
 
     }
 
