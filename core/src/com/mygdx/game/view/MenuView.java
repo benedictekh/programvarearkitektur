@@ -35,7 +35,9 @@ public class MenuView extends State{
             //om den grønne knappen blir trykket på kommer man til board-et
             if (Gdx.input.getY()<= battleships.HEIGHT / 2) {
                 gsm.set(new PlayView(gsm));
+
             }
+
 
         }
         if(Gdx.input.justTouched()){
@@ -45,6 +47,7 @@ public class MenuView extends State{
             }
 
         }
+
     }
 
     @Override

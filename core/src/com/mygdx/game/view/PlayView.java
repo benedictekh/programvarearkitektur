@@ -24,7 +24,7 @@ public class PlayView extends  State {
         super(gsm);
 
         background = new Texture("background.PNG");
-        board = new Texture("board.PNG");
+        //board = new Texture("board.PNG");
         controller = new BoardController( new Board(10, 10));
 
 
