@@ -43,4 +43,8 @@ public class BoardController extends Controller{
     public Board getBoard(){
         return this.board;
     }
+
+    public boolean isFinished(){
+        return getBoard().isFinished();
+    }
 }

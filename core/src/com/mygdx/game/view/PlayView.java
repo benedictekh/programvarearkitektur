@@ -40,6 +40,9 @@ public class PlayView extends  State {
             controller.shoot(controller.getIndex(x_position, y_position));
 
         }
+        if (controller.isFinished()){
+            gsm.set(new GameFinishedView(gsm));
+        }
 
 
         /*
