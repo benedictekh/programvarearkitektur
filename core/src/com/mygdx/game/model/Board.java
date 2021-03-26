@@ -2,6 +2,7 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.battleships;
 import com.mygdx.game.model.ships.BattleShip;
@@ -99,7 +100,7 @@ public class Board {
     }
 
 
-    void shoot(int x, int y){
+    public void shoot(int x, int y){
        int value = board.get(y).get(x);
        if (isValidMove(x, y)){
            System.out.println("Valid move");
@@ -116,6 +117,8 @@ public class Board {
         List<Integer> tmp = board.get(y);
         tmp.set(x, value);
         board.set(y,tmp);
+        System.out.println("Board is updated, time to draw");
+
     }
     public boolean isValidLocation(ArrayList<List<Integer>> location){
         for (List<Integer> coordinates : location){
@@ -182,7 +185,7 @@ public class Board {
         for (Ship ship: ships){
             for ( List<Integer> coordinate : ship.getLocation()) {
                 float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
-                float y = (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.setColor(ship.getColor());
                 shapeRenderer.circle(x, y, cell_width / 2 - 2);
@@ -190,5 +193,33 @@ public class Board {
             }
         }
     }
+
+    public void drawUpdatedBoard(){
+
+        float cell_width = width/ getBoard().size();
+        for ( int i = 0;  i < getBoard().size(); i ++){
+            float y_coord = sidemargin + i * cell_width;
+            for ( int j = 0; j < getBoard().size(); j ++){
+                if (board.get(i).get(j) == Cell.HIT) {
+                    // draw a cross
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.BLACK);
+                    shapeRenderer.x(sidemargin +j * cell_width, y_coord, cell_width);
+                    shapeRenderer.end();
+                }
+                else if (board.get(i).get(j) == Cell.MISS) {
+                    // draws a diagonal line
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.BLACK);
+                    shapeRenderer.line(sidemargin +j * cell_width, y_coord, sidemargin +j * cell_width + cell_width, y_coord + cell_width);
+                    shapeRenderer.end();
+                }
+            }
+
+        }
+
+    }
+
+
 }
 

@@ -34,6 +34,12 @@ public class BoardController extends Controller{
        return indexes;
     }
 
+    public boolean shoot(ArrayList<Integer> indexes){
+        board.shoot(indexes.get(0), indexes.get(1));
+        // returns if shoot is hit
+        return true;
+    }
+
     public Board getBoard(){
         return this.board;
     }
