@@ -13,7 +13,11 @@ public class Cell {
     private Texture miss;
 
     public boolean isValidMove(int value){
-        return !(value == HIT || value == MISS);
+        if  (value == HIT || value == MISS) {
+            System.out.println("Already shot here");
+            return false;
+        }
+        return true;
     }
 
     public boolean isHit(int value){

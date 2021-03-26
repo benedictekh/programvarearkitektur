@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Board {
 
@@ -39,6 +40,12 @@ public class Board {
         shapeRenderer = new ShapeRenderer();
         cell = new Cell();
         ships = new ArrayList<>();
+        if (battleships.WIDTH > battleships.HEIGHT){
+            width = battleships.HEIGHT - (2 * sidemargin);
+        }
+        else{
+            width = battleships.WIDTH - (2 * sidemargin);
+        }
         makeBoard(size);
         System.out.println("Nytt brett kommer nå \n");
         initShips();
@@ -99,8 +106,8 @@ public class Board {
         return false;
     }
 
-
-    public void shoot(int x, int y){
+    // return true if valid move and miss, false if not valid move or hit
+    public boolean shoot(int x, int y){
        if (isValidMove(x, y)){
            int value = board.get(y).get(x);
            System.out.println("Valid move");
@@ -108,11 +115,18 @@ public class Board {
                for (Ship ship : ships){
                    ship.boardChange(x, y);
                }
+               updateBoard(x, y,cell.setCell(value));
+               return false;
            }
-           updateBoard(x, y,cell.setCell(value));
+           else {
+               updateBoard(x, y, cell.setCell(value));
+               return true;
+           }
+
        }
        else{
            System.out.println("Not a valid move");
+           return false;
        }
     }
 
@@ -160,14 +174,6 @@ public class Board {
     public void drawBoard(){
         // finds the size of each rectangle
         // should be square
-
-
-        if (battleships.WIDTH > battleships.HEIGHT){
-            width = battleships.HEIGHT - (2 * sidemargin);
-        }
-        else{
-            width = battleships.WIDTH - (2 * sidemargin);
-        }
         // board is square so width = height
         float cell_width = width / getBoard().size();
 
