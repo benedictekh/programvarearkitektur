@@ -2,6 +2,7 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.battleships;
 import com.mygdx.game.model.ships.BattleShip;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Board {
 
@@ -38,6 +40,12 @@ public class Board {
         shapeRenderer = new ShapeRenderer();
         cell = new Cell();
         ships = new ArrayList<>();
+        if (battleships.WIDTH > battleships.HEIGHT){
+            width = battleships.HEIGHT - (2 * sidemargin);
+        }
+        else{
+            width = battleships.WIDTH - (2 * sidemargin);
+        }
         makeBoard(size);
         System.out.println("Nytt brett kommer nå \n");
         initShips();
@@ -98,17 +106,27 @@ public class Board {
         return false;
     }
 
-
-    void shoot(int x, int y){
-       int value = board.get(y).get(x);
+    // return true if valid move and miss, false if not valid move or hit
+    public boolean shoot(int x, int y){
        if (isValidMove(x, y)){
+           int value = board.get(y).get(x);
            System.out.println("Valid move");
            if (cell.isHit(value)){
                for (Ship ship : ships){
                    ship.boardChange(x, y);
                }
+               updateBoard(x, y,cell.setCell(value));
+               return false;
            }
-           updateBoard(x, y,cell.setCell(value));
+           else {
+               updateBoard(x, y, cell.setCell(value));
+               return true;
+           }
+
+       }
+       else{
+           System.out.println("Not a valid move");
+           return false;
        }
     }
 
@@ -116,6 +134,8 @@ public class Board {
         List<Integer> tmp = board.get(y);
         tmp.set(x, value);
         board.set(y,tmp);
+        System.out.println("Board is updated, time to draw");
+
     }
     public boolean isValidLocation(ArrayList<List<Integer>> location){
         for (List<Integer> coordinates : location){
@@ -128,9 +148,10 @@ public class Board {
 
     public static void main(String[] args) {
         Board test = new Board(10, 10);
-        test.shoot(2,1);
+        /*test.shoot(2,1);
         System.out.println("Skutt på 2, 1");
         test.printBoard();
+        System.out.println(test.isValidMove(11, 3)); */
 
     }
 
@@ -153,14 +174,6 @@ public class Board {
     public void drawBoard(){
         // finds the size of each rectangle
         // should be square
-
-
-        if (battleships.WIDTH > battleships.HEIGHT){
-            width = battleships.HEIGHT - (2 * sidemargin);
-        }
-        else{
-            width = battleships.WIDTH - (2 * sidemargin);
-        }
         // board is square so width = height
         float cell_width = width / getBoard().size();
 
@@ -180,15 +193,67 @@ public class Board {
     public void drawShips(){
         float cell_width = width/ getBoard().size();
         for (Ship ship: ships){
-            for ( List<Integer> coordinate : ship.getLocation()) {
-                float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
-                float y = (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.setColor(ship.getColor());
-                shapeRenderer.circle(x, y, cell_width / 2 - 2);
-                shapeRenderer.end();
+            if (ship.isSunk()){
+                // draws filled circles
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
+
+            }
+            else {
+                for (List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width / 2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width / 2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
             }
         }
     }
+
+    public void drawUpdatedBoard(){
+
+        float cell_width = width/ getBoard().size();
+        for ( int i = 0;  i < getBoard().size(); i ++){
+            float y_coord = i * cell_width;
+            for ( int j = 0; j < getBoard().size(); j ++){
+                if (board.get(i).get(j) == Cell.HIT) {
+                    // draw a cross
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.BLACK);
+                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
+                    shapeRenderer.line(sidemargin + j*cell_width, width + sidemargin - y_coord, sidemargin + j*cell_width + cell_width, width + sidemargin - y_coord - cell_width);
+                    shapeRenderer.end();
+                }
+                else if (board.get(i).get(j) == Cell.MISS) {
+                    // draws a diagonal line
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.BLACK);
+                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
+                    shapeRenderer.end();
+                }
+            }
+
+        }
+
+    }
+
+    public boolean isFinished(){
+        for(Ship ship: ships){
+            if (!ship.isSunk()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }
 

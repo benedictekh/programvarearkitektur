@@ -6,6 +6,7 @@ import com.mygdx.game.model.Board;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -45,7 +46,9 @@ public abstract class Ship {
             //sjekke når begge listene er helt like
             //da må skipet gjøres visable
         }
-        if (shotCoordinates == location){
+        System.out.println("Location: " + location);
+        System.out.println("ShotCoordinates" + shotCoordinates);
+        if (shotCoordinates.containsAll(location)){
             isSunk = true;
         }
         return thisShip;
@@ -87,6 +90,10 @@ public abstract class Ship {
 
     protected void setSizey(int size){
         this.sizey = size;
+    }
+
+    public boolean isSunk(){
+        return isSunk;
     }
 
 
