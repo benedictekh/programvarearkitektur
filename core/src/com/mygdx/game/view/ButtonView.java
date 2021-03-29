@@ -24,11 +24,14 @@ public class ButtonView {
         Width = width;
         Height = height;
         rectangle = new Rectangle(Width,Height);
-        rectangle.setLocation(buttonx,buttony);
+        rectangle.setLocation(Buttonx,Buttony);
+        System.out.println("buttonx" + Buttonx);
     }
 
     public Rectangle getRectangle() {
-        return rectangle;
+        System.out.println("rec:" + rectangle);
+        return this.rectangle;
+
     }
     public Texture getTexture(){
         return texture;
