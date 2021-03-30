@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.battleships;
 
 import javax.xml.soap.Text;
@@ -12,6 +13,8 @@ public class SettingsView extends State{
     private Texture settings;
     private Texture tutorial;
 
+    private ButtonView tut_button;
+
 
     protected SettingsView(GameStateManager gsm) {
 
@@ -20,12 +23,15 @@ public class SettingsView extends State{
         super(gsm);
         settings = new Texture("background1.jpg");
         tutorial = new Texture("tutorial.png");
+        tut_button = new ButtonView("tutorial.png", battleships.WIDTH/2-100, battleships.HEIGHT/2,200,75);
+
 
     }
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.justTouched()){
+        Vector3 touch = new Vector3(Gdx.input.getX(), battleships.HEIGHT-Gdx.input.getY(), 0);
+        if(tut_button.getRectangle().contains(touch.x,touch.y)){
             gsm.set(new MenuView(gsm));
         }
 
