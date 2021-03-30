@@ -9,6 +9,7 @@ public interface FirebaseServices {
     public void setPlayerScore(String player, int score);
     public void playerScoreValueListener(String player);
     public void addPlayer(Player player);
-    public void initializeGame();
+    //public void initializeGame(DataSnapShot waitingRoom);
     public void waitingRoomListener();
+    public void createGame();
 }
