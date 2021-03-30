@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.battleships;
 
 import java.awt.Button;
+import java.awt.TextField;
 
 public class MenuView extends State{
 
@@ -29,6 +31,8 @@ public class MenuView extends State{
 
     }
 
+
+
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
@@ -36,14 +40,12 @@ public class MenuView extends State{
             if (Gdx.input.getY()<= battleships.HEIGHT / 2) {
                 gsm.set(new PlayView(gsm));
             }
-
         }
         if(Gdx.input.justTouched()){
             //om den blå knappen trykkes på kommer man til setting/tutorial + feedback
             if (Gdx.input.getY()> battleships.HEIGHT / 2) {
                 gsm.set(new SettingsView(gsm));
             }
-
         }
     }
 
