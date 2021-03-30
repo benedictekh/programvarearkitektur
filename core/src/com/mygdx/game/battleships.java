@@ -33,10 +33,10 @@ public class battleships extends ApplicationAdapter {
 		gsm = new GameStateManager();
 		gsm.push(new MenuView(gsm));
 		firebaseServices.getPlayerScore("Player1");
-		firebaseServices.setPlayerScore("Player1",50);
-		firebaseServices.playerScoreValueListener("Player1");
-		firebaseServices.setPlayerScore("Player1",20);
-		firebaseServices.setPlayerScore("Player1",10);
+		//firebaseServices.setPlayerScore("Player1",50);
+		//firebaseServices.playerScoreValueListener("Player1");
+		//firebaseServices.setPlayerScore("Player1",20);
+		//firebaseServices.setPlayerScore("Player1",10);
 	}
 
 	@Override

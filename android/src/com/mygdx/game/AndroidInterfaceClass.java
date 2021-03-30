@@ -12,29 +12,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.model.Player;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
 
 public class AndroidInterfaceClass implements FirebaseServices {
     private FirebaseAnalytics mFirebaseAnalytics;
-    DatabaseReference myRef;
+    DatabaseReference data;
     FirebaseDatabase database;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
-        myRef = database.getReference("GameState");
+        data = database.getReference();
     }
 
-
-    @Override
-    public String getPlayerName() {
-        return null;
-    }
-
+    // Get the score of a player, input: Player1 or Player2
     @Override
     public void getPlayerScore(String player) {
-        myRef.child(player).child("Score").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        data.child("GameState").child(player).child("Score").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
@@ -46,14 +44,16 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    // Updates the score of a player, input: Player1 or Player2, new score
     @Override
     public void setPlayerScore(String player, int score) {
-        myRef.child(player).child("Score").setValue(score);
+        data.child("GameState").child(player).child("Score").setValue(score);
     }
 
+    // Observer of a players score, input: Player1 or Player2
     @Override
     public void playerScoreValueListener(String player) {
-        myRef.child(player).child("Score").addValueEventListener(new ValueEventListener() {
+        data.child("GameState").child(player).child("Score").addValueEventListener(new ValueEventListener() {
             // Read from the database
 
             @Override
@@ -72,33 +72,42 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
-    //check if the player exists and get refrence
-    //vet ikke hva sharedPrefrences gjør enda
-    //SharedPreferences preferences = getSharedPreferences("PREFS", 0);
-    //playerName = preferences.getString("playerName", "");
-		/*if (!playerName.equals("")){
-			//må ha referanse i firebase til dette
-			playerRef = database.getReference("players/" + playerName);
-			//addEventListener;
-			playerRef.setValue("");
-		}*/
-    //playerRef = database.getReference();
-    //testWriteDatabase();
-    //må få inn playerName fra core
+    // Adds a player to the waitingRoom, input: A player object
+    @Override
+    public void addPlayer(Player player) {
 
-	/*public void test(String hei){
-		System.out.println(hei);
-	}*/
-/*
-    public void testWriteDatabase() {
-        String playerId = "1";
-        String playerName = "Anne";
-        playerRef.child("GameState").child("Player1").child("Score").setValue("1");
     }
 
-    public void testReadDatabase() {
-        //String player2 = dataSnapshot
+    // Initializes a new game when there are 2 players in the waitingRoom
+    @Override
+    public void initializeGame() {
+
     }
-*/
+
+    // Observer of the waitingRoom, runs initializeGame when there are 2 player in the waitingRoom
+    @Override
+    public void waitingRoomListener() {
+        data.child("WaitingRoom").addValueEventListener(new ValueEventListener() {
+            // Read from the database
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                int waiting = (int) dataSnapshot.getChildrenCount();
+                Log.d(TAG, "The number of players waiting is: " + waiting);
+                if(waiting > 1){
+                    initializeGame();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
 
 }
