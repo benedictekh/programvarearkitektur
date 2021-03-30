@@ -73,8 +73,6 @@ public class MenuView extends State{
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
                     gsm.set(new SettingsView(gsm));
             }
-
-
             else{
                 System.out.println("test2");
             }
