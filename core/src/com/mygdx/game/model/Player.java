@@ -2,7 +2,7 @@ package com.mygdx.game.model;
 
 public class Player {
 
-    String name;
+    public String name;
     Boolean thisPlayer;
     Board board;
     int Score = 0;
