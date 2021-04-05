@@ -119,6 +119,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
 
     // Observer of the waitingRoom, runs initializeGame when there are 2 player in the waitingRoom
+    //begge spillerne kan ikke starte et spill, bare en av spillerne kan opprette et spill
+    //burde ikke ha en listener, bare hente det her akkurat når den er lagt til!
     @Override
     public void waitingRoomListener() {
         data.child("WaitingRoom").addValueEventListener(new ValueEventListener() {
