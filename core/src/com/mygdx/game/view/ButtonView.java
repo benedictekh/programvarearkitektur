@@ -1,8 +1,9 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 
-import java.awt.Rectangle;
+
 
 public class ButtonView {
 
@@ -23,8 +24,8 @@ public class ButtonView {
         Buttony = buttony;
         Width = width;
         Height = height;
-        rectangle = new Rectangle(Width,Height);
-        rectangle.setLocation(Buttonx,Buttony);
+        rectangle = new Rectangle(Buttonx,Buttony,Width,Height);
+        //rectangle.setLocation();
         System.out.println("buttonx" + Buttonx);
     }
 
