@@ -2,7 +2,7 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.battleships;
+import com.mygdx.game.Battleships;
 
 public class GameFinishedView extends State {
 
@@ -29,8 +29,8 @@ public class GameFinishedView extends State {
     public void render(SpriteBatch sb) {
         sb.begin();
 
-        sb.draw(background, 0, 0, battleships.WIDTH, battleships.HEIGHT);
-        sb.draw(logo,battleships.WIDTH/2-275, battleships.HEIGHT-150, 500, 200);
+        sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
+        sb.draw(logo, Battleships.WIDTH/2-275, Battleships.HEIGHT-150, 500, 200);
         sb.end();
     }
 

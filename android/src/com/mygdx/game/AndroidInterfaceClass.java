@@ -132,7 +132,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String waitingRoomPlayerId = "";
                 if(snapshot.exists()){
-                    System.out.println("KOM INN HER - 2 " + player.getName());
+                    System.out.println("SPILLER TO KOMMER HER" + player.getName());
 
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
@@ -142,9 +142,14 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     //må finne ut om vi skal legge til hele objektet eller bare navnet?
                     //henter iden til spilleren som allerede er lagt til og gir denne spilleren samme id
                     System.out.println("PLAYER " +player.getName() + gameId);
-                    data.child("WaitingRoom").child(player.getName()).setValue(gameId);
+                    String playerId="";
+                    for (DataSnapshot player : snapshot.getChildren()){
+                        playerId = (String) player.getValue();
+                        System.out.println(playerId);
+                    }
+                    data.child("WaitingRoom").child(player.getName()).setValue(playerId);
 
-                    int waiting = (int) snapshot.getChildrenCount();
+                    int waiting = (int) snapshot.getChildrenCount() +1;
                     Log.d(TAG, "The number of players waiting is: " + waiting);
                     if(waiting > 1){
                         //retrieve the players in the waitingRoom, and move them to initalizeGame

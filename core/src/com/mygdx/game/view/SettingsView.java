@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.battleships;
-
-import javax.xml.soap.Text;
+import com.mygdx.game.Battleships;
 
 public class SettingsView extends State{
 
@@ -23,14 +21,14 @@ public class SettingsView extends State{
         super(gsm);
         settings = new Texture("background1.jpg");
         tutorial = new Texture("tutorial.png");
-        tut_button = new ButtonView("tutorial.png", battleships.WIDTH/2-100, battleships.HEIGHT/2,200,75);
+        tut_button = new ButtonView("tutorial.png", Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
 
 
     }
 
     @Override
     protected void handleInput() {
-        Vector3 touch = new Vector3(Gdx.input.getX(), battleships.HEIGHT-Gdx.input.getY(), 0);
+        Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
         if(tut_button.getRectangle().contains(touch.x,touch.y)){
             gsm.set(new MenuView(gsm));
         }
@@ -47,8 +45,8 @@ public class SettingsView extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
 
-        sb.draw(settings,0,0, battleships.WIDTH,battleships.HEIGHT);
-        sb.draw(tutorial,(battleships.WIDTH/2-100),battleships.HEIGHT/2, battleships.WIDTH/4,battleships.HEIGHT/4);
+        sb.draw(settings,0,0, Battleships.WIDTH, Battleships.HEIGHT);
+        sb.draw(tutorial,(Battleships.WIDTH/2-100), Battleships.HEIGHT/2, Battleships.WIDTH/4, Battleships.HEIGHT/4);
 
         sb.end();
 

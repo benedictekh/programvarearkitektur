@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.view.PlayView;
@@ -19,10 +20,12 @@ public class BoardController extends Controller{
     Player player2;
     Player currentPlayer;
 
-    public BoardController(Board board) {
+    public BoardController(Board board, Player p1) {
 
         super(board);
-        player1 = new Player("Helena", true);
+        player1 = p1;
+        //må finne en bedre måte å få firebaseConnector inn her
+        Battleships.firebaseConnector.addPlayer(p1);
         player2 = new Player("Ane", false);
         currentPlayer = player1;
     }
@@ -30,6 +33,10 @@ public class BoardController extends Controller{
     @Override
     public void update(float dt) {
 
+    }
+
+    public void addPlayer(Player player){
+        this.player1 = player1;
     }
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){

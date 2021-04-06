@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.battleships;
-
-import java.awt.TextField;
+import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.BoardController;
 
 public class LoadingView extends State {
 
@@ -18,15 +17,17 @@ public class LoadingView extends State {
     float timecount;
     float totaleTime;
     BitmapFont font;
+    private BoardController controller;
 
 
-    protected LoadingView(GameStateManager gsm) {
+    protected LoadingView(GameStateManager gsm, BoardController controller) {
         super(gsm);
         background = new Texture("background1.jpg");
         loading = new Texture("spinning_1.png");
         loading_2 = new Texture("spinning_2.png");
         texture = new Texture("spinning_1.png");
         font = new BitmapFont();
+        this.controller = controller;
     }
 
     @Override
@@ -68,8 +69,9 @@ public class LoadingView extends State {
                 timecount=0;
             }
             // om framen har vart i mer enn 4 sekunder, så skifter den
+            //dersom det er to spillere kommer de til playView
             if(totaleTime > 10){
-                gsm.set(new PlayView(gsm));
+                gsm.set(new PlayView(gsm, controller));
             }
 
 
@@ -78,11 +80,11 @@ public class LoadingView extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(background, 0,0,battleships.WIDTH,battleships.HEIGHT);
+        sb.draw(background, 0,0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(getTexture(),160,200,300,250);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(2,2);
-        font.draw(sb,"Please wait",battleships.WIDTH/2-80,190);
+        font.draw(sb,"Please wait", Battleships.WIDTH/2-80,190);
         sb.end();
     }
 

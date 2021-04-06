@@ -2,9 +2,8 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.battleships;
+import com.mygdx.game.Battleships;
 import com.mygdx.game.model.ships.BattleShip;
 import com.mygdx.game.model.ships.CarrierShip;
 import com.mygdx.game.model.ships.CruiserShip;
@@ -14,11 +13,7 @@ import com.mygdx.game.model.ships.Ship;
 import com.mygdx.game.model.ships.SubmarineShip;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Board {
 
@@ -40,11 +35,11 @@ public class Board {
         shapeRenderer = new ShapeRenderer();
         cell = new Cell();
         ships = new ArrayList<>();
-        if (battleships.WIDTH > battleships.HEIGHT){
-            width = battleships.HEIGHT - (2 * sidemargin);
+        if (Battleships.WIDTH > Battleships.HEIGHT){
+            width = Battleships.HEIGHT - (2 * sidemargin);
         }
         else{
-            width = battleships.WIDTH - (2 * sidemargin);
+            width = Battleships.WIDTH - (2 * sidemargin);
         }
         makeBoard(size);
         System.out.println("Nytt brett kommer nå \n");
