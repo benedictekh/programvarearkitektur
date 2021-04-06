@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 import com.mygdx.game.view.MenuView;
 import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.GameStateManager;
@@ -18,6 +19,8 @@ public class battleships extends ApplicationAdapter {
 	public static int WIDTH;
 	public static int HEIGHT;
 	FirebaseServices firebaseServices;
+
+
 	public battleships(FirebaseServices firebaseServices) {
 		this.firebaseServices = firebaseServices;
 	}
@@ -30,7 +33,14 @@ public class battleships extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		gsm.push(new MenuView(gsm));
-
+		Player player1 = new Player("Anne", true);
+		Player player2 = new Player("Benedicte", false);
+		firebaseServices.addPlayer(player1);
+		//firebaseServices.getPlayerScore("Player1");
+		//firebaseServices.setPlayerScore("Player1",50);
+		//firebaseServices.playerScoreValueListener("Player1");
+		//firebaseServices.setPlayerScore("Player1",20);
+		//firebaseServices.setPlayerScore("Player1",10);
 	}
 
 	@Override
@@ -43,7 +53,6 @@ public class battleships extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-
 		batch.dispose();
 	}
 }

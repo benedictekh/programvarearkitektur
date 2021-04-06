@@ -56,6 +56,7 @@ public class MenuView extends State{
                 System.out.println("pressed outside");
             }
         }
+
     }
 
     @Override
