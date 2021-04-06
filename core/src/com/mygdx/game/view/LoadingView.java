@@ -23,9 +23,9 @@ public class LoadingView extends State {
     protected LoadingView(GameStateManager gsm) {
         super(gsm);
         background = new Texture("background1.jpg");
-        loading = new Texture("loading.jpeg");
-        loading_2 = new Texture("loading1.jpg");
-        texture = new Texture("loading2.jpg");
+        loading = new Texture("spinning_1.png");
+        loading_2 = new Texture("spinning_2.png");
+        texture = new Texture("spinning_1.png");
         font = new BitmapFont();
     }
 
@@ -53,6 +53,7 @@ public class LoadingView extends State {
 
     @Override
     public void update(float dt) {
+
             totaleTime += dt;
             timecount+=dt;
             if (timecount>1)
@@ -67,17 +68,21 @@ public class LoadingView extends State {
                 timecount=0;
             }
             // om framen har vart i mer enn 4 sekunder, så skifter den
-            if(totaleTime > 4){
+            if(totaleTime > 10){
                 gsm.set(new PlayView(gsm));
             }
+
+
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0,0,battleships.WIDTH,battleships.HEIGHT);
-        sb.draw(getTexture(),200,200,200,200);
-        font.draw(sb,"Please wait",battleships.WIDTH/2-60,190);
+        sb.draw(getTexture(),160,200,300,250);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(2,2);
+        font.draw(sb,"Please wait",battleships.WIDTH/2-80,190);
         sb.end();
     }
 

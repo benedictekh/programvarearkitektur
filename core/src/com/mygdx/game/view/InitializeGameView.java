@@ -25,7 +25,7 @@ public class InitializeGameView extends State{
         g = gsm;
         background = new Texture("background1.jpg");
         font = new BitmapFont();
-        nextButton = new ButtonView("arrowBlack.jpg",battleships.WIDTH/2+60, 250,50,50);
+        nextButton = new ButtonView("next.png",battleships.WIDTH/2-100, battleships.HEIGHT/2-50,200,75);
         loginButton = new ButtonView("clickhere.png",battleships.WIDTH/2-50, 250,100,50);
 
     }
@@ -80,9 +80,14 @@ public class InitializeGameView extends State{
 
         sb.begin();
         sb.draw(background, 0, 0, battleships.WIDTH, battleships.HEIGHT);
-        sb.draw(loginButton.getTexture(),loginButton.Buttonx,loginButton.Buttony,loginButton.Width,loginButton.Height);
+        if(name1==null){
+            sb.draw(loginButton.getTexture(),loginButton.Buttonx,loginButton.Buttony,loginButton.Width,loginButton.Height);
+        }
+
         if(name1!=null){
-            font.draw(sb, "username:  " + getName(),battleships.WIDTH/2-50,battleships.HEIGHT/2);
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            font.getData().setScale(2,2);
+            font.draw(sb, "USERNAME:  " + getName(),battleships.WIDTH/2-100,battleships.HEIGHT/2+80);
             sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width,nextButton.Height);
         }
         sb.end();
