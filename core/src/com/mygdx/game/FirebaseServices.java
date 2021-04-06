@@ -10,6 +10,7 @@ public interface FirebaseServices {
     public void playerScoreValueListener(String player);
     public void addPlayer(Player player);
     //public void initializeGame(DataSnapShot waitingRoom);
-    public void waitingRoomListener();
+    //public void waitingRoomListener();
+    public void addWaitingroomLisenerOnce();
     public void createGame();
 }
