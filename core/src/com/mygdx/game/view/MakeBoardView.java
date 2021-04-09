@@ -48,6 +48,10 @@ public class MakeBoardView extends State{
             y_position = Gdx.input.getY();
             System.out.println("Input position. " + x_position + ", " + y_position);
             controller.finShip(controller.getIndex(x_position,y_position));
+            if(controller.getMarkedShip() != null){
+                System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
+            }
+
             /*
             Vector3 touch = new Vector3(Gdx.input.getX(), battleships.HEIGHT-Gdx.input.getY(), 0);
             if(nextButton.getRectangle().contains(touch.x,touch.y)){

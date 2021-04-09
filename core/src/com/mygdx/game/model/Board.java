@@ -181,6 +181,7 @@ public class Board {
     public Ship finShip(ArrayList<Integer> indexes){
         for(Ship ship: ships){
             if(ship.getLocation().contains(indexes)){
+                System.out.println("ships loactions contains indexes: " + ship.getLocation() + "indexes: " + indexes);
                 return ship;
             }
         }
@@ -236,8 +237,8 @@ public class Board {
     public void drawShipSquare(Ship ship){
         float cell_width = width/ getBoard().size();
                 for ( List<Integer> coordinate : ship.getLocation()) {
-                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
-                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    float x = (coordinate.get(0) * cell_width) + sidemargin;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin;
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(ship.getColor());
                     shapeRenderer.rect(x, y, cell_width ,cell_width);
@@ -271,6 +272,11 @@ public class Board {
 
         }
 
+    }
+    public void printShipsLocations() {
+        for(Ship ship: ships){
+            System.out.println("location for ships: " + ship.getLocation());
+        }
     }
 
     public boolean isFinished(){

@@ -58,9 +58,10 @@ public class BoardController extends Controller{
 
     //find ship
     public void finShip(ArrayList<Integer> indexes){
-        if(board.getCellValue(indexes.get(0),indexes.get(1)) == Cell.SHIP) {
             this.markedShip = board.finShip(indexes);
-        }
+            System.out.println("marked ship is updated");
+            board.printShipsLocations();
+
     }
     public Ship getMarkedShip() {
         return this.markedShip;
