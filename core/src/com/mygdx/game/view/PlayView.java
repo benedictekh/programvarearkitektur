@@ -24,18 +24,15 @@ public class PlayView extends  State {
     private float x_position;
     private float y_position;
     private BoardController controller;
-    Player current;
-    BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private Player current;
+    private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
     public PlayView(GameStateManager gsm){
         super(gsm);
-
         background = new Texture("background.PNG");
         controller = new BoardController( new Board(10, 10));
         current = controller.getPlayer();
-
-
     }
 
 

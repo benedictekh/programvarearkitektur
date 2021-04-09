@@ -21,8 +21,8 @@ import java.awt.Rectangle;
 
 public class MenuView extends State{
 
-    Texture logo;
-    Texture background;
+    private Texture logo;
+    private Texture background;
 
     private ButtonView playbutton;
     private ButtonView initButton;
