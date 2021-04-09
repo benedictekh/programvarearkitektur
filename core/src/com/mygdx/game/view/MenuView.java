@@ -50,7 +50,7 @@ public class MenuView extends State{
                 gsm.set(new InitializeGameView(gsm));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
-                    gsm.set(new LoadingView(gsm));
+                    gsm.set(new MakeBoardView(gsm));
             }
             else{
                 System.out.println("pressed outside");

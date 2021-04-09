@@ -96,6 +96,7 @@ public class Board {
         }
     }
 
+
     private boolean isValidMove(int x, int y){
         if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
             System.out.println("Valid coordinates");
