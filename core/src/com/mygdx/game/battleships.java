@@ -35,7 +35,7 @@ public class battleships extends ApplicationAdapter {
 		gsm.push(new MenuView(gsm));
 		Player player1 = new Player("Anne", true);
 		Player player2 = new Player("Benedicte", false);
-		firebaseServices.addPlayer(player1);
+		//firebaseServices.addPlayer(player1);
 		//firebaseServices.getPlayerScore("Player1");
 		//firebaseServices.setPlayerScore("Player1",50);
 		//firebaseServices.playerScoreValueListener("Player1");

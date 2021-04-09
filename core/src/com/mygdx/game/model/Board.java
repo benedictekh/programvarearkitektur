@@ -64,7 +64,7 @@ public class Board {
         printBoard();
     }
 
-
+// legger til skip med random plassering, while løkke ikke overlapper emd skip
     private void initShips(){
         // init ships from Ship class
         ships.add(new DestroyerShip(true));
