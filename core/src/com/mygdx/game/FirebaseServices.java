@@ -11,4 +11,5 @@ public interface FirebaseServices {
     //public void waitingRoomListener();
     public void addWaitingroomLisenerOnce();
     public void createGame();
+    public String turnListener(String gameID);
 }

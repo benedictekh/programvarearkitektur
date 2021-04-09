@@ -24,4 +24,9 @@ public class FirebaseConnector implements FirebaseServices{
     public void createGame() {
 
     }
+
+    @Override
+    public String turnListener(String gameID) {
+        return null;
+    }
 }

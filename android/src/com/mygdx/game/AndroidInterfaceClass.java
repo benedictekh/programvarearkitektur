@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.mygdx.game.model.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import static android.content.ContentValues.TAG;
@@ -47,54 +48,52 @@ public class AndroidInterfaceClass implements FirebaseServices {
     // Initializes a new game when there are 2 players in the waitingRoom, move the players form waitingRoom and to the existing game
 
     public void initializeGame() {
-
-
-        //Må finne en måte å hente ut sillerne fra waitingRoom
-        ArrayList<String> players = new ArrayList<>();
-        //getResult medfører java.lang.IllegalStateException: Task is not yet complete
-        DataSnapshot snapshot= data.child("WaitingRoom").get().getResult();
-        System.out.println(snapshot);
-
-        for (DataSnapshot player : snapshot.getChildren()){
-            players.add(player.getKey());
-            System.out.println(player.getKey());
-        }
-
-        System.out.println(players);
-        DatabaseReference gameinfo = data.child("GameState").child(this.gameId).child("GameInfo");
-        /*
-        for (DatabaseReference player : players){
-            gameinfo.child("PlayerId").child(player.getKey());
-        }
-*/
-        //data.child("WaitingRoom").removeValue();
-
-
-        //we know the game has two players, and they will have the same id as the game id.
-        //move the players from WaitingRoom to GameState
-    }
-/*
-    private ArrayList<DatabaseReference> players;
-
-    public void retriveChildrenWaitingRoom(){
+        final ArrayList<String> players = new ArrayList<>();
+        final ArrayList<String> id = new ArrayList<>();
         data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                players = new ArrayList<>();
-                for (DataSnapshot player : snapshot.getChildren()){
-                    System.out.println("LEGGE TIL SPILLERE I LISTEN");
-                    players.add(player.getRef());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String player = snapshot.getKey().toString();
+                    id.add(snapshot.getValue().toString());
+                    System.out.println("Player: " + player);
+                    players.add(player);
                 }
+                System.out.println("Her er player listen inne i loopen: " + players);
+                System.out.println("ID: " + id);
+                data.child("GameState").child(id.get(0)).child("GameInfo").child("Players").child("Player1").setValue(players.get(0));
+                data.child("GameState").child(id.get(0)).child("GameInfo").child("Players").child("Player2").setValue(players.get(1));
+                data.child("GameState").child(id.get(0)).child("GameInfo").child("Turn").setValue(players.get(0));
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    @Override
+    public String turnListener(String gameID) {
+        final String[] player = new String[1];
+        data.child("GameState").child(gameID).child("GameInfo").child("Turn").addValueEventListener(new ValueEventListener() {
+            // Read from the database
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                player[0] = dataSnapshot.getValue().toString();
+                Log.d(TAG, "Turn: " + player[0]);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
-            });
+        });
+        return player[0];
     }
 
- */
+
     //create the gameId, this will be the same for the two players and the game
     @Override
     public void createGame(){
@@ -162,9 +161,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     DatabaseReference waitingRoom = data.child("WaitingRoom");
                     //creates a player child and gives the player the same id as the game
                     waitingRoom.child(player.getName()).setValue(gameId);}
-
-                    //husk å fjerne
-                    initializeGame();
             }
 
             @Override

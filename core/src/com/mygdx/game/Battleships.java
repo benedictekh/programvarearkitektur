@@ -36,15 +36,6 @@ public class Battleships extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		gsm.push(new MenuView(gsm));
-
-		//Player player1 = new Player("Anne", true);
-		//Player player2 = new Player("Benedicte", false);
-		//firebaseServices.addPlayer(player1);
-		//firebaseServices.getPlayerScore("Player1");
-		//firebaseServices.setPlayerScore("Player1",50);
-		//firebaseServices.playerScoreValueListener("Player1");
-		//firebaseServices.setPlayerScore("Player1",20);
-		//firebaseServices.setPlayerScore("Player1",10);
 	}
 
 	@Override
