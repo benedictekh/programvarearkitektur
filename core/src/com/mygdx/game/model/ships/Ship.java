@@ -30,6 +30,8 @@ public abstract class Ship {
         this.shipNr = shipNr;
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
+        this.location = new ArrayList<List<Integer>>();
+
     }
 
     public ArrayList<List<Integer>> getLocation() {
@@ -72,7 +74,6 @@ public abstract class Ship {
         Random random = new Random();
         int start_x = random.nextInt(10 - sizex + 1);
         int start_y = random.nextInt(10 -sizey + 1);
-        this.location = new ArrayList<List<Integer>>();
         for (int x = 0 ; x < sizex; x++){
             this.location.add(Arrays.asList(start_x + x, start_y));
             for (int y = 1 ; y < sizey; y++) {
@@ -81,6 +82,10 @@ public abstract class Ship {
 
         }
         System.out.println("Randomly generated location: " + location);
+    }
+
+    public void addLocation(int row, int col){
+        this.location.add(Arrays.asList(row, col));
     }
 
     public Color getColor(){

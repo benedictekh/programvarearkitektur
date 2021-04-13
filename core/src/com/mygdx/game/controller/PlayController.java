@@ -21,11 +21,15 @@ public class PlayController extends Controller{
     //Player player2;
     private String gameId;
     private Board opponentBoard;
+    private boolean myTurn;
 
     public PlayController(Player player) {
         super(player);
-        this.opponentBoard = new Board(10,10);
-        player = player;
+        this.opponentBoard = new Board(player.getBoard().getOpponentBoard());
+
+        //this.opponentBoard = new Board();
+        //player = player;
+        myTurn = true;
         //må finne en bedre måte å få firebaseConnector inn her
 
         //player2 = new Player("Ane", false);
@@ -38,6 +42,23 @@ public class PlayController extends Controller{
 
     public void setGameId(String gameId){
         this.gameId = gameId;
+    }
+
+    // Kalle på firebase inne i denne
+    public void getOpponentBoard(){
+    }
+
+    public void drawBoard(){
+        if(myTurn){
+            opponentBoard.drawBoard();
+            opponentBoard.drawShips();
+            opponentBoard.drawUpdatedBoard();
+        }
+        else {
+            player.getBoard().drawBoard();
+            player.getBoard().drawShips();
+            player.getBoard().drawUpdatedBoard();
+        }
     }
 
 
@@ -98,6 +119,7 @@ public class PlayController extends Controller{
 
 
     public void changeCurrentPlayer(){
+        myTurn = !myTurn;
         //må hente informasjon fra firebase
         /*
         System.out.println("Next players turn!");

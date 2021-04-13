@@ -50,6 +50,41 @@ public class Board {
         initShips();
     }
 
+    public ArrayList<List<Integer>> getOpponentBoard(){
+        return initializeOpponentBoard;
+    }
+
+    public Board(ArrayList<List<Integer>> initializeOpponentBoard){
+        makeBoard(initializeOpponentBoard.size());
+        createOpponentLists(initializeOpponentBoard);
+    }
+
+    public void createOpponentLists(ArrayList<List<Integer>> initializeOpponentBoard){
+        ships.add(new DestroyerShip(true));
+        ships.add(new CarrierShip(true));
+        ships.add(new CruiserShip(false));
+        ships.add(new SubmarineShip(true));
+        ships.add(new BattleShip(true));
+        ships.add(new PatrolShip(true));
+        for(int row = 0; row < initializeOpponentBoard.size(); row++){
+            for(int col = 0; col < initializeOpponentBoard.size(); col++){
+                if(initializeOpponentBoard.get(row).get(col) < 0){
+                    updateBoard(row, col, cell.SHIP);
+                    for(Ship ship : ships){
+                        if(initializeOpponentBoard.get(row).get(col) == ship.getShipNr()){
+                            ship.addLocation(row, col);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Board laget av createOpponentLists"+ board);
+        System.out.println("Ships laget av createOpponentLists"+ ships);
+
+    }
+
+
     private void makeBoard(int size) {
         board = new ArrayList<List<Integer>>();
         initializeOpponentBoard = new ArrayList<List<Integer>>();

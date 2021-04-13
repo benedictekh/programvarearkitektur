@@ -92,6 +92,29 @@ public class AndroidInterfaceClass implements FirebaseServices {
         return player[0];
     }
 
+    @Override
+    public String getGameID() {
+        return null;
+    }
+
+    /*
+    // Get the score of a player, input: Player1 or Player2
+    @Override
+    public String getGameID() {
+        data.child("GameState").child(player).child("Score").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
+
+     */
+
 
     //create the gameId, this will be the same for the two players and the game
     @Override
