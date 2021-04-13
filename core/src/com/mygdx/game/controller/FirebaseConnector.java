@@ -31,6 +31,11 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
     @Override
+    public String changeTurn() {
+        return firebaseServices.changeTurn();
+    }
+
+    @Override
     public String getGameID() {
         return null;
     }

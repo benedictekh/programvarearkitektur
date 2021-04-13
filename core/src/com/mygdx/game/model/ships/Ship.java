@@ -72,6 +72,7 @@ public abstract class Ship {
 
     public void createRandomLocation(){
         Random random = new Random();
+        location = new ArrayList<List<Integer>>();
         int start_x = random.nextInt(10 - sizex + 1);
         int start_y = random.nextInt(10 -sizey + 1);
         for (int x = 0 ; x < sizex; x++){
@@ -85,7 +86,7 @@ public abstract class Ship {
     }
 
     public void addLocation(int row, int col){
-        this.location.add(Arrays.asList(row, col));
+        this.location.add(Arrays.asList(col, row));
     }
 
     public Color getColor(){

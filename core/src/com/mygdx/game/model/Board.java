@@ -124,8 +124,10 @@ public class Board {
         ships.add(new SubmarineShip(true));
         ships.add(new BattleShip(true));
         ships.add(new PatrolShip(true));
+        for (Ship ship : ships){
+            ship.createRandomLocation();
+        }
         for (Ship ship: ships){
-
             System.out.println("location: " + ship.getLocation());
             // while the ships random location is partly occupied, create a new random location
             while (!isValidLocation(ship.getLocation())) {

@@ -20,7 +20,6 @@ public class SubmarineShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
 
     }
 }

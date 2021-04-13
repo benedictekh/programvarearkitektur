@@ -21,7 +21,5 @@ public class PatrolShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
-
     }
 }

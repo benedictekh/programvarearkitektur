@@ -19,7 +19,7 @@ public class BattleShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
+
 
     }
 }

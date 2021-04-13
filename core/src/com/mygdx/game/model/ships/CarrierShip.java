@@ -19,7 +19,6 @@ public class CarrierShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
 
     }
 }

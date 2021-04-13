@@ -29,6 +29,5 @@ public class DestroyerShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
     }
 }

@@ -12,6 +12,7 @@ public interface FirebaseServices {
     public void addWaitingroomLisenerOnce();
     public void createGame();
     public String turnListener(String gameID);
+    public String changeTurn();
     public String getGameID();
 
 }
