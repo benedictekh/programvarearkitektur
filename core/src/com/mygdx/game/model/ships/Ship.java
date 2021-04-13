@@ -2,12 +2,9 @@ package com.mygdx.game.model.ships;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.model.Board;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -96,6 +93,17 @@ public abstract class Ship {
     public boolean isSunk(){
         return isSunk;
     }
+    public void createNewPosition(int x_coordinate, int y_coordinate){
+        int start_x = x_coordinate;
+        int start_y = y_coordinate;
+        this.location = new ArrayList<List<Integer>>();
+        for (int x = 0 ; x < sizex; x++){
+            this.location.add(Arrays.asList(start_x + x, start_y));
+            for (int y = 1 ; y < sizey; y++) {
+                this.location.add(Arrays.asList(start_x + x, start_y + y));
+            }
+
+    }}
 
 
 }

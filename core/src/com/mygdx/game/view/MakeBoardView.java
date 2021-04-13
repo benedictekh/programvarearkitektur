@@ -7,6 +7,10 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
 import com.mygdx.game.model.Board;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class MakeBoardView extends State{
     private Texture background;
     private MakeBoardController controller;
@@ -15,6 +19,7 @@ public class MakeBoardView extends State{
     private int y_position;
     private ButtonView nextButton;
     private Boolean nextTouch = false;
+    private ArrayList<List<Integer>> location;
 
 
     protected MakeBoardView(GameStateManager gsm) {
@@ -31,9 +36,17 @@ public class MakeBoardView extends State{
     public void setNextTouch(boolean bool){
         this.nextTouch = bool;
     }
-    public boolean getNextThouch( ){
+    public void setmarkedShip(ArrayList<List<Integer>> location){
+        this.location = location;
+    }
+
+    public ArrayList<List<Integer>> getShipLocation(){
+        return this.location;
+    }
+    public boolean getNextTouch(){
         return this.nextTouch;
     }
+
 
     @Override
     protected void handleInput() {
@@ -42,18 +55,16 @@ public class MakeBoardView extends State{
             y_position = Gdx.input.getY();
             System.out.println("Input position. " + x_position + ", " + y_position);
             controller.findShip(controller.getIndex(x_position,y_position));
+            if(getNextTouch()){
+                controller.moveShip(x_position,y_position,getShipLocation());
+                setNextTouch(false);
+            }
             if(controller.getMarkedShip() != null){
+
                 System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
+                setmarkedShip(controller.getMarkedShip().getLocation());
+                setNextTouch(true);
             }
-
-            /*
-            Vector3 touch = new Vector3(Gdx.input.getX(), battleships.HEIGHT-Gdx.input.getY(), 0);
-            if(nextButton.getRectangle().contains(touch.x,touch.y)){
-                gsm.set(new PlayView(gsm));
-            }
-
-             */
-
         }
     }
 
@@ -77,12 +88,9 @@ public class MakeBoardView extends State{
         drawBoardView();
         drawMarkedShip();
 
-
-
     }
     public void drawBoardView(){
         controller.drawBoardandShips();
-
     }
 
     @Override

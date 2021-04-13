@@ -44,6 +44,7 @@ public class Board {
         makeBoard(size);
         System.out.println("Nytt brett kommer nå \n");
         initShips();
+        //initNewShip();
     }
 
     private void makeBoard(int size) {
@@ -83,9 +84,20 @@ public class Board {
         }
         printBoard();
     }
+    /*
+    private void initNewShip() {
+        ships.add(new CruiserShip(true));
+        for(Ship ship: ships){
+            ship.createNewPosition(1,1);
+
+        }
+}
+     */
 
 
-    private void printBoard(){
+
+
+    public void printBoard(){
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");
         }
@@ -100,6 +112,17 @@ public class Board {
             return cell.isValidMove(value);
         }
         return false;
+    }
+
+    public Boolean isInsideBoard(ArrayList<List<Integer>> shipPosition){
+        for(List<Integer> index: shipPosition){
+            if(index.get(0) < 10 && index.get(1) < 10) {
+                return true;
+                }
+            }
+        return false;
+
+
     }
 
     // return true if valid move and miss, false if not valid move or hit
@@ -173,7 +196,8 @@ public class Board {
     public int getCellValue(int x, int y){
         return board.get(x).get(y);
     }
-    public Ship finShip(ArrayList<Integer> indexes){
+
+    public Ship findShip(ArrayList<Integer> indexes){
         for(Ship ship: ships){
             if(ship.getLocation().contains(indexes)){
                 System.out.println("ships loactions contains indexes: " + ship.getLocation() + "indexes: " + indexes);
@@ -283,6 +307,21 @@ public class Board {
         return true;
     }
 
+    public void removeShipPosition(ArrayList<List<Integer>> location){
+        for (List<Integer> coordinate : location) {
+            int x = coordinate.get(0);
+            int y = coordinate.get(1);
+            updateBoard(x, y, cell.EMPTY);
+        }
+    }
+
+    public void addShipPosition(ArrayList<List<Integer>> location) {
+        for (List<Integer> coordinate : location) {
+            int x = coordinate.get(0);
+            int y = coordinate.get(1);
+            updateBoard(x, y, cell.SHIP);
+        }
+    }
 
 }
 

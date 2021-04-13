@@ -4,10 +4,13 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.ships.Ship;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class MakeBoardController extends Controller{
 
     Ship markedShip = null;
+    private ArrayList<List<Integer>> location;
 
 
     public MakeBoardController(Board board) {
@@ -42,7 +45,9 @@ public class MakeBoardController extends Controller{
     }
 
     public void findShip(ArrayList<Integer> indexes){
-        this.markedShip = board.finShip(indexes);
+        if(markedShip == null ){
+            this.markedShip = board.findShip(indexes);
+        }
         System.out.println("marked ship is updated");
         board.printShipsLocations();
 
@@ -60,6 +65,28 @@ public class MakeBoardController extends Controller{
         board.drawShips();
     }
 
+    public void moveShip(int new_x, int new_y, ArrayList<List<Integer>> location) {
+        ArrayList<Integer> index= getIndex(new_x,new_y);
+        List<Integer> first_position = markedShip.getLocation().get(0);
+        System.out.println("indexes to new posotions, (live) : " + index);
 
+        board.removeShipPosition(markedShip.getLocation());
+        markedShip.createNewPosition(index.get(0), index.get(1));
+        if(!board.isInsideBoard(markedShip.getLocation())){
+            markedShip.createNewPosition(first_position.get(0),first_position.get(1));
+        }
+        else if(!board.isValidLocation(markedShip.getLocation())){
+            System.out.println("her er det ikke lov å stå");
+            markedShip.createNewPosition(first_position.get(0),first_position.get(1));
+        }
+        board.addShipPosition(markedShip.getLocation());
+        markedShip = null;
+        System.out.println("oppdatert brett: ");
+        board.printBoard();
+
+
+
+
+    }
 
 }
