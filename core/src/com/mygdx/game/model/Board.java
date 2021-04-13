@@ -54,12 +54,24 @@ public class Board {
         return initializeOpponentBoard;
     }
 
-    public Board(ArrayList<List<Integer>> initializeOpponentBoard){
+    public Board(ArrayList<List<Integer>> initializeOpponentBoard, int sidemargin){
+        shapeRenderer = new ShapeRenderer();
+        cell = new Cell();
+        this.sidemargin = sidemargin;
+        if (Battleships.WIDTH > Battleships.HEIGHT){
+            width = Battleships.HEIGHT - (2 * sidemargin);
+        }
+        else{
+            width = Battleships.WIDTH - (2 * sidemargin);
+        }
         makeBoard(initializeOpponentBoard.size());
         createOpponentLists(initializeOpponentBoard);
     }
 
     public void createOpponentLists(ArrayList<List<Integer>> initializeOpponentBoard){
+        ships = new ArrayList<Ship>();
+
+
         ships.add(new DestroyerShip(true));
         ships.add(new CarrierShip(true));
         ships.add(new CruiserShip(false));
@@ -88,7 +100,6 @@ public class Board {
     private void makeBoard(int size) {
         board = new ArrayList<List<Integer>>();
         initializeOpponentBoard = new ArrayList<List<Integer>>();
-
         for (int row = 0; row < size; row++) {
             List<Integer> kolonne = new ArrayList<>();
             List<Integer> kolonne2 = new ArrayList<>();
@@ -124,7 +135,6 @@ public class Board {
             for (List<Integer> coordinate : ship.getLocation()) {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
-                System.out.println("Kan du vennligst printe dette");
                 updateBoard(x, y, cell.SHIP);
                 updateInitalizeOpponentBoard(x, y, ship.getShipNr());
             }
@@ -185,13 +195,11 @@ public class Board {
         List<Integer> tmp = board.get(y);
         tmp.set(x, value);
         board.set(y,tmp);
-        System.out.println("Board is updated, time to draw");
     }
     public void updateInitalizeOpponentBoard(int x, int y, int value){
         List<Integer> tmp = initializeOpponentBoard.get(y);
         tmp.set(x, value);
         initializeOpponentBoard.set(y,tmp);
-        System.out.println("Board is updated, time to draw");
     }
 
     public boolean isValidLocation(ArrayList<List<Integer>> location){
