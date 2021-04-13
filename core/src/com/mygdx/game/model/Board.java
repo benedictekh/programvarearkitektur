@@ -59,7 +59,7 @@ public class Board {
         printBoard();
     }
 
-
+// legger til skip med random plassering, while løkke ikke overlapper emd skip
     private void initShips(){
         // init ships from Ship class
         ships.add(new DestroyerShip(true));
@@ -91,6 +91,7 @@ public class Board {
         }
     }
 
+
     private boolean isValidMove(int x, int y){
         if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
             System.out.println("Valid coordinates");
@@ -109,6 +110,7 @@ public class Board {
            if (cell.isHit(value)){
                for (Ship ship : ships){
                    ship.boardChange(x, y);
+
                }
                updateBoard(x, y,cell.setCell(value));
                return false;
@@ -166,6 +168,21 @@ public class Board {
         return width;
     }
 
+    public ArrayList<Ship> getShips() { return  ships;}
+
+    public int getCellValue(int x, int y){
+        return board.get(x).get(y);
+    }
+    public Ship finShip(ArrayList<Integer> indexes){
+        for(Ship ship: ships){
+            if(ship.getLocation().contains(indexes)){
+                System.out.println("ships loactions contains indexes: " + ship.getLocation() + "indexes: " + indexes);
+                return ship;
+            }
+        }
+        return null;
+
+    }
     public void drawBoard(){
         // finds the size of each rectangle
         // should be square
@@ -212,6 +229,18 @@ public class Board {
             }
         }
     }
+    public void drawShipSquare(Ship ship){
+        float cell_width = width/ getBoard().size();
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.rect(x, y, cell_width ,cell_width);
+                    shapeRenderer.end();
+                }
+        }
+
 
     public void drawUpdatedBoard(){
 
@@ -238,6 +267,11 @@ public class Board {
 
         }
 
+    }
+    public void printShipsLocations() {
+        for(Ship ship: ships){
+            System.out.println("location for ships: " + ship.getLocation());
+        }
     }
 
     public boolean isFinished(){

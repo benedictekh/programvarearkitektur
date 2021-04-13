@@ -2,6 +2,7 @@ package com.mygdx.game.model.ships;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.model.Board;
 
 import java.util.ArrayList;

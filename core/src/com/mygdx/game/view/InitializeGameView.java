@@ -16,7 +16,7 @@ public class InitializeGameView extends State{
     private GameStateManager g;
     private Player player;
     private Texture background;
-    BitmapFont font;
+    private BitmapFont font;
     public String name1;
     public ButtonView nextButton;
     public ButtonView loginButton;

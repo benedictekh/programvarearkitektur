@@ -2,7 +2,9 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.model.ships.Ship;
 import com.mygdx.game.view.PlayView;
 
 import java.sql.Time;
@@ -19,6 +21,7 @@ public class BoardController extends Controller{
     Player player1;
     Player player2;
     Player currentPlayer;
+    Ship markedShip = null;
 
     public BoardController(Board board, Player p1) {
 
@@ -60,6 +63,17 @@ public class BoardController extends Controller{
        return indexes;
     }
 
+    //find ship
+    public void finShip(ArrayList<Integer> indexes){
+            this.markedShip = board.finShip(indexes);
+            System.out.println("marked ship is updated");
+            board.printShipsLocations();
+
+    }
+    public Ship getMarkedShip() {
+        return this.markedShip;
+    }
+
     public void shoot(ArrayList<Integer> indexes){
         if (currentPlayer.getBoard().shoot(indexes.get(0), indexes.get(1))) {
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -71,6 +85,10 @@ public class BoardController extends Controller{
             };
             executor.schedule(task, 1, TimeUnit.SECONDS);
         }
+
+    }
+    public void drawMarkedShip() {
+        board.drawShipSquare(this.markedShip);
 
     }
 
@@ -90,6 +108,10 @@ public class BoardController extends Controller{
         executor.schedule(c1, 1, TimeUnit.SECONDS);
         return getBoard().isFinished();
 
+    }
+    public void drawBoardandShips() {
+        board.drawBoard();
+        board.drawShips();
     }
 
     public Player getPlayer() {
