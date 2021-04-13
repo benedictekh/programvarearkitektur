@@ -72,7 +72,6 @@ public class InitializeGameView extends State{
 
     private void createBoardController(String name){
         this.controller = new BoardController( new Board(10, 10), new Player(name, true));
-
     }
 
     public void setName(String name){
