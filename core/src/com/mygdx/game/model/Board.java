@@ -95,8 +95,6 @@ public class Board {
      */
 
 
-
-
     public void printBoard(){
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");
@@ -115,14 +113,19 @@ public class Board {
     }
 
     public Boolean isInsideBoard(ArrayList<List<Integer>> shipPosition){
+        boolean bool = true;
+        System.out.println(shipPosition);
         for(List<Integer> index: shipPosition){
-            if(index.get(0) < 10 && index.get(1) < 10) {
-                return true;
-                }
+            int x= index.get(0);
+            int y = index.get(1);
+            if(!(( 0 <= x && x < 10) && (0 <= y && y < 10))) {
+                bool =  false;
             }
-        return false;
-
-
+            else {
+                System.out.println(index+" er  lov");
+            }
+        }
+        return bool;
     }
 
     // return true if valid move and miss, false if not valid move or hit
@@ -133,7 +136,6 @@ public class Board {
            if (cell.isHit(value)){
                for (Ship ship : ships){
                    ship.boardChange(x, y);
-
                }
                updateBoard(x, y,cell.setCell(value));
                return false;
@@ -155,8 +157,8 @@ public class Board {
         tmp.set(x, value);
         board.set(y,tmp);
         System.out.println("Board is updated, time to draw");
-
     }
+
     public boolean isValidLocation(ArrayList<List<Integer>> location){
         for (List<Integer> coordinates : location){
             if (board.get(coordinates.get(1)).get(coordinates.get(0)) == cell.SHIP){
@@ -172,7 +174,6 @@ public class Board {
         System.out.println("Skutt på 2, 1");
         test.printBoard();
         System.out.println(test.isValidMove(11, 3)); */
-
     }
 
     public Texture getTexture(){
@@ -205,8 +206,8 @@ public class Board {
             }
         }
         return null;
-
     }
+
     public void drawBoard(){
         // finds the size of each rectangle
         // should be square
@@ -221,9 +222,7 @@ public class Board {
                 shapeRenderer.rect(sidemargin +j * cell_width, y_coord, cell_width, cell_width );
                 shapeRenderer.end();
             }
-
         }
-
     }
 
     public void drawShips(){
@@ -239,7 +238,6 @@ public class Board {
                     shapeRenderer.circle(x, y, cell_width / 2 - 2);
                     shapeRenderer.end();
                 }
-
             }
             else {
                 for (List<Integer> coordinate : ship.getLocation()) {
@@ -253,17 +251,18 @@ public class Board {
             }
         }
     }
+
     public void drawShipSquare(Ship ship){
         float cell_width = width/ getBoard().size();
-                for ( List<Integer> coordinate : ship.getLocation()) {
+            for ( List<Integer> coordinate : ship.getLocation()) {
                     float x = (coordinate.get(0) * cell_width) + sidemargin;
                     float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin;
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(ship.getColor());
                     shapeRenderer.rect(x, y, cell_width ,cell_width);
                     shapeRenderer.end();
-                }
-        }
+            }
+    }
 
 
     public void drawUpdatedBoard(){

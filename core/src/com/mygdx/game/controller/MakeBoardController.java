@@ -37,7 +37,6 @@ public class MakeBoardController extends Controller{
         float cell_width = t_width / board.getBoard().size();
         float cell_height = t_width / board.getBoard().size();
 
-
         indexes.add((int) (x_pos / cell_width));
         indexes.add((int) (y_pos / cell_height));
         System.out.println("Indexes: " +indexes);
@@ -50,8 +49,8 @@ public class MakeBoardController extends Controller{
         }
         System.out.println("marked ship is updated");
         board.printShipsLocations();
-
     }
+
     public Ship getMarkedShip() {
         return this.markedShip;
     }
@@ -68,7 +67,7 @@ public class MakeBoardController extends Controller{
     public void moveShip(int new_x, int new_y, ArrayList<List<Integer>> location) {
         ArrayList<Integer> index= getIndex(new_x,new_y);
         List<Integer> first_position = markedShip.getLocation().get(0);
-        System.out.println("indexes to new posotions, (live) : " + index);
+        System.out.println("indexes to new positions, (live) : " + index);
 
         board.removeShipPosition(markedShip.getLocation());
         markedShip.createNewPosition(index.get(0), index.get(1));
@@ -76,17 +75,13 @@ public class MakeBoardController extends Controller{
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         else if(!board.isValidLocation(markedShip.getLocation())){
-            System.out.println("her er det ikke lov å stå");
+            System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         board.addShipPosition(markedShip.getLocation());
         markedShip = null;
-        System.out.println("oppdatert brett: ");
+        System.out.println("updated board: ");
         board.printBoard();
-
-
-
-
     }
 
 }

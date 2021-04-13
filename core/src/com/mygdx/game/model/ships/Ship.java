@@ -73,7 +73,6 @@ public abstract class Ship {
             for (int y = 1 ; y < sizey; y++) {
                 this.location.add(Arrays.asList(start_x + x, start_y + y));
             }
-
         }
         System.out.println("Randomly generated location: " + location);
     }
@@ -93,6 +92,7 @@ public abstract class Ship {
     public boolean isSunk(){
         return isSunk;
     }
+
     public void createNewPosition(int x_coordinate, int y_coordinate){
         int start_x = x_coordinate;
         int start_y = y_coordinate;
@@ -102,8 +102,8 @@ public abstract class Ship {
             for (int y = 1 ; y < sizey; y++) {
                 this.location.add(Arrays.asList(start_x + x, start_y + y));
             }
-
-    }}
+        }
+    }
 
 
 }
