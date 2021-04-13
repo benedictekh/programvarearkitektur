@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.BoardController;
-import com.mygdx.game.model.Board;
+import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
 public class PlayView extends  State {
@@ -15,12 +14,12 @@ public class PlayView extends  State {
     private Texture board;
     private float x_position;
     private float y_position;
-    private BoardController controller;
+    private PlayController controller;
     private Player current;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
-    public PlayView(GameStateManager gsm, BoardController controller){
+    public PlayView(GameStateManager gsm, PlayController controller){
         super(gsm);
         background = new Texture("background.PNG");
         this.controller = controller;

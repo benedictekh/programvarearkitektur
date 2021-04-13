@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.BoardController;
+import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 
@@ -20,7 +20,7 @@ public class InitializeGameView extends State{
     public String name1;
     public ButtonView nextButton;
     public ButtonView loginButton;
-    private BoardController controller;
+    private PlayController controller;
 
 
     protected InitializeGameView(GameStateManager gsm) {
@@ -51,7 +51,7 @@ public class InitializeGameView extends State{
 
                         //tester å legge til en person i db
 
-                        createBoardController(name);
+                        createPlayController(name);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
@@ -70,8 +70,8 @@ public class InitializeGameView extends State{
         }
     }
 
-    private void createBoardController(String name){
-        this.controller = new BoardController( new Board(10, 10), new Player(name, true));
+    private void createPlayController(String name){
+        this.controller = new PlayController( new Board(10, 10), new Player(name, true));
     }
 
     public void setName(String name){

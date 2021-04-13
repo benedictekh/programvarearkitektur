@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.BoardController;
+import com.mygdx.game.controller.PlayController;
 
 public class LoadingView extends State {
 
@@ -17,10 +17,10 @@ public class LoadingView extends State {
     float timecount;
     float totaleTime;
     BitmapFont font;
-    private BoardController controller;
+    private PlayController controller;
 
 
-    protected LoadingView(GameStateManager gsm, BoardController controller) {
+    protected LoadingView(GameStateManager gsm, PlayController controller) {
         super(gsm);
         background = new Texture("background1.jpg");
         loading = new Texture("spinning_1.png");

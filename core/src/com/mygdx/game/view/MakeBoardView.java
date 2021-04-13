@@ -3,20 +3,13 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.BoardController;
 import com.mygdx.game.controller.MakeBoardController;
 import com.mygdx.game.model.Board;
-import com.mygdx.game.model.Player;
-import com.mygdx.game.model.ships.Ship;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MakeBoardView extends State{
     private Texture background;
-    private BoardController controller;
+    private MakeBoardController controller;
     private Board board;
     private int x_position;
     private int y_position;
@@ -29,7 +22,7 @@ public class MakeBoardView extends State{
         super(gsm);
         background = new Texture("background.PNG");
         //må endre fra player = null
-        controller = new BoardController( new Board(10, 10), null);
+        controller = new MakeBoardController( new Board(10, 10));
         board = new Board(10, 10);
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
 
@@ -48,7 +41,7 @@ public class MakeBoardView extends State{
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             System.out.println("Input position. " + x_position + ", " + y_position);
-            controller.finShip(controller.getIndex(x_position,y_position));
+            controller.findShip(controller.getIndex(x_position,y_position));
             if(controller.getMarkedShip() != null){
                 System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
             }

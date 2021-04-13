@@ -16,14 +16,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
 
-public class BoardController extends Controller{
+public class PlayController extends Controller{
 
     Player player1;
     Player player2;
     Player currentPlayer;
-    Ship markedShip = null;
 
-    public BoardController(Board board, Player p1) {
+    public PlayController(Board board, Player p1) {
 
         super(board);
         player1 = p1;
@@ -63,16 +62,6 @@ public class BoardController extends Controller{
        return indexes;
     }
 
-    //find ship
-    public void finShip(ArrayList<Integer> indexes){
-            this.markedShip = board.finShip(indexes);
-            System.out.println("marked ship is updated");
-            board.printShipsLocations();
-
-    }
-    public Ship getMarkedShip() {
-        return this.markedShip;
-    }
 
     public void shoot(ArrayList<Integer> indexes){
         if (currentPlayer.getBoard().shoot(indexes.get(0), indexes.get(1))) {
@@ -87,10 +76,7 @@ public class BoardController extends Controller{
         }
 
     }
-    public void drawMarkedShip() {
-        board.drawShipSquare(this.markedShip);
 
-    }
 
     public Board getBoard(){
         return currentPlayer.getBoard();
@@ -109,10 +95,7 @@ public class BoardController extends Controller{
         return getBoard().isFinished();
 
     }
-    public void drawBoardandShips() {
-        board.drawBoard();
-        board.drawShips();
-    }
+
 
     public Player getPlayer() {
         return currentPlayer;
