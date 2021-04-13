@@ -1,6 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
 
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ public class MakeBoardController extends Controller{
     Ship markedShip = null;
 
 
-    public MakeBoardController(Board board) {
-        super(board);
+    public MakeBoardController(Player player) {
+        super(player);
     }
 
 

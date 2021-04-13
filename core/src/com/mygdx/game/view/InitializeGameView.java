@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.InitializeGameController;
+import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
@@ -20,7 +22,7 @@ public class InitializeGameView extends State{
     public String name1;
     public ButtonView nextButton;
     public ButtonView loginButton;
-    private PlayController controller;
+    private InitializeGameController controller;
 
 
     protected InitializeGameView(GameStateManager gsm) {
@@ -39,8 +41,8 @@ public class InitializeGameView extends State{
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
             if (nextButton.getRectangle().contains(touch.x, touch.y)) {
                 //vil bli lagt til i databasen og vente på motspiller i Loadingview
-                gsm.set(new LoadingView(gsm, controller));
-                System.out.println("test 1");
+                gsm.set(new LoadingView(gsm, new LoadingController(this.player)));
+
             } else if(loginButton.getRectangle().contains(touch.x, touch.y)) {
                 g = gsm;
                 Gdx.input.getTextInput(new Input.TextInputListener() {
@@ -51,7 +53,7 @@ public class InitializeGameView extends State{
 
                         //tester å legge til en person i db
 
-                        createPlayController(name);
+                        createInitializeGameController(name);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
@@ -70,9 +72,11 @@ public class InitializeGameView extends State{
         }
     }
 
-    private void createPlayController(String name){
-        this.controller = new PlayController( new Board(10, 10), new Player(name, true));
+    private void createInitializeGameController(String name){
+        this.player = new Player(name, true);
+        this.controller = new InitializeGameController(this.player);
     }
+
 
     public void setName(String name){
         name1 = name;

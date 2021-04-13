@@ -21,11 +21,13 @@ public abstract class Ship {
     private ArrayList<List<Integer>> location;
     // example location: [[0,0],[0,1],[1,0],[1,1]]
     private ArrayList<List<Integer>> shotCoordinates;
+    private int shipNr;
 
-    protected Ship(Color color){
+    protected Ship(Color color, int shipNr){
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
         this.color = color;
+        this.shipNr = shipNr;
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
     }
@@ -96,6 +98,8 @@ public abstract class Ship {
     public boolean isSunk(){
         return isSunk;
     }
+
+    public int getShipNr(){  return shipNr; }
 
 
 }

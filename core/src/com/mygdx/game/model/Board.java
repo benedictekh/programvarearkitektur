@@ -19,10 +19,14 @@ public class Board {
 
     //private Collection<Ship> boardListeners;
 
+    //lage en liste der et ship er representert med et tall, som bare sendes igjennom i starten
+
     private int sidemargin;
 
     private ArrayList<List<Integer>> board;
     private ArrayList<Ship> ships;
+    //a list used to initalize the opponent board with the ships form this user
+    private ArrayList<List<Integer>> initializeOpponentBoard;
 
     private Cell cell;
     private Texture texture; //the board texture
@@ -48,13 +52,19 @@ public class Board {
 
     private void makeBoard(int size) {
         board = new ArrayList<List<Integer>>();
+        initializeOpponentBoard = new ArrayList<List<Integer>>();
 
         for (int row = 0; row < size; row++) {
             List<Integer> kolonne = new ArrayList<>();
+            List<Integer> kolonne2 = new ArrayList<>();
+
             for (int column = 0; column < size; column++) {
                 kolonne.add(cell.EMPTY);
+                kolonne2.add(cell.EMPTY);
+
             }
             board.add(kolonne);
+            initializeOpponentBoard.add(kolonne2);
         }
         printBoard();
     }
@@ -69,6 +79,7 @@ public class Board {
         ships.add(new BattleShip(true));
         ships.add(new PatrolShip(true));
         for (Ship ship: ships){
+
             System.out.println("location: " + ship.getLocation());
             // while the ships random location is partly occupied, create a new random location
             while (!isValidLocation(ship.getLocation())) {
@@ -78,16 +89,24 @@ public class Board {
             for (List<Integer> coordinate : ship.getLocation()) {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
+                System.out.println("Kan du vennligst printe dette");
                 updateBoard(x, y, cell.SHIP);
+                updateInitalizeOpponentBoard(x, y, ship.getShipNr());
             }
         }
+        System.out.println("dette kommer fra initShip");
         printBoard();
     }
 
 
     private void printBoard(){
+        System.out.println("Dette er board");
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");
+        }
+        System.out.println("Dette er initializeOpponentBoard");
+        for (int row = 0; row < initializeOpponentBoard.size(); row ++){
+            System.out.println(initializeOpponentBoard.get(row) + "\n");
         }
     }
 
@@ -132,8 +151,14 @@ public class Board {
         tmp.set(x, value);
         board.set(y,tmp);
         System.out.println("Board is updated, time to draw");
-
     }
+    public void updateInitalizeOpponentBoard(int x, int y, int value){
+        List<Integer> tmp = initializeOpponentBoard.get(y);
+        tmp.set(x, value);
+        initializeOpponentBoard.set(y,tmp);
+        System.out.println("Board is updated, time to draw");
+    }
+
     public boolean isValidLocation(ArrayList<List<Integer>> location){
         for (List<Integer> coordinates : location){
             if (board.get(coordinates.get(1)).get(coordinates.get(0)) == cell.SHIP){

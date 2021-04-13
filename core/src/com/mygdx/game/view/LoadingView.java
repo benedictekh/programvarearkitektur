@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.Controller;
 import com.mygdx.game.controller.PlayController;
 
 public class LoadingView extends State {
@@ -17,17 +18,17 @@ public class LoadingView extends State {
     float timecount;
     float totaleTime;
     BitmapFont font;
-    private PlayController controller;
+    private Controller controller;
 
 
-    protected LoadingView(GameStateManager gsm, PlayController controller) {
+    protected LoadingView(GameStateManager gsm, Controller controller) {
         super(gsm);
         background = new Texture("background1.jpg");
         loading = new Texture("spinning_1.png");
         loading_2 = new Texture("spinning_2.png");
         texture = new Texture("spinning_1.png");
         font = new BitmapFont();
-        this.controller = controller;
+        this.controller=controller;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class LoadingView extends State {
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
             if(totaleTime > 10){
-                gsm.set(new PlayView(gsm, controller));
+                gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
             }
 
 

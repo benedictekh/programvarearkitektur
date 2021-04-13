@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 
 public class MakeBoardView extends State{
     private Texture background;
@@ -22,7 +23,7 @@ public class MakeBoardView extends State{
         super(gsm);
         background = new Texture("background.PNG");
         //må endre fra player = null
-        controller = new MakeBoardController( new Board(10, 10));
+        controller = new MakeBoardController( new Player("hei", false));
         board = new Board(10, 10);
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
 

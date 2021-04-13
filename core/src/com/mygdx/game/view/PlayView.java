@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.Controller;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
