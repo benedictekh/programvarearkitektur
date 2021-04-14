@@ -15,7 +15,7 @@ public class MakeBoardController extends Controller{
     Ship markedShip = null;
     private ArrayList<List<Integer>> location;
 
-    private Collection<Feedback> feebackListeners = new ArrayList<Feedback>();
+    private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
 
 
     public MakeBoardController(Board board) {
@@ -77,16 +77,16 @@ public class MakeBoardController extends Controller{
         board.removeShipPosition(markedShip.getLocation());
         markedShip.createNewPosition(index.get(0), index.get(1));
         if(!board.isInsideBoard(markedShip.getLocation())){
-            firefeedhackFlase();
+            firefeedbackFalse();
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         else if(!board.isValidLocation(markedShip.getLocation())){
-            firefeedhackFlase();
+            firefeedbackFalse();
             System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         else {
-            firefeedhackTrue();
+            firefeedbackTrue();
         }
         board.addShipPosition(markedShip.getLocation());
         markedShip = null;
@@ -94,25 +94,25 @@ public class MakeBoardController extends Controller{
         board.printBoard();
     }
 
-    public void addFeedbackListener(Feedback feedbackListener) {
-        feebackListeners.add(feedbackListener);
+    public static void addFeedbackListener(Feedback feedbackListener) {
+        feedbackListeners.add(feedbackListener);
     }
 
     public void removeCrashListener(Feedback feedbackListener) {
-        feebackListeners.remove(feedbackListener);
+        feedbackListeners.remove(feedbackListener);
     }
 
     public void fireAction(Feedback crashListener) {
 
     }
 
-    public void firefeedhackTrue() {
-        for (Feedback feedbackListener: feebackListeners) {
+    public static void firefeedbackTrue() {
+        for (Feedback feedbackListener: feedbackListeners) {
             feedbackListener.fireAction(true);
         }
     }
-    public void firefeedhackFlase() {
-        for (Feedback feedbackListener: feebackListeners) {
+    public void firefeedbackFalse() {
+        for (Feedback feedbackListener: feedbackListeners) {
             feedbackListener.fireAction(false);
         }
     }
