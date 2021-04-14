@@ -19,8 +19,8 @@ public class MenuView extends State{
 
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
-        playbutton = new ButtonView("playbtn1.png", Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
-        initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-100, 100,200,75);
+        playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
+        initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
 
 
     }
@@ -55,7 +55,7 @@ public class MenuView extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo, Battleships.WIDTH/2-275, Battleships.HEIGHT-150, 500, 200);
+        sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
         sb.draw(playbutton.getTexture(),playbutton.Buttonx,playbutton.Buttony,playbutton.Width ,playbutton.Height);
         sb.draw(initButton.getTexture(),initButton.Buttonx,initButton.Buttony,initButton.Width,initButton.Height);
         sb.end();

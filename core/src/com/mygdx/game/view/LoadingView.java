@@ -23,9 +23,9 @@ public class LoadingView extends State {
     protected LoadingView(GameStateManager gsm, PlayController controller) {
         super(gsm);
         background = new Texture("background1.jpg");
-        loading = new Texture("spinning_1.png");
-        loading_2 = new Texture("spinning_2.png");
-        texture = new Texture("spinning_1.png");
+        loading = new Texture("load0.png");
+        loading_2 = new Texture("load1.png");
+        texture = new Texture("load0.png");
         font = new BitmapFont();
         this.controller = controller;
     }
@@ -81,10 +81,10 @@ public class LoadingView extends State {
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0,0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(getTexture(),160,200,300,250);
+        sb.draw(getTexture(),Battleships.WIDTH/2-175,Battleships.HEIGHT/2-50,350,300);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        font.getData().setScale(2,2);
-        font.draw(sb,"Please wait", Battleships.WIDTH/2-80,190);
+        font.getData().setScale(3,3);
+        font.draw(sb,"Please wait", Battleships.WIDTH/2-100,300);
         sb.end();
     }
 
