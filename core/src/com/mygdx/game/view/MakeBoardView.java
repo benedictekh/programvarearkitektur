@@ -2,6 +2,7 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
@@ -20,7 +21,8 @@ public class MakeBoardView extends State implements Feedback{
     private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
-    private Boolean bool;
+    private Boolean bool = true;
+    private BitmapFont font;
 
 
     protected MakeBoardView(GameStateManager gsm) {
@@ -31,6 +33,7 @@ public class MakeBoardView extends State implements Feedback{
         controller = new MakeBoardController( new Board(10, 10));
         board = new Board(10, 10);
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
+        font = new BitmapFont();
 
 
     }
@@ -85,21 +88,22 @@ public class MakeBoardView extends State implements Feedback{
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
+        if(this.bool){
+            font.draw(sb, "great!", 200,200);
+
+        }
+        else if(!this.bool){
+            font.draw(sb, "not correct!", 200,200);
+        }
         sb.end();
         drawBoardView();
         drawMarkedShip();
-        if(this.bool){
-            drawFeedbackGood();
-        }
-        else if(!this.bool){
-            drawFeedbackBad();
-        }
 
     }
     public void drawBoardView(){
         controller.drawBoardandShips();
     }
-
+/*
     public void drawFeedbackGood(){
         controller.drawMarkedShip();
     }
@@ -107,7 +111,7 @@ public class MakeBoardView extends State implements Feedback{
     public void drawFeedbackBad() {
         controller.drawBoardandShips();
     }
-
+ */
     public void setBoolean(boolean bool){
         this.bool = bool;
     }
