@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MakeBoardView extends State{
+public class MakeBoardView extends State implements Feedback{
     private Texture background;
     private MakeBoardController controller;
     private Board board;
@@ -20,6 +20,7 @@ public class MakeBoardView extends State{
     private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
+    private Boolean bool;
 
 
     protected MakeBoardView(GameStateManager gsm) {
@@ -87,10 +88,36 @@ public class MakeBoardView extends State{
         sb.end();
         drawBoardView();
         drawMarkedShip();
+        if(this.bool){
+            drawFeedbackGood();
+        }
+        else if(!this.bool){
+            drawFeedbackBad();
+        }
 
     }
     public void drawBoardView(){
         controller.drawBoardandShips();
+    }
+
+    public void drawFeedbackGood(){
+        controller.drawMarkedShip();
+    }
+
+    public void drawFeedbackBad() {
+        controller.drawBoardandShips();
+    }
+
+    public void setBoolean(boolean bool){
+        this.bool = bool;
+    }
+    public Boolean getBoolean(){
+        return this.bool;
+    }
+
+    @Override
+    public void fireAction(boolean bool) {
+        setBoolean(bool);
     }
 
     @Override

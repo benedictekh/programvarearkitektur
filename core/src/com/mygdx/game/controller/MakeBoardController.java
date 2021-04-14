@@ -2,15 +2,20 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 
 
 public class MakeBoardController extends Controller{
 
     Ship markedShip = null;
     private ArrayList<List<Integer>> location;
+
+    private Collection<Feedback> feebackListeners = new ArrayList<Feedback>();
 
 
     public MakeBoardController(Board board) {
@@ -72,16 +77,44 @@ public class MakeBoardController extends Controller{
         board.removeShipPosition(markedShip.getLocation());
         markedShip.createNewPosition(index.get(0), index.get(1));
         if(!board.isInsideBoard(markedShip.getLocation())){
+            firefeedhackFlase();
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         else if(!board.isValidLocation(markedShip.getLocation())){
+            firefeedhackFlase();
             System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
+        }
+        else {
+            firefeedhackTrue();
         }
         board.addShipPosition(markedShip.getLocation());
         markedShip = null;
         System.out.println("updated board: ");
         board.printBoard();
+    }
+
+    public void addFeedbackListener(Feedback feedbackListener) {
+        feebackListeners.add(feedbackListener);
+    }
+
+    public void removeCrashListener(Feedback feedbackListener) {
+        feebackListeners.remove(feedbackListener);
+    }
+
+    public void fireAction(Feedback crashListener) {
+
+    }
+
+    public void firefeedhackTrue() {
+        for (Feedback feedbackListener: feebackListeners) {
+            feedbackListener.fireAction(true);
+        }
+    }
+    public void firefeedhackFlase() {
+        for (Feedback feedbackListener: feebackListeners) {
+            feedbackListener.fireAction(false);
+        }
     }
 
 }
