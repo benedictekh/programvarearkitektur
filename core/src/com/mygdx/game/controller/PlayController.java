@@ -41,6 +41,15 @@ public class PlayController extends Controller{
         this.player1 = player1;
     }
 
+    /**
+     * computes the index in a double-linked-list from two coordinates
+     * finds the cell a person were trying to touch from on a drawn board
+     * does not check if the indexes is inside the board
+     * @param x_pos the x_coordinate
+     * @param y_pos the y_coordinate
+     * @return      the indexes for the cell you were trying to touch
+     */
+
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
         System.out.println("Sidemargin: " + currentPlayer.getBoard().getSidemargin());
