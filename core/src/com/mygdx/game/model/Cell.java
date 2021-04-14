@@ -12,6 +12,11 @@ public class Cell {
     private Texture hit;
     private Texture miss;
 
+    /**
+     * cheks if a cell has already been shot at
+     * @param value the value the cell contains
+     * @return  false if the cell has already been shot at
+     */
     public boolean isValidMove(int value){
         if  (value == HIT || value == MISS) {
             System.out.println("Already shot here");
@@ -20,10 +25,20 @@ public class Cell {
         return true;
     }
 
+    /**
+     * checks if a cell that gets shot at contains a ship
+     * @param value the value the cell contains
+     * @return  true if there is a ship occupying this cell, false if not
+     */
     public boolean isHit(int value){
         return (value == SHIP);
     }
 
+    /**
+     * gives the new value the cell should get
+     * @param value the value the cell contains
+     * @return   the new value the cell should get
+     */
     public int setCell(int value){
         int newValue;
         if (isHit(value)){

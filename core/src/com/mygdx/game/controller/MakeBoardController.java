@@ -23,6 +23,16 @@ public class MakeBoardController extends Controller{
 
     }
 
+
+    /**
+     * computes the index in a double-linked-list from two coordinates
+     * finds the cell a person were trying to touch from on a drawn board
+     * does not check if the indexes is inside the board
+     * @param x_pos the x_coordinate
+     * @param y_pos the y_coordinate
+     * @return      the indexes for the cell you were trying to touch
+     */
+
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
         System.out.println("Sidemargin: " + board.getSidemargin());
@@ -43,6 +53,12 @@ public class MakeBoardController extends Controller{
         return indexes;
     }
 
+    /**
+     * finds the ship located at a specific index and changes the attribute @markedShip
+     * finds a new ship if @markedship is null
+     * @param indexes   the indexes of the cell you want to find a ship
+     */
+
     public void findShip(ArrayList<Integer> indexes){
         if(markedShip == null ){
             this.markedShip = board.findShip(indexes);
@@ -51,34 +67,60 @@ public class MakeBoardController extends Controller{
         board.printShipsLocations();
     }
 
+    /**
+     *
+     * @return  the markedShip
+     */
+
     public Ship getMarkedShip() {
         return this.markedShip;
     }
+
+    /**
+     * draws the marked ship as a square
+     */
 
     public void drawMarkedShip() {
         board.drawShipSquare(this.markedShip);
     }
 
+    /**
+     * draws both the board and the ships
+     */
     public void drawBoardandShips() {
         board.drawBoard();
         board.drawShips();
     }
 
+    /**
+     * moves the marked ship to a new position, if the new position is valid and inside the board
+     * removes the ships position from the board (ArrayList<List<Integer>>) and adds the new position to the boars
+     * @param new_x the x_ccordinate of where you want to move the ship
+     * @param new_y the y_coordinate of where you want to move the ship
+     * @param location  ??
+     */
     public void moveShip(int new_x, int new_y, ArrayList<List<Integer>> location) {
+        // finds the index based on the coordinates of the touch
         ArrayList<Integer> index= getIndex(new_x,new_y);
+        // saves the first position of the current (old) location of the markedShip
         List<Integer> first_position = markedShip.getLocation().get(0);
         System.out.println("indexes to new positions, (live) : " + index);
-
+        //removes the ship from the board (changes the 1-value into 0)
         board.removeShipPosition(markedShip.getLocation());
+        //adds the new position to the board (replaces the 0-values on the cells with 1)
         markedShip.createNewPosition(index.get(0), index.get(1));
+        // checks if the new location of the markedShip is inside the board
         if(!board.isInsideBoard(markedShip.getLocation())){
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
+        // checks if the ship can be moved to the new location
         else if(!board.isValidLocation(markedShip.getLocation())){
             System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
+        //ads the new location to the ship to boards ShipPositions list
         board.addShipPosition(markedShip.getLocation());
+        //sets the markedShip value to null so we can select new ships to move :D
         markedShip = null;
         System.out.println("updated board: ");
         board.printBoard();
