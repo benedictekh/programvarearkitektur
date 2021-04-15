@@ -9,10 +9,9 @@ public interface FirebaseServices {
     public void addPlayer(Player player);
     //public void initializeGame(DataSnapShot waitingRoom);
     //public void waitingRoomListener();
-    public void addWaitingroomLisenerOnce();
     public void createGame();
     public String turnListener(String gameID);
     public String changeTurn();
-    public String getGameID();
+    public void playersListener(String gameId);
 
 }

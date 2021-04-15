@@ -25,7 +25,9 @@ public class PlayController extends Controller{
 
     public PlayController(Player player) {
         super(player);
+        System.out.println("fra playcontroller" + player.getGameId());
         this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
+        Battleships.firebaseConnector.playersListener(player.getGameId());
 
         //this.opponentBoard = new Board();
         //player = player;
@@ -117,11 +119,13 @@ public class PlayController extends Controller{
 
     }
 
+    //funksjon som heter getTurn - henter status på firebase turn variabelen og sammenligner om det er this.player.name
+
 
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-        String name = Battleships.firebaseConnector.changeTurn();
+        Battleships.firebaseConnector.changeTurn();
         /*
         if (player.getName().equals(name)){
             myTurn = true;

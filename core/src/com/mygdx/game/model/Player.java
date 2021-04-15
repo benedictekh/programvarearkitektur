@@ -6,6 +6,7 @@ public class Player {
     Boolean thisPlayer;
     Board board;
     int Score = 0;
+    String gameId;
 
     public Player(String name, Boolean thisPlayer){
         this.name = name;
@@ -19,6 +20,14 @@ public class Player {
 
     public String getName(){
         return name;
+    }
+
+    public void setGameId(String gameId){
+        this.gameId = gameId;
+    }
+
+    public String getGameId(){
+        return gameId;
     }
 
 }

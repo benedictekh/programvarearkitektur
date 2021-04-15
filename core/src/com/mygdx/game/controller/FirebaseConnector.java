@@ -1,6 +1,7 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.FirebaseServices;
+import com.mygdx.game.GameIdHolder;
 import com.mygdx.game.model.Player;
 
 public class FirebaseConnector implements FirebaseServices{
@@ -13,12 +14,10 @@ public class FirebaseConnector implements FirebaseServices{
     @Override
     public void addPlayer(Player player) {
         firebaseServices.addPlayer(player);
-    }
-
-    @Override
-    public void addWaitingroomLisenerOnce() {
 
     }
+
+
 
     @Override
     public void createGame() {
@@ -35,8 +34,10 @@ public class FirebaseConnector implements FirebaseServices{
         return firebaseServices.changeTurn();
     }
 
+
+
     @Override
-    public String getGameID() {
-        return null;
+    public void playersListener(String gameId) {
+        firebaseServices.playersListener(gameId);
     }
 }
