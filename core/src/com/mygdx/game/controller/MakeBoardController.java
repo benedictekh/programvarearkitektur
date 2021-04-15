@@ -97,14 +97,14 @@ public class MakeBoardController extends Controller{
     public static void addFeedbackListener(Feedback feedbackListener) {
         feedbackListeners.add(feedbackListener);
     }
+    /*
 
     public void removeCrashListener(Feedback feedbackListener) {
         feedbackListeners.remove(feedbackListener);
     }
 
-    public void fireAction(Feedback crashListener) {
+     */
 
-    }
 
     public static void firefeedbackTrue() {
         for (Feedback feedbackListener: feedbackListeners) {

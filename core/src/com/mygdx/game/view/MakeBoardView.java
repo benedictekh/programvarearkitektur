@@ -88,12 +88,14 @@ public class MakeBoardView extends State implements Feedback{
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
-        if(this.bool){
-            font.draw(sb, "great!", 200,200);
+        if(bool){
+            font.getData().setScale(3,3);
+            font.draw(sb, "great!", Battleships.WIDTH-300,Battleships.HEIGHT/2);
 
         }
-        else if(!this.bool){
-            font.draw(sb, "not correct!", 200,200);
+        else if(!bool){
+            font.getData().setScale(3,3);
+            font.draw(sb, "not correct!", Battleships.WIDTH-300,Battleships.HEIGHT/2);
         }
         sb.end();
         drawBoardView();
