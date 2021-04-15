@@ -25,7 +25,7 @@ public class MakeBoardView extends State{
     protected MakeBoardView(GameStateManager gsm) {
 
         super(gsm);
-        background = new Texture("background.PNG");
+        background = new Texture("background3.jpeg");
         //må endre fra player = null
         controller = new MakeBoardController( new Board(10, 10));
         board = new Board(10, 10);
