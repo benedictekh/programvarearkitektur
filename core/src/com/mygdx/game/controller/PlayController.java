@@ -78,10 +78,11 @@ public class PlayController extends Controller{
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
+                    //disable option to press
                     changeCurrentPlayer();
                 }
             };
-            executor.schedule(task, 1, TimeUnit.SECONDS);
+            executor.schedule(task, 3, TimeUnit.SECONDS);
         }
 
     }
