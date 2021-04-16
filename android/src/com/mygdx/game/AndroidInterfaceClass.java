@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -17,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
@@ -169,6 +171,23 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + gameIdHolder.playerId).setValue(board);
     }
 
+    @Override
+    public void boardListener(){
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getChildrenCount() > 1){
+                    LoadingController.playersReady = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     //create the gameId, this will be the same for the two players and the game
     @Override
@@ -192,13 +211,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
 
     public void initializeGame() {
-
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
                 data.child("WaitingRoom").child(player.getName()).removeValue();
                 this.turnPlayer = 0;
                 playerId = 0;
-
+                LoadingController.playersAdded = true;
     }
 
     public void addWaitingroomListener(){
@@ -265,6 +283,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("WaitingRoom").removeValue();
                 turnPlayer = 0;
                 playerId = 1;
+                LoadingController.playersAdded = true;
 
             }
 

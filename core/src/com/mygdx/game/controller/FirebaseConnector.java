@@ -57,4 +57,10 @@ public class FirebaseConnector implements FirebaseServices{
     public void sendBoard(ArrayList<List<Integer>> board) {
         firebaseServices.sendBoard(board);
     }
+
+    @Override
+    public void boardListener() {
+        firebaseServices.boardListener();
+    }
+
 }

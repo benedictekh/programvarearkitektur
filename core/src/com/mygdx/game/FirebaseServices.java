@@ -19,5 +19,6 @@ public interface FirebaseServices {
     public Boolean addTurnListener();
     public ArrayList<List<Integer>> getOpponentBoard();
     public void sendBoard(ArrayList<List<Integer>> board);
+    public void boardListener();
 
 }

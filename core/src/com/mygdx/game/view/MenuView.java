@@ -40,9 +40,11 @@ public class MenuView extends State{
                 gsm.set(new InitializeGameView(gsm));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
+                /*
                 makeBoardView = new MakeBoardView(gsm);
                 MakeBoardController.addFeedbackListener(makeBoardView);
                 gsm.set(makeBoardView);
+                */
             }
             else{
                 System.out.println("pressed outside");
