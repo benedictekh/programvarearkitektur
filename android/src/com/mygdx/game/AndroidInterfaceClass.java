@@ -56,7 +56,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         //cheks if there is an excisting waitingRoom
         this.player = player;
         //checks if the waitingRoom exists and then adds a player child if it does, else creates a room and add a child
-        this.addWaitingroomLisener();
+        this.addWaitingroomListener();
         //this.addWaitingroomLisenerOnce();
 
     }
@@ -166,8 +166,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
 //endre til listenrvalueEvent
-/*
 
+/*
     public void addWaitingroomLisenerOnce(){
         data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -206,8 +206,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-    }
-*/
+    }*/
+
     public void addPlayerToGameState(){
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player" + this.rand).setValue(this.player.getName());
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.player.getName());
@@ -229,12 +229,15 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("WaitingRoom").child(player.getName()).removeValue();
     }
 
-    public void addWaitingroomLisener(){
+    public void addWaitingroomListener(){
+        System.out.println("addWaitingRoomListener metode");
         data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                System.out.println("Inne i listener");
                 String waitingRoomPlayerId = "";
                 if(snapshot.exists()){
+                    System.out.println("Anne skal inne her " + player.getName());
 
                     String playerId="";
                     for (DataSnapshot player : snapshot.getChildren()){
@@ -247,6 +250,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                         initializeGame();
                     }
                 }else{
+                    System.out.println("else setning");
                     //if the WaitingRoom dose'nt exist, create it and then add the player
 
                     //generates GameIs when the WaitingRoom is created
@@ -290,9 +294,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                snapshot.getRef().child("Player1").setValue(player.getName());
-                //data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(players.get(1));
-
+                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(player.getName());
                 data.child("WaitingRoom").removeValue();
             }
 
