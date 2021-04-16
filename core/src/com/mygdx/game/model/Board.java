@@ -175,7 +175,7 @@ public class Board {
 }
      */
 
-    private void printBoard(){
+    public void printBoard(){
         System.out.println("Dette er board");
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");

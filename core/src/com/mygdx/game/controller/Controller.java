@@ -4,7 +4,7 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 
 public abstract class Controller {
-    Board board;
+    //Board board;
     Player player;
 
     Controller(Player player) {
