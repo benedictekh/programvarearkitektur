@@ -24,7 +24,9 @@ public class MakeBoardView extends State implements Feedback{
     private boolean bool = true;
     private boolean pressedOK = false;
     private BitmapFont font;
-    private ButtonView newButton;
+    private ButtonView wrongButton;
+    private ButtonView rightButton;
+    private Texture notValidMove;
     private float timecount;
     private float totaleTime;
 
@@ -38,7 +40,9 @@ public class MakeBoardView extends State implements Feedback{
         board = new Board(10, 10);
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
         font = new BitmapFont();
-        newButton = new ButtonView("wrong.png",Battleships.WIDTH/2-100, 400,300,100);
+        wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        notValidMove = new Texture("notvalid.png");
 
 
     }
@@ -83,23 +87,6 @@ public class MakeBoardView extends State implements Feedback{
     @Override
     public void update(float dt) {
         handleInput();
-        /*
-        timecount=0;
-        if (!bool) {
-            setpressedOK(true);
-        }
-        if(pressedOK){
-            timecount += dt;
-            while(timecount<2) {
-                setpressedOK(true);
-            }
-            setpressedOK(false);
-            timecount = 0;
-        }
-
-         */
-
-
 
     }
     public void drawMarkedShip() {
@@ -114,7 +101,11 @@ public class MakeBoardView extends State implements Feedback{
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
         if(!bool){
-            sb.draw(newButton.getTexture(),newButton.Buttonx,newButton.Buttony,newButton.Width ,newButton.Height);
+            sb.draw(wrongButton.getTexture(),wrongButton.Buttonx,wrongButton.Buttony,wrongButton.Width ,wrongButton.Height);
+            sb.draw(notValidMove,wrongButton.Buttonx+100,wrongButton.Buttony,300 ,150);
+        }
+        else if(bool){
+            sb.draw(rightButton.getTexture(),rightButton.Buttonx,rightButton.Buttony,rightButton.Width ,rightButton.Height);
         }
         sb.end();
         drawBoardView();
