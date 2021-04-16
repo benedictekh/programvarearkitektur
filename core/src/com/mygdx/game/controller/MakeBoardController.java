@@ -2,15 +2,20 @@ package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 
 
 public class MakeBoardController extends Controller{
 
     Ship markedShip = null;
     private ArrayList<List<Integer>> location;
+
+    private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
 
 
     public MakeBoardController(Board board) {
@@ -111,19 +116,48 @@ public class MakeBoardController extends Controller{
         markedShip.createNewPosition(index.get(0), index.get(1));
         // checks if the new location of the markedShip is inside the board
         if(!board.isInsideBoard(markedShip.getLocation())){
+            firefeedbackFalse();
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         // checks if the ship can be moved to the new location
         else if(!board.isValidLocation(markedShip.getLocation())){
+            firefeedbackFalse();
             System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
-        //ads the new location to the ship to boards ShipPositions list
+
+        else {
+            firefeedbackTrue();
+        }
+
         board.addShipPosition(markedShip.getLocation());
         //sets the markedShip value to null so we can select new ships to move :D
         markedShip = null;
         System.out.println("updated board: ");
         board.printBoard();
+    }
+
+    public static void addFeedbackListener(Feedback feedbackListener) {
+        feedbackListeners.add(feedbackListener);
+    }
+    /*
+
+    public void removeCrashListener(Feedback feedbackListener) {
+        feedbackListeners.remove(feedbackListener);
+    }
+
+     */
+
+
+    public static void firefeedbackTrue() {
+        for (Feedback feedbackListener: feedbackListeners) {
+            feedbackListener.fireAction(true);
+        }
+    }
+    public void firefeedbackFalse() {
+        for (Feedback feedbackListener: feedbackListeners) {
+            feedbackListener.fireAction(false);
+        }
     }
 
 }
