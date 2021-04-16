@@ -11,7 +11,8 @@ public interface FirebaseServices {
     //public void waitingRoomListener();
     public void createGame();
     public String turnListener(String gameID);
-    public Boolean changeTurn();
+    public void changeTurn();
     public void playersListener(String gameId);
+    public Boolean addTurnListener();
 
 }

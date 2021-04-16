@@ -7,6 +7,7 @@ import com.mygdx.game.model.Player;
 public class FirebaseConnector implements FirebaseServices{
     FirebaseServices firebaseServices;
 
+
     public FirebaseConnector(FirebaseServices firebaseServices){
         this.firebaseServices = firebaseServices;
     }
@@ -30,8 +31,8 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
     @Override
-    public Boolean changeTurn() {
-        return firebaseServices.changeTurn();
+    public void changeTurn() {
+        firebaseServices.changeTurn();
     }
 
 
@@ -40,4 +41,7 @@ public class FirebaseConnector implements FirebaseServices{
     public void playersListener(String gameId) {
         firebaseServices.playersListener(gameId);
     }
+
+    @Override
+    public Boolean addTurnListener() { return firebaseServices.addTurnListener(); }
 }

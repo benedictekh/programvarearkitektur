@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -123,19 +124,34 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 */
     @Override
-    public Boolean changeTurn() {
+    public void changeTurn() {
         if (turnPlayer==0){
             turnPlayer=1;
             //leser feil player her. 
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("Player1");
+            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("1");
         }else{
             turnPlayer=0;
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("Player0");
+            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
         }
-        return turnPlayer.equals(playerId);
 
     }
 
+    @Override
+    public Boolean addTurnListener(){
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                turnPlayer = Integer.valueOf((String) snapshot.getValue());
+                System.out.println("addturnListener in android: " + turnPlayer);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return turnPlayer.equals(playerId);
+    }
 
 
 
@@ -159,50 +175,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
         }
         return gameId;
     }
-
-//endre til listenrvalueEvent
-
-/*
-    public void addWaitingroomLisenerOnce(){
-        data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String waitingRoomPlayerId = "";
-                if(snapshot.exists()){
-
-                    String playerId="";
-                    for (DataSnapshot player : snapshot.getChildren()){
-                        playerId = (String) player.getValue();
-                    }
-                    data.child("WaitingRoom").child(player.getName()).setValue(playerId);
-                    gameIdHolder.gameId = playerId;
-                    System.out.println("GameID: " + gameIdHolder.gameId);
-
-                    int waiting = (int) snapshot.getChildrenCount() +1;
-
-                    Log.d(TAG, "The number of players waiting is: " + waiting);
-                    if(waiting > 1){
-                        initializeGame();
-                    }
-                }else{
-                    //if the WaitingRoom dose'nt exist, create it and then add the player
-
-                    //generates GameIs when the WaitingRoom is created
-                    createGame();
-
-                    gameIdHolder.gameId = id;
-                    DatabaseReference waitingRoom = data.child("WaitingRoom");
-                    //creates a player child and gives the player the same id as the game
-                    waitingRoom.child(player.getName()).setValue(id);}
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }*/
-
 
 
     public void initializeGame() {

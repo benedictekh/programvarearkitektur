@@ -31,9 +31,8 @@ public class PlayController extends Controller{
 
         //this.opponentBoard = new Board();
         //player = player;
-        myTurn = true;
         //må finne en bedre måte å få firebaseConnector inn her
-
+        this.myTurn = Battleships.firebaseConnector.addTurnListener();
         //player2 = new Player("Ane", false);
     }
 
@@ -53,7 +52,7 @@ public class PlayController extends Controller{
     public void drawBoard(){
         if(myTurn){
             opponentBoard.drawBoard();
-            opponentBoard.drawShips();
+            //opponentBoard.drawShips();
             opponentBoard.drawUpdatedBoard();
         }
         else {
@@ -87,15 +86,17 @@ public class PlayController extends Controller{
 
 
     public void shoot(ArrayList<Integer> indexes){
-        if (player.getBoard().shoot(indexes.get(0), indexes.get(1))) {
-            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-            Runnable task = new Runnable() {
-                @Override
-                public void run() {
-                    changeCurrentPlayer();
-                }
-            };
-            executor.schedule(task, 1, TimeUnit.SECONDS);
+        if (myTurn){
+            if (player.getBoard().shoot(indexes.get(0), indexes.get(1))) {
+                ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+                Runnable task = new Runnable() {
+                    @Override
+                    public void run() {
+                        changeCurrentPlayer();
+                    }
+                };
+                executor.schedule(task, 1, TimeUnit.SECONDS);
+            }
         }
 
     }
@@ -125,7 +126,8 @@ public class PlayController extends Controller{
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-        this.myTurn = Battleships.firebaseConnector.changeTurn();
+        Battleships.firebaseConnector.changeTurn();
+        this.myTurn = Battleships.firebaseConnector.addTurnListener();
         System.out.println("turn in controller: " + myTurn);
 
     }
