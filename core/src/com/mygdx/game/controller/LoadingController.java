@@ -13,7 +13,7 @@ public class LoadingController extends Controller{
 
     public LoadingController(Player player){
         super(player);
-        Battleships.firebaseConnector.boardListener();
+        //Battleships.firebaseConnector.boardListener();
     }
     @Override
     public void update(float dt) {

@@ -31,7 +31,9 @@ public class MakeBoardController extends Controller{
     }
 
     public void sendBoard(){
+        createInitalizeOpponentBoard();
         Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
+        Battleships.firebaseConnector.boardListener();
     }
 
     /**
@@ -140,6 +142,10 @@ public class MakeBoardController extends Controller{
         markedShip = null;
         System.out.println("updated board: ");
         player.getBoard().printBoard();
+    }
+
+    public void createInitalizeOpponentBoard(){
+        player.getBoard().makeInitalizeOpponentBoard();
     }
 
     public static void addFeedbackListener(Feedback feedbackListener) {

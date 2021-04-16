@@ -27,6 +27,8 @@ public class PlayController extends Controller{
         super(player);
         System.out.println("fra playcontroller" + player.getGameId());
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
+
+        //må gjøre om til minuslista senere
         this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
 
