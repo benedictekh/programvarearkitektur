@@ -189,7 +189,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 }
 */
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(player.getName());
+                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
                 data.child("WaitingRoom").child(player.getName()).removeValue();
                 this.turnPlayer = 0;
                 this.playerId = 0;
