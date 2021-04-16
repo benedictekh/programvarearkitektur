@@ -7,10 +7,12 @@ public class Player {
     Board board;
     int Score = 0;
     String gameId;
+    String playerId;
 
     public Player(String name, Boolean thisPlayer){
         this.name = name;
         this.thisPlayer = thisPlayer;
+
         board = new Board(10, 10);
     }
 

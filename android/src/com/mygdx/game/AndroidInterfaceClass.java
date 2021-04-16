@@ -37,6 +37,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer turnPlayer = 0;
     String gameId;
     GameIdHolder gameIdHolder;
+    String rand = String.valueOf((int) Math.floor(Math.random()*10));
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -55,7 +56,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
         //cheks if there is an excisting waitingRoom
         this.player = player;
         //checks if the waitingRoom exists and then adds a player child if it does, else creates a room and add a child
-        this.addWaitingroomLisenerOnce();
+        this.addWaitingroomLisener();
+        //this.addWaitingroomLisenerOnce();
 
     }
 
@@ -91,30 +93,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
 */
-    public void initializeGame() {
-        data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                players = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String player = snapshot.getKey();
-                    players.add(player);
 
-                    System.out.println("Player: " + player);
-                }
 
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(players.get(0));
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(players.get(1));
-
-                data.child("WaitingRoom").removeValue();
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(players.get(0));
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
 
     @Override
     public String turnListener(String gameID) {
@@ -148,6 +128,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         String name;
         if (turnPlayer==0){
             turnPlayer=1;
+            //leser feil player her. 
             data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.players.get(1));
              //data.child("GameState").child(this.gameId.get(0)).child("GameInfo").child("Turn").setValue(this.players.get(1));
              name = this.players.get(1);
@@ -170,6 +151,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         this.id = this.generateGameId();
         this.gameInfo = data.child("GameState").child(id).child("GameInfo");
         gameInfo.child("GameId").setValue(id);
+        gameInfo.child("Players").child("Player0").setValue("0");
 
     }
 
@@ -184,7 +166,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
 //endre til listenrvalueEvent
-
+/*
 
     public void addWaitingroomLisenerOnce(){
         data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,13 +207,30 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
     }
-
+*/
     public void addPlayerToGameState(){
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player" + this.rand).setValue(this.player.getName());
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.player.getName());
+    }
 
+    public void initializeGame() {
+
+                /*
+                players = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String player = snapshot.getKey();
+                    players.add(player);
+
+                    System.out.println("Player: " + player);
+                }
+*/
+                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
+                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(player.getName());
+                data.child("WaitingRoom").child(player.getName()).removeValue();
     }
 
     public void addWaitingroomLisener(){
-        data.child("WaitingRoom").addValueEventListener(new ValueEventListener() {
+        data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String waitingRoomPlayerId = "";
@@ -243,7 +242,10 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     }
                     data.child("WaitingRoom").child(player.getName()).setValue(playerId);
                     gameIdHolder.gameId = playerId;
-
+                    int waiting = (int) snapshot.getChildrenCount() +1;
+                    if(waiting > 1){
+                        initializeGame();
+                    }
                 }else{
                     //if the WaitingRoom dose'nt exist, create it and then add the player
 
@@ -253,7 +255,17 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     gameIdHolder.gameId = id;
                     DatabaseReference waitingRoom = data.child("WaitingRoom");
                     //creates a player child and gives the player the same id as the game
-                    waitingRoom.child(player.getName()).setValue(id);}
+                    waitingRoom.child(player.getName()).setValue(id);
+                    waitingRoomChildListener();
+                }
+                /*
+                if ((int) snapshot.getChildrenCount()+1 > 1){
+                    //hvorfor går den inn her
+                    System.out.println("Children count for waiitngroom" + snapshot.getChildrenCount());
+                    addPlayerToGameState();
+                }
+                */
+
             }
 
             @Override
@@ -263,6 +275,72 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    public void waitingRoomChildListener(){
+
+        data.child("WaitingRoom").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                snapshot.getRef().child("Player1").setValue(player.getName());
+                //data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(players.get(1));
+
+                data.child("WaitingRoom").removeValue();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+/*
+    public void playersListener(){
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                snapshot.getRef().child("Player1").setValue(player.getName());
+                //data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(players.get(1));
+
+                data.child("WaitingRoom").removeValue();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        } );
+    }
+*/
 
 
 }
