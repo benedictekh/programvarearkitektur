@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.MakeBoardController;
 
 public class MenuView extends State{
 
@@ -13,6 +14,8 @@ public class MenuView extends State{
 
     private ButtonView playbutton;
     private ButtonView initButton;
+
+    private MakeBoardView makeBoardView;
 
     public MenuView(GameStateManager gsm) {
         super(gsm);
@@ -37,7 +40,9 @@ public class MenuView extends State{
                 gsm.set(new InitializeGameView(gsm));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
-                    gsm.set(new MakeBoardView(gsm));
+                makeBoardView = new MakeBoardView(gsm);
+                MakeBoardController.addFeedbackListener(makeBoardView);
+                gsm.set(makeBoardView);
             }
             else{
                 System.out.println("pressed outside");
