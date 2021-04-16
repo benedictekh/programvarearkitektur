@@ -109,6 +109,7 @@ public class PlayController extends Controller{
         }
         else{
             System.out.println("Not my turn, can't shoot");
+
         }
 
     }
