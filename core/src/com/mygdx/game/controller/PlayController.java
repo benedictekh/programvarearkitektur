@@ -125,25 +125,9 @@ public class PlayController extends Controller{
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-        Battleships.firebaseConnector.changeTurn();
-        /*
-        if (player.getName().equals(name)){
-            myTurn = true;
-        }else{
-            myTurn=false;
-        }*/
-        myTurn = !myTurn;
-        //må hente informasjon fra firebase
-        /*
-        System.out.println("Next players turn!");
-        if (currentPlayer == player1){
-            currentPlayer = player2;
-        }
-        else{
-            currentPlayer = player1;
-        }
+        this.myTurn = Battleships.firebaseConnector.changeTurn();
+        System.out.println("turn in controller: " + myTurn);
 
-         */
     }
 
 }

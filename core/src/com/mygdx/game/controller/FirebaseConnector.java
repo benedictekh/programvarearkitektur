@@ -30,7 +30,7 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
     @Override
-    public String changeTurn() {
+    public Boolean changeTurn() {
         return firebaseServices.changeTurn();
     }
 

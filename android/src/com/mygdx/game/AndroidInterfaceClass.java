@@ -32,12 +32,11 @@ public class AndroidInterfaceClass implements FirebaseServices {
     DatabaseReference data;
     FirebaseDatabase database;
     DatabaseReference gameInfo;
-    ArrayList<String> players;
-    //ArrayList<String> gameId;
-    Integer turnPlayer = 0;
-    String gameId;
+    Integer turnPlayer;
     GameIdHolder gameIdHolder;
-    String rand = String.valueOf((int) Math.floor(Math.random()*10));
+    private Player player;
+    Integer playerId;
+    private String id;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -47,7 +46,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
 
-    private Player player;
+
 
     // Adds a player to the waitingRoom, input: A player object
     @Override
@@ -124,26 +123,22 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 */
     @Override
-    public String changeTurn() {
-        String name;
+    public Boolean changeTurn() {
         if (turnPlayer==0){
             turnPlayer=1;
             //leser feil player her. 
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.players.get(1));
-             //data.child("GameState").child(this.gameId.get(0)).child("GameInfo").child("Turn").setValue(this.players.get(1));
-             name = this.players.get(1);
+            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("Player1");
         }else{
             turnPlayer=0;
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.players.get(0));
-            //data.child("GameState").child(this.gameId.get(0)).child("GameInfo").child("Turn").setValue(this.players.get(0));
-            name = this.players.get(0);
+            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("Player0");
         }
-        return name;
+        return turnPlayer.equals(playerId);
+
     }
 
 
 
-    private String id;
+
 
     //create the gameId, this will be the same for the two players and the game
     @Override
@@ -208,10 +203,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }*/
 
-    public void addPlayerToGameState(){
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player" + this.rand).setValue(this.player.getName());
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(this.player.getName());
-    }
+
 
     public void initializeGame() {
 
@@ -227,6 +219,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue(player.getName());
                 data.child("WaitingRoom").child(player.getName()).removeValue();
+                this.turnPlayer = 0;
+                this.playerId = 0;
     }
 
     public void addWaitingroomListener(){
@@ -296,6 +290,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(player.getName());
                 data.child("WaitingRoom").removeValue();
+                turnPlayer = 0;
+                playerId = 1;
             }
 
             @Override
