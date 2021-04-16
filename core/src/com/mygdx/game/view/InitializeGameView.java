@@ -38,6 +38,7 @@ public class InitializeGameView extends State{
     protected void handleInput() {
         g = gsm;
         if(Gdx.input.justTouched()) {
+            //lagre vektoren som blir trykket
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
             if (nextButton.getRectangle().contains(touch.x, touch.y)) {
                 //vil bli lagt til i databasen og vente på motspiller i Loadingview
@@ -45,6 +46,7 @@ public class InitializeGameView extends State{
                 System.out.println("test 1");
             } else if(loginButton.getRectangle().contains(touch.x, touch.y)) {
                 g = gsm;
+                //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
