@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
 import java.lang.reflect.Array;
@@ -143,6 +144,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 turnPlayer = Integer.valueOf((String) snapshot.getValue());
                 System.out.println("addturnListener in android: " + turnPlayer);
+
             }
 
             @Override
@@ -150,6 +152,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
+        PlayController.myTurn = turnPlayer.equals(playerId);
+
         return turnPlayer.equals(playerId);
     }
 

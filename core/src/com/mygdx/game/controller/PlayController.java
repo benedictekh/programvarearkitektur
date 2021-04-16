@@ -21,7 +21,7 @@ public class PlayController extends Controller{
     //Player player2;
     private String gameId;
     private Board opponentBoard;
-    private boolean myTurn;
+    public static boolean myTurn;
 
     public PlayController(Player player) {
         super(player);
@@ -34,6 +34,7 @@ public class PlayController extends Controller{
         //må finne en bedre måte å få firebaseConnector inn her
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
         //player2 = new Player("Ane", false);
+        System.out.println("turn in konstruktør in controller: " + myTurn);
     }
 
     @Override
@@ -127,7 +128,6 @@ public class PlayController extends Controller{
         //called when it is next player's turn
         // må si ifra til firebase
         Battleships.firebaseConnector.changeTurn();
-        this.myTurn = Battleships.firebaseConnector.addTurnListener();
         System.out.println("turn in controller: " + myTurn);
 
     }
