@@ -87,6 +87,7 @@ public class PlayController extends Controller{
 
 
     public void shoot(ArrayList<Integer> indexes){
+        System.out.println("MyTurn: " + myTurn);
         if (myTurn){
             if (player.getBoard().shoot(indexes.get(0), indexes.get(1))) {
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -98,6 +99,9 @@ public class PlayController extends Controller{
                 };
                 executor.schedule(task, 1, TimeUnit.SECONDS);
             }
+        }
+        else{
+            System.out.println("Not my turn, can't shoot");
         }
 
     }

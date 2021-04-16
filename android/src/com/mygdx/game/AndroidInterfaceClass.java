@@ -144,6 +144,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 turnPlayer = Integer.valueOf((String) snapshot.getValue());
                 System.out.println("addturnListener in android: " + turnPlayer);
+                PlayController.myTurn = turnPlayer.equals(playerId);
 
             }
 
@@ -152,8 +153,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
-        PlayController.myTurn = turnPlayer.equals(playerId);
-
         return turnPlayer.equals(playerId);
     }
 
