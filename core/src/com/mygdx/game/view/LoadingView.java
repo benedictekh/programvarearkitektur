@@ -9,17 +9,20 @@ import com.mygdx.game.controller.PlayController;
 
 public class LoadingView extends State {
 
-    Texture background;
-    Texture loading;
-    Texture loading_2;
-    boolean witch_texture = true;
-    Texture texture;
-    float timecount;
-    float totaleTime;
-    BitmapFont font;
+    private Texture background;
+    private Texture loading;
+    private Texture loading_2;
+    private boolean witch_texture = true;
+    private Texture texture;
+    private float timecount;
+    private float totaleTime;
+    private BitmapFont font;
     private PlayController controller;
 
 
+    /**
+     * the constructor, sets the background and the loading textures
+     */
     protected LoadingView(GameStateManager gsm, PlayController controller) {
         super(gsm);
         background = new Texture("background1.jpg");
@@ -36,6 +39,10 @@ public class LoadingView extends State {
             System.out.println("success!");
         }
     }
+
+    /**
+     * switch between loading images
+     */
     private void switchImage(boolean witch_texture){
         if(witch_texture){
             setTexture(loading);
@@ -52,6 +59,9 @@ public class LoadingView extends State {
         return this.texture;
     }
 
+    /**
+     * updates the loading image making it look like it's spinning
+     */
     @Override
     public void update(float dt) {
 
@@ -73,10 +83,11 @@ public class LoadingView extends State {
             if(totaleTime > 10){
                 gsm.set(new PlayView(gsm, controller));
             }
-
-
     }
 
+    /**
+     * renders the LoadingView
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();

@@ -14,19 +14,22 @@ public class MenuView extends State{
     private ButtonView playbutton;
     private ButtonView initButton;
 
+
+    /**
+     * the constructor, sets logo, background, and buttons
+     */
     public MenuView(GameStateManager gsm) {
         super(gsm);
-
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
         initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
 
-
     }
 
-
-
+    /**
+     * switches to InitializeGameView when clicking on the play-button
+     */
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
@@ -51,6 +54,9 @@ public class MenuView extends State{
         handleInput();
     }
 
+    /**
+     * renders the MenuView
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();

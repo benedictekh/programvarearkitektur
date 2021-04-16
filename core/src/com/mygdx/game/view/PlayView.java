@@ -19,6 +19,9 @@ public class PlayView extends  State {
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
+    /**
+     * the constructor, sets background
+     */
     public PlayView(GameStateManager gsm, PlayController controller){
         super(gsm);
         background = new Texture("background3.jpeg");
@@ -27,7 +30,10 @@ public class PlayView extends  State {
         current = controller.getPlayer();
     }
 
-
+    /**
+     * gets the position of where the user clicks
+     * "shoots" in the route where the user clicks
+     */
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
@@ -40,7 +46,6 @@ public class PlayView extends  State {
         if (controller.isFinished()){
             gsm.set(new GameFinishedView(gsm));
         }
-
 
         /*
         Her skal det være en funksjon som sender koordiandene som blir trykket på inn
@@ -56,6 +61,9 @@ public class PlayView extends  State {
         handleInput();
     }
 
+    /**
+     * renders the PlayView
+     */
     @Override
     public void render(SpriteBatch sb) {
 
@@ -71,6 +79,9 @@ public class PlayView extends  State {
 
     }
 
+    /**
+     * draws board
+     */
     public void drawBoard(Player player){
         player.getBoard().drawBoard();
         player.getBoard().drawShips();

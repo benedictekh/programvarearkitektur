@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
 import com.mygdx.game.model.Board;
@@ -20,8 +21,13 @@ public class MakeBoardView extends State{
     private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
+    private ButtonView tutorialButton;
+    private Texture logo;
 
 
+    /**
+     * the constructor, sets the background, MakeBoardController, board and "next-button"
+     */
     protected MakeBoardView(GameStateManager gsm) {
 
         super(gsm);
@@ -29,10 +35,11 @@ public class MakeBoardView extends State{
         //må endre fra player = null
         controller = new MakeBoardController( new Board(10, 10));
         board = new Board(10, 10);
-        nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
-
-
+        //nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
+        tutorialButton = new ButtonView("tutorial.png", Battleships.WIDTH/2+400, Battleships.HEIGHT/2, 300, 125);
+        logo = new Texture("logo.png");
     }
+
     public void setNextTouch(boolean bool){
         this.nextTouch = bool;
     }
@@ -48,11 +55,15 @@ public class MakeBoardView extends State{
     }
 
 
+    /**
+     * moves ship to where the player places it on the board
+     */
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
+            Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
             System.out.println("Input position. " + x_position + ", " + y_position);
             controller.findShip(controller.getIndex(x_position,y_position));
             if(getNextTouch()){
@@ -60,10 +71,12 @@ public class MakeBoardView extends State{
                 setNextTouch(false);
             }
             if(controller.getMarkedShip() != null){
-
                 System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
                 setmarkedShip(controller.getMarkedShip().getLocation());
                 setNextTouch(true);
+            }
+            if(tutorialButton.getRectangle().contains(touch.x, touch.y)){
+                gsm.set(new TutorialView(gsm));
             }
         }
     }
@@ -79,11 +92,17 @@ public class MakeBoardView extends State{
         }
     }
 
+    /**
+     * renders the MakeBoardView
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
+        sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-400, 500, 500);
         //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
+        //sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
+        sb.draw(tutorialButton.getTexture(),tutorialButton.Buttonx,tutorialButton.Buttony,tutorialButton.Width ,tutorialButton.Height);
         sb.end();
         drawBoardView();
         drawMarkedShip();
