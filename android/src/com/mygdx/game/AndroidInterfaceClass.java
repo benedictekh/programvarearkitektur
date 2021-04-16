@@ -24,6 +24,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -156,7 +157,17 @@ public class AndroidInterfaceClass implements FirebaseServices {
         return turnPlayer.equals(playerId);
     }
 
+    @Override
+    public ArrayList<List<Integer>> getOpponentBoard() {
+        return null;
+    }
 
+    @Override
+    public void sendBoard(ArrayList<List<Integer>> board) {
+        System.out.println("sendBoard from here " + "playerid: " + gameIdHolder.playerId + " " + board);
+
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + gameIdHolder.playerId).setValue(board);
+    }
 
 
     //create the gameId, this will be the same for the two players and the game
@@ -182,20 +193,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     public void initializeGame() {
 
-                /*
-                players = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String player = snapshot.getKey();
-                    players.add(player);
-
-                    System.out.println("Player: " + player);
-                }
-*/
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
                 data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
                 data.child("WaitingRoom").child(player.getName()).removeValue();
                 this.turnPlayer = 0;
-                this.playerId = 0;
+                playerId = 0;
+
     }
 
     public void addWaitingroomListener(){
@@ -208,12 +211,13 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 if(snapshot.exists()){
                     System.out.println("Anne skal inne her " + player.getName());
 
-                    String playerId="";
+                    String pId="";
                     for (DataSnapshot player : snapshot.getChildren()){
-                        playerId = (String) player.getValue();
+                        pId = (String) player.getValue();
                     }
-                    data.child("WaitingRoom").child(player.getName()).setValue(playerId);
-                    gameIdHolder.gameId = playerId;
+                    data.child("WaitingRoom").child(player.getName()).setValue(pId);
+                    gameIdHolder.gameId = pId;
+                    gameIdHolder.playerId = 0;
                     int waiting = (int) snapshot.getChildrenCount() +1;
                     if(waiting > 1){
                         initializeGame();
@@ -226,20 +230,14 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     createGame();
 
                     gameIdHolder.gameId = id;
+                    gameIdHolder.playerId = 1;
+                    System.out.println("playerId " + gameIdHolder.playerId);
                     DatabaseReference waitingRoom = data.child("WaitingRoom");
                     //creates a player child and gives the player the same id as the game
                     waitingRoom.child(player.getName()).setValue(id);
                     waitingRoomChildListener();
                 }
-                /*
-                if ((int) snapshot.getChildrenCount()+1 > 1){
-                    //hvorfor går den inn her
-                    System.out.println("Children count for waiitngroom" + snapshot.getChildrenCount());
-                    addPlayerToGameState();
-                }
-                */
-
-            }
+                 }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -267,6 +265,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("WaitingRoom").removeValue();
                 turnPlayer = 0;
                 playerId = 1;
+
             }
 
             @Override
@@ -281,39 +280,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
 
     }
-/*
-    public void playersListener(){
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                snapshot.getRef().child("Player1").setValue(player.getName());
-                //data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(players.get(1));
 
-                data.child("WaitingRoom").removeValue();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        } );
-    }
-*/
 
 
 }

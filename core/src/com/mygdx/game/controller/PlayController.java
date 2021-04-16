@@ -26,14 +26,12 @@ public class PlayController extends Controller{
     public PlayController(Player player) {
         super(player);
         System.out.println("fra playcontroller" + player.getGameId());
+        //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
 
-        //this.opponentBoard = new Board();
-        //player = player;
-        //må finne en bedre måte å få firebaseConnector inn her
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
-        //player2 = new Player("Ane", false);
+
         System.out.println("turn in konstruktør in controller: " + myTurn);
     }
 

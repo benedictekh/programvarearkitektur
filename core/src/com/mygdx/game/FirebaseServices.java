@@ -2,6 +2,9 @@ package com.mygdx.game;
 
 import com.mygdx.game.model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface FirebaseServices {
     //kanskje vi skal implementere dette grensesnittet i battleships og
 
@@ -14,5 +17,7 @@ public interface FirebaseServices {
     public void changeTurn();
     public void playersListener(String gameId);
     public Boolean addTurnListener();
+    public ArrayList<List<Integer>> getOpponentBoard();
+    public void sendBoard(ArrayList<List<Integer>> board);
 
 }

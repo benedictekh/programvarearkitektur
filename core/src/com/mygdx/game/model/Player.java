@@ -19,7 +19,6 @@ public class Player {
     }
 
     public Board getBoard(){
-
         return board;
     }
 

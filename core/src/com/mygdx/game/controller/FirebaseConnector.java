@@ -4,6 +4,9 @@ import com.mygdx.game.FirebaseServices;
 import com.mygdx.game.GameIdHolder;
 import com.mygdx.game.model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FirebaseConnector implements FirebaseServices{
     FirebaseServices firebaseServices;
 
@@ -44,4 +47,14 @@ public class FirebaseConnector implements FirebaseServices{
 
     @Override
     public Boolean addTurnListener() { return firebaseServices.addTurnListener(); }
+
+    @Override
+    public ArrayList<List<Integer>> getOpponentBoard() {
+        return firebaseServices.getOpponentBoard();
+    }
+
+    @Override
+    public void sendBoard(ArrayList<List<Integer>> board) {
+        firebaseServices.sendBoard(board);
+    }
 }

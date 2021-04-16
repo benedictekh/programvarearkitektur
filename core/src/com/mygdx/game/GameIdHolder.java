@@ -3,6 +3,7 @@ package com.mygdx.game;
 public class GameIdHolder {
 
     public String gameId;
+    public Integer playerId;
     private static GameIdHolder instance = null;
 
     private GameIdHolder(){}

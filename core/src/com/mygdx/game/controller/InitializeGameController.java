@@ -11,6 +11,7 @@ public class InitializeGameController extends Controller{
     public InitializeGameController(Player player){
         super(player);
         Battleships.firebaseConnector.addPlayer(player);
+
     }
 
     @Override
