@@ -74,11 +74,11 @@ public class PlayController extends Controller{
 
     public void shoot(ArrayList<Integer> indexes){
         if (currentPlayer.getBoard().shoot(indexes.get(0), indexes.get(1))) {
+            //legge inn en funskjon som gjøre det mulig å ikke trykke lengre
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
-                    //disable option to press
                     changeCurrentPlayer();
                 }
             };
