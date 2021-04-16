@@ -102,7 +102,7 @@ public class InitializeGameView extends State{
         if(name1!=null){
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             font.getData().setScale(3,3);
-            font.draw(sb, "USERNAME:  " + getName(), Battleships.WIDTH/2-100, Battleships.HEIGHT/2+100);
+            font.draw(sb, "USERNAME:  " + getName(), Battleships.WIDTH/2-150, Battleships.HEIGHT/2+175);
             sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width,nextButton.Height);
         }
         sb.end();
