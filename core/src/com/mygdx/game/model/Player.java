@@ -11,6 +11,11 @@ public class Player {
     String gameId;
     String playerId;
 
+    /**
+     * the constructor, sets the name and the boolean, creates a board that is 10x10 and has a sidemargin with size 10
+     * @param name  the players username
+     * @param thisPlayer  is the player you or your opponent
+     */
     public Player(String name, Boolean thisPlayer){
         this.name = name;
         this.thisPlayer = thisPlayer;

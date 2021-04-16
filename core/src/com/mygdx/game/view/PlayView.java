@@ -20,7 +20,7 @@ public class PlayView extends  State {
 
     public PlayView(GameStateManager gsm, PlayController controller){
         super(gsm);
-        background = new Texture("background.PNG");
+        background = new Texture("background3.jpeg");
         this.controller = controller;
     }
 
