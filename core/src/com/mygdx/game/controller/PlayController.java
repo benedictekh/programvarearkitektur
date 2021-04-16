@@ -89,7 +89,7 @@ public class PlayController extends Controller{
     public void shoot(ArrayList<Integer> indexes){
         System.out.println("MyTurn: " + myTurn);
         if (myTurn){
-            if (player.getBoard().shoot(indexes.get(0), indexes.get(1))) {
+            if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 Runnable task = new Runnable() {
                     @Override

@@ -1,5 +1,7 @@
 package com.mygdx.game.model;
 
+import com.mygdx.game.controller.PlayController;
+
 public class Player {
 
     public String name;
@@ -17,6 +19,7 @@ public class Player {
     }
 
     public Board getBoard(){
+
         return board;
     }
 
