@@ -41,21 +41,15 @@ public class InitializeGameView extends State{
         g = gsm;
         if(Gdx.input.justTouched()) {
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
-            if (nextButton.getRectangle().contains(touch.x, touch.y)) {
-                //vil bli lagt til i databasen og vente på motspiller i Loadingview
-                gsm.set(new LoadingView(gsm, new LoadingController(this.player)));
+            if (loginButton.getRectangle().contains(touch.x, touch.y)) {
 
-            } else if(loginButton.getRectangle().contains(touch.x, touch.y)) {
                 g = gsm;
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        //vil opprette player objekt
-                        //setter dette som player name
-
-                        //tester å legge til en person i db
-
-                        createInitializeGameController(name);
+                        //createInitializeGameController(name);
+                        player = new Player(name, true);
+                        controller = new InitializeGameController(player);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
@@ -66,20 +60,25 @@ public class InitializeGameView extends State{
                         System.out.println("ups");
                     }
                 },"Username","","");
+                //vil bli lagt til i databasen og vente på motspiller i Loadingview
 
+
+            } else if(nextButton.getRectangle().contains(touch.x, touch.y)) {
+
+                gsm.set(new LoadingView(gsm, new LoadingController(this.player)));
             }
             else{
                 System.out.println("outside");
             }
         }
     }
-
+    /*
     private void createInitializeGameController(String name){
-        this.player = new Player(name, true);
-        this.controller = new InitializeGameController(this.player);
+        player = new Player(name, true);
+        controller = new InitializeGameController(player);
     }
 
-
+*/
     public void setName(String name){
         name1 = name;
     }
