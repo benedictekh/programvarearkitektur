@@ -33,7 +33,7 @@ public class LoadingView extends State {
     @Override
     protected void handleInput() {
         if(Gdx.input.isTouched()){
-            System.out.println("sucess!");
+            System.out.println("success!");
         }
     }
     private void switchImage(boolean witch_texture){
