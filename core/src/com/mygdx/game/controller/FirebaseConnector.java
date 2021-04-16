@@ -18,9 +18,7 @@ public class FirebaseConnector implements FirebaseServices{
     @Override
     public void addPlayer(Player player) {
         firebaseServices.addPlayer(player);
-
     }
-
 
 
     @Override

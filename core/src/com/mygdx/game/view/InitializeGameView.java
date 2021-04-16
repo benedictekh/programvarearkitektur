@@ -42,7 +42,6 @@ public class InitializeGameView extends State{
         if(Gdx.input.justTouched()) {
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
             if (loginButton.getRectangle().contains(touch.x, touch.y)) {
-
                 g = gsm;
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override

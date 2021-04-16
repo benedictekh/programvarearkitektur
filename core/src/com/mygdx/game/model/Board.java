@@ -126,7 +126,6 @@ public class Board {
             for (int column = 0; column < size; column++) {
                 kolonne.add(cell.EMPTY);
                 kolonne2.add(cell.EMPTY);
-
             }
             board.add(kolonne);
             initializeOpponentBoard.add(kolonne2);
