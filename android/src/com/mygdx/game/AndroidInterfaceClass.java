@@ -43,6 +43,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer playerId;
     private String id;
     static ArrayList<List<Integer>> opponentBoard;
+    static ArrayList<Integer> lastShot;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -197,6 +198,25 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").setValue(list);
     }
 
+    @Override
+    public ArrayList<Integer> getOpponentsShot() {
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                lastShot = new ArrayList<>();
+                Iterable<DataSnapshot> data = snapshot.getChildren();
+                for(DataSnapshot value : data){
+                    lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return lastShot;
+    }
+
 
     //create the gameId, this will be the same for the two players and the game
     @Override
@@ -205,6 +225,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         this.gameInfo = data.child("GameState").child(id).child("GameInfo");
         gameInfo.child("GameId").setValue(id);
         gameInfo.child("Players").child("Player0").setValue("0");
+        gameInfo.child("LastShot").child("0").setValue("0");
 
     }
 

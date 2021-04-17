@@ -9,6 +9,7 @@ import com.mygdx.game.view.PlayView;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,6 +34,9 @@ public class PlayController extends Controller{
         //this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
+        player.getBoard().updateBoard(Battleships.firebaseConnector.getOpponentsShot().get(0),
+                                        Battleships.firebaseConnector.getOpponentsShot().get(1),
+                                        Battleships.firebaseConnector.getOpponentsShot().get(2));
 
     }
 
@@ -45,7 +49,7 @@ public class PlayController extends Controller{
     public void drawBoard(){
         if(myTurn){
             opponentBoard.drawBoard();
-            opponentBoard.drawShips();
+            //opponentBoard.drawShips();
             opponentBoard.drawUpdatedBoard();
         }
         else {

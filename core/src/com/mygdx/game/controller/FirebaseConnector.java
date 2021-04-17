@@ -66,4 +66,9 @@ public class FirebaseConnector implements FirebaseServices{
         firebaseServices.sendShot(x, y, newValue);
     }
 
+    @Override
+    public ArrayList<Integer> getOpponentsShot() {
+        return null;
+    }
+
 }

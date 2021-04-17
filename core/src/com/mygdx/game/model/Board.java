@@ -262,12 +262,12 @@ public class Board {
                    ship.boardChange(x, y);
                }
                updateBoard(x, y,cell.setCell(value));
-               // Sende til firebase
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
                return false;
            }
            else {
                updateBoard(x, y, cell.setCell(value));
-               // Sende til firebase
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
                return true;
            }
 
