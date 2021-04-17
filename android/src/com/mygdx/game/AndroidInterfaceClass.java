@@ -191,6 +191,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    @Override
+    public void sendShot(int x, int y, int newValue) {
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(x, y, newValue));
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").setValue(list);
+    }
+
 
     //create the gameId, this will be the same for the two players and the game
     @Override

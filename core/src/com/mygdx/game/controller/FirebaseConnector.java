@@ -61,4 +61,9 @@ public class FirebaseConnector implements FirebaseServices{
         firebaseServices.boardListener();
     }
 
+    @Override
+    public void sendShot(int x, int y, int newValue) {
+        firebaseServices.sendShot(x, y, newValue);
+    }
+
 }

@@ -75,7 +75,7 @@ public class Board {
         else{
             width = Battleships.WIDTH - (2 * sidemargin);
         }
-        makeBoard(initializeOpponentBoard.size());
+        makeBoard(10);
         createOpponentLists(initializeOpponentBoard);
     }
 
@@ -262,10 +262,12 @@ public class Board {
                    ship.boardChange(x, y);
                }
                updateBoard(x, y,cell.setCell(value));
+               // Sende til firebase
                return false;
            }
            else {
                updateBoard(x, y, cell.setCell(value));
+               // Sende til firebase
                return true;
            }
 
