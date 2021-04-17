@@ -46,12 +46,13 @@ public class InitializeGameView extends State{
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        //createInitializeGameController(name);
                         player = new Player(name, true);
                         controller = new InitializeGameController(player);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
+                        gsm.set(new LoadingView(gsm, new LoadingController(player)));
+
                     }
 
                     @Override
@@ -59,13 +60,11 @@ public class InitializeGameView extends State{
                         System.out.println("ups");
                     }
                 },"Username","","");
-                //vil bli lagt til i databasen og vente på motspiller i Loadingview
 
 
-            } else if(nextButton.getRectangle().contains(touch.x, touch.y)) {
+            } //else if(nextButton.getRectangle().contains(touch.x, touch.y)) {
 
-                gsm.set(new LoadingView(gsm, new LoadingController(this.player)));
-            }
+            //}
             else{
                 System.out.println("outside");
             }

@@ -51,6 +51,7 @@ public class PlayView extends  State {
     @Override
     public void update(float dt) {
         handleInput();
+        controller.updateShot();
     }
 
     @Override

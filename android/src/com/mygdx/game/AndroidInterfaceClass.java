@@ -200,6 +200,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     @Override
     public ArrayList<Integer> getOpponentsShot() {
+        lastShot = new ArrayList<>(Arrays.asList(0,0,0));
+
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -208,6 +210,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 for(DataSnapshot value : data){
                     lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

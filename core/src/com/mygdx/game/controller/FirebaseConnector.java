@@ -68,7 +68,8 @@ public class FirebaseConnector implements FirebaseServices{
 
     @Override
     public ArrayList<Integer> getOpponentsShot() {
-        return null;
+        System.out.println("FirebaseConnector shot list" + firebaseServices.getOpponentsShot());
+        return firebaseServices.getOpponentsShot();
     }
 
 }
