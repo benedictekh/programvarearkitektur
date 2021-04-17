@@ -24,10 +24,10 @@ public class PlayController extends Controller{
     private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
+    public static boolean lastShotChanged = false;
 
     public PlayController(Player player) {
         super(player);
-
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
         System.out.println("opponent list in PlayController " + Battleships.firebaseConnector.getOpponentBoard());
@@ -44,13 +44,17 @@ public class PlayController extends Controller{
 
     }
 
+    //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
+        while(lastShotChanged){
+            List<Integer> shot = Battleships.firebaseConnector.getOpponentsShot();
+            System.out.println("PlayController updateShot" + shot);
+            player.getBoard().updateBoard(shot.get(0),
+                    shot.get(1),
+                    shot.get(2));
+            lastShotChanged = false;
+        }
 
-        List<Integer> shot = Battleships.firebaseConnector.getOpponentsShot();
-        System.out.println("PlayController updateShot" + shot);
-        player.getBoard().updateBoard(shot.get(0),
-                shot.get(1),
-                shot.get(2));
     }
 
 
