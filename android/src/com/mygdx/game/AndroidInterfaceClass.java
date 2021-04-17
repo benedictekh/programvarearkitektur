@@ -42,6 +42,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     private Player player;
     Integer playerId;
     private String id;
+    static ArrayList<List<Integer>> opponentBoard;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -70,34 +71,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     }
 
-    // Initializes a new game when there are 2 players in the waitingRoom, move the players form waitingRoom and to the existing game
-    /*
-    @Override
-    public void playersListener(String playerGameId){
-        System.out.println(playerGameId);
-        data.child("GameState").child(playerGameId).child("GameInfo").child("Players").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                players = new ArrayList<>();
-                gameId = new ArrayList<>();
-                for (DataSnapshot s : snapshot.getChildren()) {
-                    String iden = (String) snapshot.getValue();
-                    gameId.add(iden);
-                    String player = snapshot.getKey();
-                    players.add(player);
-                }
-                System.out.println("player 0: " + players.get(0)  + " gameId: " + gameId.get(0));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-*/
-
 
 
     @Override
@@ -122,11 +95,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
         return player[0];
     }
-   /*
-    public boolean isMyTurn(){
-        return true;
-    }
-*/
+
     @Override
     public void changeTurn() {
         if (turnPlayer==0){
@@ -159,17 +128,51 @@ public class AndroidInterfaceClass implements FirebaseServices {
         return turnPlayer.equals(playerId);
     }
 
+
+
     @Override
     public ArrayList<List<Integer>> getOpponentBoard() {
-        return null;
+        int opponentId = 0;
+        if (gameIdHolder.playerId == 0){
+            opponentId = 1;
+        }
+
+        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + opponentId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                opponentBoard = new ArrayList<List<Integer>>();
+                Iterable<DataSnapshot> snap = snapshot.getChildren();
+                System.out.println("retrieve opponentBoard");
+                for (DataSnapshot data : snap){
+                    List<Integer> temp = new ArrayList<>();
+                    Iterable<DataSnapshot> children = data.getChildren();
+                    for (DataSnapshot child : children){
+                        temp.add(Integer.parseInt(String.valueOf (child.getValue())));
+                    }
+                    System.out.println(temp);
+                   opponentBoard.add(temp);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        System.out.println("opponent board i andoird " + opponentBoard);
+        return opponentBoard;
     }
 
     @Override
     public void sendBoard(ArrayList<List<Integer>> board) {
         System.out.println("sendBoard from here " + "playerid: " + gameIdHolder.playerId + " " + board);
-
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + gameIdHolder.playerId).setValue(board);
+        getOpponentBoard();
     }
+
+
 
     @Override
     public void boardListener(){

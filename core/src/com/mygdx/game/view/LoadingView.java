@@ -80,7 +80,9 @@ public class LoadingView extends State {
                 gsm.set(new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer())));
             }
             if (controller.checkPlayersReady()){
+                controller.sendOpponentBoard();
                 gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
+
             }
 
 

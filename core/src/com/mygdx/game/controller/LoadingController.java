@@ -30,4 +30,8 @@ public class LoadingController extends Controller{
         playersAdded = false;
         return playersReady;
     }
+
+    public void sendOpponentBoard(){
+        Battleships.firebaseConnector.getOpponentBoard();
+    }
 }

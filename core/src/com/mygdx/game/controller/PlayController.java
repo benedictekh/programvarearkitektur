@@ -25,16 +25,15 @@ public class PlayController extends Controller{
 
     public PlayController(Player player) {
         super(player);
-        System.out.println("fra playcontroller" + player.getGameId());
+
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
-
         //må gjøre om til minuslista senere
-        this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
+        System.out.println("opponent list in PlayController " + Battleships.firebaseConnector.getOpponentBoard());
+        this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
+        //this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
-
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
 
-        System.out.println("turn in konstruktør in controller: " + myTurn);
     }
 
     @Override
@@ -42,15 +41,6 @@ public class PlayController extends Controller{
 
     }
 
-    public void setGameId(String gameId){
-        this.gameId = gameId;
-    }
-
-
-
-    // Kalle på firebase inne i denne
-    public void getOpponentBoard(){
-    }
 
     public void drawBoard(){
         if(myTurn){
