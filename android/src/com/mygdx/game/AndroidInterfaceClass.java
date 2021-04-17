@@ -226,7 +226,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
         gameInfo.child("GameId").setValue(id);
         gameInfo.child("Players").child("Player0").setValue("0");
         gameInfo.child("LastShot").child("0").setValue("0");
-
+        gameInfo.child("LastShot").child("1").setValue("0");
+        gameInfo.child("LastShot").child("2").setValue("0");
     }
 
     //generates a random game Id
