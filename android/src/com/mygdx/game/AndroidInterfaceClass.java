@@ -43,7 +43,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer playerId;
     private String id;
     static ArrayList<List<Integer>> opponentBoard;
-    static ArrayList<Integer> lastShot;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -199,19 +198,19 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     @Override
-    public ArrayList<Integer> getOpponentsShot() {
-        lastShot = new ArrayList<>(Arrays.asList(0,0,0));
+    public void getOpponentsShot() {
+        PlayController.lastShot = new ArrayList<>(Arrays.asList(0,0,0));
 
         data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lastShot = new ArrayList<>();
+                PlayController.lastShot = new ArrayList<>();
                 Iterable<DataSnapshot> data = snapshot.getChildren();
                 for(DataSnapshot value : data){
-                    lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
+                    PlayController.lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
                 }
 
-                if(lastShot.get(2) != 0){
+                if(PlayController.lastShot.get(2) != 0){
                     PlayController.shotChanges += 1;
                 }
             }
@@ -220,7 +219,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
-        return lastShot;
     }
 
 

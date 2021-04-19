@@ -26,6 +26,8 @@ public class PlayController extends Controller{
     public static boolean myTurn;
     public static int shotChanges = 0;
     public static int shotsUpdated = 0;
+    public static ArrayList<Integer> lastShot;
+
 
     public PlayController(Player player) {
         super(player);
@@ -40,6 +42,7 @@ public class PlayController extends Controller{
 
     }
 
+
     @Override
     public void update(float dt) {
 
@@ -48,11 +51,10 @@ public class PlayController extends Controller{
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
         if(shotChanges > shotsUpdated){
-            List<Integer> shot = Battleships.firebaseConnector.getOpponentsShot();
-            System.out.println("PlayController updateShot" + shot);
-            player.getBoard().updateBoard(shot.get(0),
-                    shot.get(1),
-                    shot.get(2));
+            System.out.println("PlayController updateShot" + lastShot);
+            player.getBoard().updateBoard(lastShot.get(0),
+                    lastShot.get(1),
+                    lastShot.get(2));
             shotsUpdated += 1;
         }
 

@@ -21,6 +21,6 @@ public interface FirebaseServices {
     public void sendBoard(ArrayList<List<Integer>> board);
     public void boardListener();
     public void sendShot(int x, int y, int newValue);
-    public ArrayList<Integer> getOpponentsShot();
+    public void getOpponentsShot();
 
 }
