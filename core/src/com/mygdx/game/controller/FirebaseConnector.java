@@ -18,9 +18,7 @@ public class FirebaseConnector implements FirebaseServices{
     @Override
     public void addPlayer(Player player) {
         firebaseServices.addPlayer(player);
-
     }
-
 
 
     @Override
@@ -57,4 +55,21 @@ public class FirebaseConnector implements FirebaseServices{
     public void sendBoard(ArrayList<List<Integer>> board) {
         firebaseServices.sendBoard(board);
     }
+
+    @Override
+    public void boardListener() {
+        firebaseServices.boardListener();
+    }
+
+    @Override
+    public void sendShot(int x, int y, int newValue) {
+        firebaseServices.sendShot(x, y, newValue);
+    }
+
+    @Override
+    public void getOpponentsShot() {
+        System.out.println("FirebaseConnector shot list" + PlayController.lastShot);
+        firebaseServices.getOpponentsShot();
+    }
+
 }

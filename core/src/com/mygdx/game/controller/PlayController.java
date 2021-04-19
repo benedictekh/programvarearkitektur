@@ -9,6 +9,8 @@ import com.mygdx.game.view.PlayView;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,26 +24,54 @@ public class PlayController extends Controller{
     private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
+    public static boolean shotChanged;
+    //public static int shotsUpdated = 0;
+    public static ArrayList<Integer> lastShot;
+
 
     public PlayController(Player player) {
         super(player);
-        System.out.println("fra playcontroller" + player.getGameId());
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
-        this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
+        //må gjøre om til minuslista senere
+        System.out.println("opponent list in PlayController " + Battleships.firebaseConnector.getOpponentBoard());
+        this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
+        //this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
-
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
+        Battleships.firebaseConnector.getOpponentsShot();
 
-        System.out.println("turn in konstruktør in controller: " + myTurn);
     }
+
 
     @Override
     public void update(float dt) {
 
     }
 
-    public void setGameId(String gameId){
-        this.gameId = gameId;
+    //må finne en måte å kalle på denne metoden fra androidInterfaceClass
+    public void updateShot(){
+        if(shotChanged && !myTurn){
+            System.out.println("PlayController updateShot" + lastShot);
+            player.getBoard().updateBoard(lastShot.get(0),
+                    lastShot.get(1),
+                    lastShot.get(2));
+        }
+        shotChanged = false;
+    }
+
+
+
+    public void drawBoard(){
+        if(myTurn){
+            opponentBoard.drawBoard();
+            opponentBoard.drawSunkShip();
+            opponentBoard.drawUpdatedBoard();
+        }
+        else {
+            player.getBoard().drawBoard();
+            player.getBoard().drawShips();
+            player.getBoard().drawUpdatedBoard();
+        }
     }
 
     /**
@@ -52,24 +82,6 @@ public class PlayController extends Controller{
      * @param y_pos the y_coordinate
      * @return      the indexes for the cell you were trying to touch
      */
-
-    // Kalle på firebase inne i denne
-    public void getOpponentBoard(){
-    }
-
-    public void drawBoard(){
-        if(myTurn){
-            opponentBoard.drawBoard();
-            //opponentBoard.drawShips();
-            opponentBoard.drawUpdatedBoard();
-        }
-        else {
-            player.getBoard().drawBoard();
-            player.getBoard().drawShips();
-            player.getBoard().drawUpdatedBoard();
-        }
-    }
-
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
@@ -104,7 +116,7 @@ public class PlayController extends Controller{
                         changeCurrentPlayer();
                     }
                 };
-                executor.schedule(task, 1, TimeUnit.SECONDS);
+                executor.schedule(task, 3, TimeUnit.SECONDS);
             }
         }
         else{

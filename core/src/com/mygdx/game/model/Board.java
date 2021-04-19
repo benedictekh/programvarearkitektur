@@ -58,17 +58,12 @@ public class Board {
         //initNewShip();
     }
 
-    /**
-     * creates a board with the given size
-     * the board is a double-linked-list wit the same amounts of rows and columns
-     * where each element in the list is a "cell"
-     * every cell is given the value EMPTY (0) when the board is created
-     * @param size  the size the board should have, how many cells it should contain in x- and y-direction
-     *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
-     */
+
     public ArrayList<List<Integer>> getOpponentBoard(){
         return initializeOpponentBoard;
     }
+
+
 
     public Board(ArrayList<List<Integer>> initializeOpponentBoard, int sidemargin){
         shapeRenderer = new ShapeRenderer();
@@ -80,7 +75,7 @@ public class Board {
         else{
             width = Battleships.WIDTH - (2 * sidemargin);
         }
-        makeBoard(initializeOpponentBoard.size());
+        makeBoard(10);
         createOpponentLists(initializeOpponentBoard);
     }
 
@@ -97,7 +92,7 @@ public class Board {
         for(int row = 0; row < initializeOpponentBoard.size(); row++){
             for(int col = 0; col < initializeOpponentBoard.size(); col++){
                 if(initializeOpponentBoard.get(row).get(col) < 0){
-                    updateBoard(row, col, cell.SHIP);
+                    updateBoard(col, row, cell.SHIP);
                     for(Ship ship : ships){
                         if(initializeOpponentBoard.get(row).get(col) == ship.getShipNr()){
                             ship.addLocation(row, col);
@@ -112,6 +107,14 @@ public class Board {
 
     }
 
+    /**
+     * creates a board with the given size
+     * the board is a double-linked-list wit the same amounts of rows and columns
+     * where each element in the list is a "cell"
+     * every cell is given the value EMPTY (0) when the board is created
+     * @param size  the size the board should have, how many cells it should contain in x- and y-direction
+     *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
+     */
 
     private void makeBoard(int size) {
         board = new ArrayList<List<Integer>>();
@@ -123,11 +126,25 @@ public class Board {
             for (int column = 0; column < size; column++) {
                 kolonne.add(cell.EMPTY);
                 kolonne2.add(cell.EMPTY);
-
             }
             board.add(kolonne);
             initializeOpponentBoard.add(kolonne2);
         }
+        printBoard();
+    }
+
+    public void makeInitalizeOpponentBoard(){
+        for (Ship ship: ships){
+            System.out.println("location: " + ship.getLocation());
+
+            // the location is valid, update the values on the board
+            for (List<Integer> coordinate : ship.getLocation()) {
+                int x = coordinate.get(0);
+                int y = coordinate.get(1);
+                updateInitalizeOpponentBoard(x, y, ship.getShipNr());
+            }
+        }
+        System.out.println("dette kommer fra initShip");
         printBoard();
     }
 
@@ -159,7 +176,7 @@ public class Board {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateBoard(x, y, cell.SHIP);
-                updateInitalizeOpponentBoard(x, y, ship.getShipNr());
+                //updateInitalizeOpponentBoard(x, y, ship.getShipNr());
             }
         }
         System.out.println("dette kommer fra initShip");
@@ -245,10 +262,12 @@ public class Board {
                    ship.boardChange(x, y);
                }
                updateBoard(x, y,cell.setCell(value));
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
                return false;
            }
            else {
                updateBoard(x, y, cell.setCell(value));
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
                return true;
            }
 
@@ -431,6 +450,29 @@ public class Board {
             }
     }
 
+    /**
+     * draws only the ships that are sunk
+     * is used for the opponent board so that you only can see the ships that are fully hit
+     */
+
+    public void drawSunkShip(){
+        float cell_width = width/ getBoard().size();
+        for (Ship ship: ships){
+            if (ship.isSunk()){
+                // draws filled circles
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
+            }
+        }
+
+    }
+
 
     /**
      * draws the different shots that has been done on the different cells on the board
@@ -465,7 +507,7 @@ public class Board {
     }
     public void printShipsLocations() {
         for(Ship ship: ships){
-            System.out.println("location for ships: " + ship.getLocation());
+            System.out.println("location for ship nr " + ship.getShipNr() + ": " + ship.getLocation());
         }
     }
 

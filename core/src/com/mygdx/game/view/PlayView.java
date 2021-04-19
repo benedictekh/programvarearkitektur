@@ -51,6 +51,7 @@ public class PlayView extends  State {
     @Override
     public void update(float dt) {
         handleInput();
+        controller.updateShot();
     }
 
     @Override
@@ -59,14 +60,23 @@ public class PlayView extends  State {
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
-        font.draw(sb, controller.getPlayer().getName(), Battleships.WIDTH - 50, Battleships.HEIGHT -10);
+        font.getData().setScale(3,3);
+        font.draw(sb, turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
         sb.end();
         controller.drawBoard();
+
     }
 
     @Override
     public void dispose() {
 
+    }
+
+    private String turn(){
+        if (controller.myTurn){
+            return "Nå skal jeg skyte";
+        }
+        return "Nå skal motstander skyte";
     }
 
 

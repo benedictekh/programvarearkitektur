@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
@@ -29,6 +30,11 @@ public class MakeBoardController extends Controller{
 
     }
 
+    public void sendBoard(){
+        createInitalizeOpponentBoard();
+        Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
+        Battleships.firebaseConnector.boardListener();
+    }
 
     /**
      * computes the index in a double-linked-list from two coordinates
@@ -136,6 +142,10 @@ public class MakeBoardController extends Controller{
         markedShip = null;
         System.out.println("updated board: ");
         player.getBoard().printBoard();
+    }
+
+    public void createInitalizeOpponentBoard(){
+        player.getBoard().makeInitalizeOpponentBoard();
     }
 
     public static void addFeedbackListener(Feedback feedbackListener) {
