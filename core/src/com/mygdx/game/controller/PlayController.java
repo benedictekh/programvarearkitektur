@@ -50,11 +50,14 @@ public class PlayController extends Controller{
 
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
-        if((!shotChanged) && !myTurn){
+
+        if((shotChanged) && !myTurn){
             System.out.println("PlayController updateShot" + lastShot);
             player.getBoard().updateBoard(lastShot.get(0),
                     lastShot.get(1),
                     lastShot.get(2));
+            shotChanged = false;
+        }else {
             shotChanged = false;
         }
 
