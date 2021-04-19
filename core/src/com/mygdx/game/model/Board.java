@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.ships.BattleShip;
 import com.mygdx.game.model.ships.CarrierShip;
 import com.mygdx.game.model.ships.CruiserShip;
@@ -32,6 +33,7 @@ public class Board {
     private Texture texture; //the board texture
     private ShapeRenderer shapeRenderer;
     private float width; //the width of the board, board is a square -> width = height
+    private boolean canShoot;
 
 
     /**
@@ -63,7 +65,7 @@ public class Board {
      * the board is a double-linked-list wit the same amounts of rows and columns
      * where each element in the list is a "cell"
      * every cell is given the value EMPTY (0) when the board is created
-     * @param size  the size the board should have, how many cells it should contain in x- and y-direction
+     * size (live fjernet param før size her)  the size the board should have, how many cells it should contain in x- and y-direction
      *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
      */
     public ArrayList<List<Integer>> getOpponentBoard(){
@@ -235,28 +237,34 @@ public class Board {
      *          (returns true if it should be a change of turn after this shot)
      */
     // return true if valid move and miss, false if not valid move or hit
-    public boolean shoot(int x, int y){
+    public boolean shoot(int x, int y) {
         // is the cell you are trying to shoot at a valid cell? (on the board and not shot at earlier)
-       if (isValidMove(x, y)){
-           int value = board.get(y).get(x);
-           System.out.println("Valid move");
-           if (cell.isHit(value)){
-               for (Ship ship : ships){
-                   ship.boardChange(x, y);
-               }
-               updateBoard(x, y,cell.setCell(value));
-               return false;
-           }
-           else {
-               updateBoard(x, y, cell.setCell(value));
-               return true;
-           }
+        //canShoot er lagt inn for at motstanderen ikke kan trykke to ganger på rad.
+        if (canShoot) {
+            if (isValidMove(x, y)) {
+                int value = board.get(y).get(x);
+                System.out.println("Valid move");
+                if (cell.isHit(value)) {
+                    for (Ship ship : ships) {
+                        ship.boardChange(x, y);
+                    }
+                    updateBoard(x, y, cell.setCell(value));
+                    return false;
+                } else {
+                    updateBoard(x, y, cell.setCell(value));
+                    return true;
+                }
+            }
+        }
+        else {
+            System.out.println("Not a valid move");
+            return false;
+        }
+        return false;
+    }
 
-       }
-       else{
-           System.out.println("Not a valid move");
-           return false;
-       }
+    public void setCanShootVarible(boolean canShoot){
+        this.canShoot = canShoot;
     }
 
     /**

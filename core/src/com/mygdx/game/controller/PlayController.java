@@ -1,5 +1,6 @@
 package com.mygdx.game.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
@@ -25,6 +26,8 @@ public class PlayController extends Controller{
     private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
+    //sette at den har muligehten til å skyte som true i starten
+    public boolean canShoot = true;
 
     private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
@@ -103,22 +106,26 @@ public class PlayController extends Controller{
         System.out.println("MyTurn: " + myTurn);
         if (myTurn){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
+                setCanShoot(false);
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-                Runnable task = new Runnable() {
+                    Runnable task = new Runnable() {
                     @Override
                     public void run() {
                         firefeedbackDelay();
                         changeCurrentPlayer();
                     }
                 };
-                executor.schedule(task, 3, TimeUnit.SECONDS);
+                    executor.schedule(task, 3, TimeUnit.SECONDS);
+
             }
         }
         else{
-            System.out.println("Not my turn, can't shoot");
-
+            System.out.println("Not my turn, can't shoot / cant shoot yet");
         }
+    }
 
+    public void setCanShoot(boolean canShoot){
+        player.getBoard().setCanShootVarible(canShoot);
     }
 
     public Board getBoard(){
