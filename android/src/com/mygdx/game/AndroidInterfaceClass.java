@@ -210,7 +210,10 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 for(DataSnapshot value : data){
                     lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
                 }
-                PlayController.lastShotChanged = true;
+
+                if(lastShot.get(2) != 0){
+                    PlayController.shotChanges += 1;
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -24,7 +24,8 @@ public class PlayController extends Controller{
     private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
-    public static boolean lastShotChanged = false;
+    public static int shotChanges = 0;
+    public static int shotsUpdated = 0;
 
     public PlayController(Player player) {
         super(player);
@@ -35,7 +36,7 @@ public class PlayController extends Controller{
         //this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
         Battleships.firebaseConnector.playersListener(player.getGameId());
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
-
+        Battleships.firebaseConnector.getOpponentsShot();
 
     }
 
@@ -46,13 +47,13 @@ public class PlayController extends Controller{
 
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
-        while(lastShotChanged){
+        if(shotChanges > shotsUpdated){
             List<Integer> shot = Battleships.firebaseConnector.getOpponentsShot();
             System.out.println("PlayController updateShot" + shot);
             player.getBoard().updateBoard(shot.get(0),
                     shot.get(1),
                     shot.get(2));
-            lastShotChanged = false;
+            shotsUpdated += 1;
         }
 
     }
