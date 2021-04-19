@@ -15,6 +15,7 @@ public class GameFinishedController extends Controller{
     }
 
     public void updateScoreboard(){
+        scoreboard.calculateScore();
         Battleships.firebaseConnector.setScoreboard(scoreboard);
     }
 

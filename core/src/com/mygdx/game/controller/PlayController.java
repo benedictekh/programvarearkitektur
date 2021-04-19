@@ -7,6 +7,7 @@ import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
 import com.mygdx.game.view.PlayView;
 
+import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ public class PlayController extends Controller{
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
         this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
+        player.setOpponentBoard(opponentBoard);
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
         Battleships.firebaseConnector.getOpponentsShot();
 
@@ -58,6 +60,7 @@ public class PlayController extends Controller{
         if(myTurn){
             opponentBoard.drawBoard();
             opponentBoard.drawSunkShip();
+            opponentBoard.drawShips();
             opponentBoard.drawUpdatedBoard();
         }
         else {
@@ -66,6 +69,7 @@ public class PlayController extends Controller{
             player.getBoard().drawUpdatedBoard();
         }
     }
+
 
     /**
      * computes the index in a double-linked-list from two coordinates

@@ -54,7 +54,6 @@ public class InitializeGameView extends State{
                         setName(name1);
                         System.out.println(name1);
                         gsm.set(new LoadingView(gsm, new LoadingController(player)));
-
                     }
 
                     @Override

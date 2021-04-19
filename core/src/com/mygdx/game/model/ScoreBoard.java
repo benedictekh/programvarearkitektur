@@ -8,13 +8,13 @@ public class ScoreBoard {
 
     private ArrayList<List<Integer>> boardList;
     private Player player;
-    private HashMap<String, Integer> playerScore;
+    //private HashMap<String, Integer> playerScore;
     private int score;
 
     public ScoreBoard(Player player){
-        this.boardList = player.getBoard().getOpponentBoard();
+        this.boardList = player.getOpponentBoard().getBoard();
         this.player = player;
-        this.playerScore = new HashMap<>();
+        //this.playerScore = new HashMap<>();
         this.score = 0;
     }
 
