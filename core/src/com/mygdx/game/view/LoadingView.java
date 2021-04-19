@@ -10,15 +10,28 @@ import com.mygdx.game.controller.PlayController;
 
 public class LoadingView extends State {
 
-    Texture background;
-    Texture loading;
-    Texture loading_2;
-    boolean witch_texture = true;
-    Texture texture;
-    float timecount;
-    float totaleTime;
-    BitmapFont font;
+    private Texture background;
+    private Texture loading;
+    private Texture loading_2;
+    private boolean witch_texture = true;
+    private Texture texture;
+    private float timecount;
+    private float totaleTime;
+    private BitmapFont font;
     private Controller controller;
+
+    /**
+     *
+     * @param gsm
+     * @param controller
+     *
+     * the LoadingView is anintermidian stage / state where the handling of the database is done
+     * The user will be sent into the game when they are connected to another user on aother divice.
+     *
+     * QUALITY ATTRIBUTE: USABILITY
+     *
+     * QUALITY ATTRIBUTE: MODIFIABILITY
+     */
 
 
     protected LoadingView(GameStateManager gsm, Controller controller) {
@@ -69,8 +82,6 @@ public class LoadingView extends State {
                 switchImage(witch_texture);
                 timecount=0;
             }
-            // om framen har vart i mer enn 4 sekunder, så skifter den
-            //dersom det er to spillere kommer de til playView
             if(totaleTime > 10){
                 gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
             }

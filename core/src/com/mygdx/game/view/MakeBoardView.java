@@ -28,15 +28,23 @@ public class MakeBoardView extends State implements Feedback{
     private ButtonView wrongButton;
     private ButtonView rightButton;
     private Texture notValidMove;
-    private float timecount;
-    private float totaleTime;
+
+    /**
+     * QUALITY ATTRIBUTE: USABILITY
+     *          The user can initilize the board by placing the ships where the user wants.
+     *
+     * This view presents the board for the player
+     * The player can place the ships at preferred position.
+     * The class has its own controller that handles the input actions.
+     * The class implements the Feedback interface that talks with the MakeBoardController
+
+     */
 
 
     protected MakeBoardView(GameStateManager gsm) {
 
         super(gsm);
         background = new Texture("background3.jpeg");
-        //må endre fra player = null
         controller = new MakeBoardController( new Player("hei", false));
         board = new Board(10, 10);
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
@@ -47,14 +55,12 @@ public class MakeBoardView extends State implements Feedback{
 
 
     }
+
     public void setNextTouch(boolean bool){
         this.nextTouch = bool;
     }
     public void setmarkedShip(ArrayList<List<Integer>> location){
         this.location = location;
-    }
-    public void setpressedOK(boolean pressedOK){
-        this.pressedOK = pressedOK;
     }
 
     public ArrayList<List<Integer>> getShipLocation(){
@@ -64,6 +70,12 @@ public class MakeBoardView extends State implements Feedback{
         return this.nextTouch;
     }
 
+    /**
+     * Handle input is handling the input coordinates that is pressed.
+     * The findShip function in the controller detects witch ship is pressed.
+     * @param nextTouch is true if the player has pressed a ship and a ship is "marked".
+     *                  The next thouch is then regesterd in the moveShip function.
+     */
 
     @Override
     protected void handleInput() {
@@ -90,11 +102,13 @@ public class MakeBoardView extends State implements Feedback{
         handleInput();
 
     }
-    public void drawMarkedShip() {
-        if(controller.getMarkedShip() != null){
-            controller.drawMarkedShip();
-        }
-    }
+
+    /**
+     * @param sb is what is drawn on.
+     *
+     * @param bool is used to give feedback to the user if they have a valid move.
+     *
+     */
 
     @Override
     public void render(SpriteBatch sb) {
@@ -113,10 +127,29 @@ public class MakeBoardView extends State implements Feedback{
         drawMarkedShip();
 
     }
+
+    /**
+     * draws the board and the ship.
+     */
+
     public void drawBoardView(){
         controller.drawBoardandShips();
     }
 
+    /**
+     * if a ship is pressed, the ship is then marked my coloring the squares.
+     */
+    public void drawMarkedShip() {
+        if(controller.getMarkedShip() != null){
+            controller.drawMarkedShip();
+        }
+    }
+
+    /**
+     * OBSERVER PATTERN and QUALITY ATTRIBUTE: USEABILITY
+     * here the observer pattern is used by detecting if the player is making an valid move and then giving the player a feedback.
+     * The @param bool is declaring if the move is valid:true or notvalid:false.
+     */
 
     public void setBoolean(boolean bool){
         this.bool = bool;
@@ -132,9 +165,7 @@ public class MakeBoardView extends State implements Feedback{
 
     @Override
     public void dispose() {
-        if(pressedOK){
 
-        }
 
     }
 }

@@ -13,11 +13,15 @@ public class MenuView extends State {
 
     private Texture logo;
     private Texture background;
-
     private ButtonView playbutton;
     private ButtonView initButton;
-
     private MakeBoardView makeBoardView;
+
+    /**
+     * This is the first view and state that is added to the stack in the gsm.
+     * It is the front page of the application.
+     * There are two buttons witch sends the user to the game or to a tutorial of the game.
+     */
 
     public MenuView(GameStateManager gsm) {
         super(gsm);
@@ -26,10 +30,12 @@ public class MenuView extends State {
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
         initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
-
     }
 
-
+    /**
+     * By pressing the playbutton the game is sent to the inlog site.
+     * By pressing the intit button the user is sent to the ........
+     */
 
     @Override
     protected void handleInput() {
