@@ -2,6 +2,7 @@ package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
@@ -21,8 +22,10 @@ public class MakeBoardView extends State{
     private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
-    private ButtonView tutorialButton;
+    private ButtonView next;
     private Texture logo;
+    private Texture setUpTutorial;
+    private BitmapFont setUp;
 
 
     /**
@@ -36,8 +39,11 @@ public class MakeBoardView extends State{
         controller = new MakeBoardController( new Board(10, 10));
         board = new Board(10, 10);
         //nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
-        tutorialButton = new ButtonView("tutorial.png", Battleships.WIDTH/2+400, Battleships.HEIGHT/2, 300, 125);
+        next = new ButtonView("next.png", Battleships.WIDTH/2+420, 90, 250, 95);
         logo = new Texture("logo.png");
+        setUpTutorial = new Texture("BoardSetup.png");
+        setUp = new BitmapFont();
+
     }
 
     public void setNextTouch(boolean bool){
@@ -75,7 +81,7 @@ public class MakeBoardView extends State{
                 setmarkedShip(controller.getMarkedShip().getLocation());
                 setNextTouch(true);
             }
-            if(tutorialButton.getRectangle().contains(touch.x, touch.y)){
+            if(next.getRectangle().contains(touch.x, touch.y)){
                 gsm.set(new TutorialView(gsm));
             }
         }
@@ -99,10 +105,9 @@ public class MakeBoardView extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-400, 500, 500);
-        //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
-        //sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
-        sb.draw(tutorialButton.getTexture(),tutorialButton.Buttonx,tutorialButton.Buttony,tutorialButton.Width ,tutorialButton.Height);
+        //sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-350, 500, 500);
+        sb.draw(setUpTutorial, Battleships.WIDTH/2+100, 230, 850, 780);
+        sb.draw(next.getTexture(),next.Buttonx,next.Buttony,next.Width, next.Height);
         sb.end();
         drawBoardView();
         drawMarkedShip();
