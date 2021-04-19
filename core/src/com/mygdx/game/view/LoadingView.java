@@ -72,7 +72,12 @@ public class LoadingView extends State {
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
             if(totaleTime > 10){
+                PlayView playview = new PlayView(gsm, new PlayController(controller.getPlayer()));
+                PlayController.addFeedbackDelayListener(playview);
+                gsm.set(playview);
+                /*
                 gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
+                 */
             }
 
 

@@ -5,10 +5,13 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
+import com.mygdx.game.view.FeedbackDelay;
 import com.mygdx.game.view.PlayView;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,6 +26,8 @@ public class PlayController extends Controller{
     private Board opponentBoard;
     public static boolean myTurn;
 
+    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
+
     public PlayController(Player player) {
         super(player);
         System.out.println("fra playcontroller" + player.getGameId());
@@ -34,6 +39,7 @@ public class PlayController extends Controller{
 
         System.out.println("turn in konstruktør in controller: " + myTurn);
     }
+
 
     @Override
     public void update(float dt) {
@@ -101,10 +107,11 @@ public class PlayController extends Controller{
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
+                        firefeedbackDelay();
                         changeCurrentPlayer();
                     }
                 };
-                executor.schedule(task, 1, TimeUnit.SECONDS);
+                executor.schedule(task, 3, TimeUnit.SECONDS);
             }
         }
         else{
@@ -113,7 +120,6 @@ public class PlayController extends Controller{
         }
 
     }
-
 
     public Board getBoard(){
         return player.getBoard();
@@ -142,6 +148,14 @@ public class PlayController extends Controller{
         Battleships.firebaseConnector.changeTurn();
         System.out.println("turn in controller: " + myTurn);
 
+    }
+    public void firefeedbackDelay() {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(myTurn);
+        }
+    }
+    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
+        feedbackDelayListeners.add(feedbackDelayListener);
     }
 
 }

@@ -9,13 +9,15 @@ import com.mygdx.game.controller.Controller;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
-public class PlayView extends  State {
+public class PlayView extends  State implements FeedbackDelay{
 
     private Texture background;
     private float x_position;
     private float y_position;
     private PlayController controller;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private boolean myTurn = false;
+    private float time;
 
 
     public PlayView(GameStateManager gsm, PlayController controller){
@@ -51,6 +53,13 @@ public class PlayView extends  State {
     @Override
     public void update(float dt) {
         handleInput();
+        if(myTurn){
+            time += dt;
+            if(time > 2.5){
+                setMyTurn(false);
+                time= 0;
+            }
+        }
     }
 
     @Override
@@ -60,6 +69,13 @@ public class PlayView extends  State {
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
         font.draw(sb, controller.getPlayer().getName(), Battleships.WIDTH - 50, Battleships.HEIGHT -10);
+        if(myTurn){
+            font.draw(
+                    sb,
+                    controller.getPlayer().getName() + ", Good move. The opontents turn. Please dont press anything",
+                    Battleships.WIDTH - 50,
+                    Battleships.HEIGHT -10);
+        }
         sb.end();
         controller.drawBoard();
     }
@@ -68,6 +84,12 @@ public class PlayView extends  State {
     public void dispose() {
 
     }
+    public void setMyTurn(boolean myTurn){
+        this.myTurn = myTurn;
+    }
 
-
+    @Override
+    public void fireActionDelay(boolean myTurn) {
+        setMyTurn(myTurn);
+    }
 }

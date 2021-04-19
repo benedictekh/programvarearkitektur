@@ -132,9 +132,7 @@ public class MakeBoardView extends State implements Feedback{
 
     @Override
     public void dispose() {
-        if(pressedOK){
 
-        }
 
     }
 }
