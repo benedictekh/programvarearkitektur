@@ -92,7 +92,7 @@ public class Board {
         for(int row = 0; row < initializeOpponentBoard.size(); row++){
             for(int col = 0; col < initializeOpponentBoard.size(); col++){
                 if(initializeOpponentBoard.get(row).get(col) < 0){
-                    updateBoard(row, col, cell.SHIP);
+                    updateBoard(col, row, cell.SHIP);
                     for(Ship ship : ships){
                         if(initializeOpponentBoard.get(row).get(col) == ship.getShipNr()){
                             ship.addLocation(row, col);
@@ -450,6 +450,29 @@ public class Board {
             }
     }
 
+    /**
+     * draws only the ships that are sunk
+     * is used for the opponent board so that you only can see the ships that are fully hit
+     */
+
+    public void drawSunkShip(){
+        float cell_width = width/ getBoard().size();
+        for (Ship ship: ships){
+            if (ship.isSunk()){
+                // draws filled circles
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
+            }
+        }
+
+    }
+
 
     /**
      * draws the different shots that has been done on the different cells on the board
@@ -484,7 +507,7 @@ public class Board {
     }
     public void printShipsLocations() {
         for(Ship ship: ships){
-            System.out.println("location for ships: " + ship.getLocation());
+            System.out.println("location for ship nr " + ship.getShipNr() + ": " + ship.getLocation());
         }
     }
 
