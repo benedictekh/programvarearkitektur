@@ -55,10 +55,8 @@ public class PlayController extends Controller{
             player.getBoard().updateBoard(lastShot.get(0),
                     lastShot.get(1),
                     lastShot.get(2));
-            shotChanged = false;
-        }else {
-            shotChanged = false;
         }
+        shotChanged = false;
     }
 
 
