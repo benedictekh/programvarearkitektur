@@ -25,9 +25,15 @@ public class MakeBoardView extends State implements Feedback{
     private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
-    private Boolean bool = true;
+    private boolean bool = true;
+    private boolean pressedOK = false;
     private BitmapFont font;
     private ButtonView playGame;
+    private ButtonView wrongButton;
+    private ButtonView rightButton;
+    private Texture notValidMove;
+    private float timecount;
+    private float totaleTime;
 
 
     protected MakeBoardView(GameStateManager gsm, MakeBoardController controller) {
@@ -39,6 +45,9 @@ public class MakeBoardView extends State implements Feedback{
         nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
         font = new BitmapFont();
         playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
+        wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        notValidMove = new Texture("notvalid.png");
 
 
     }
@@ -47,6 +56,9 @@ public class MakeBoardView extends State implements Feedback{
     }
     public void setmarkedShip(ArrayList<List<Integer>> location){
         this.location = location;
+    }
+    public void setpressedOK(boolean pressedOK){
+        this.pressedOK = pressedOK;
     }
 
     public ArrayList<List<Integer>> getShipLocation(){
@@ -76,12 +88,10 @@ public class MakeBoardView extends State implements Feedback{
                 setNextTouch(false);
             }
             if(controller.getMarkedShip() != null){
-
                 System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
                 setmarkedShip(controller.getMarkedShip().getLocation());
                 setNextTouch(true);
             }
-
 
         }
     }
@@ -102,14 +112,12 @@ public class MakeBoardView extends State implements Feedback{
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
-        if(bool){
-            font.getData().setScale(3,3);
-            font.draw(sb, "great!", Battleships.WIDTH-300,Battleships.HEIGHT/2);
-
+        if(!bool){
+            sb.draw(wrongButton.getTexture(),wrongButton.Buttonx,wrongButton.Buttony,wrongButton.Width ,wrongButton.Height);
+            sb.draw(notValidMove,wrongButton.Buttonx+100,wrongButton.Buttony,300 ,150);
         }
-        else if(!bool){
-            font.getData().setScale(3,3);
-            font.draw(sb, "not correct!", Battleships.WIDTH-300,Battleships.HEIGHT/2);
+        else if(bool){
+            sb.draw(rightButton.getTexture(),rightButton.Buttonx,rightButton.Buttony,rightButton.Width ,rightButton.Height);
         }
         sb.draw(playGame.getTexture(),playGame.Buttonx,playGame.Buttony,playGame.Width,playGame.Height);
         sb.end();
@@ -120,15 +128,8 @@ public class MakeBoardView extends State implements Feedback{
     public void drawBoardView(){
         controller.drawBoardandShips();
     }
-/*
-    public void drawFeedbackGood(){
-        controller.drawMarkedShip();
-    }
 
-    public void drawFeedbackBad() {
-        controller.drawBoardandShips();
-    }
- */
+
     public void setBoolean(boolean bool){
         this.bool = bool;
     }
@@ -143,6 +144,9 @@ public class MakeBoardView extends State implements Feedback{
 
     @Override
     public void dispose() {
+        if(pressedOK){
+
+        }
 
     }
 }

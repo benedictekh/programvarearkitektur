@@ -7,7 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
 
-public class MenuView extends State{
+import javax.swing.text.View;
+
+public class MenuView extends State {
 
     private Texture logo;
     private Texture background;
@@ -24,7 +26,6 @@ public class MenuView extends State{
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
         initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
-
 
     }
 
