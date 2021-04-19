@@ -24,8 +24,8 @@ public class PlayController extends Controller{
     private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
-    public static int shotChanges = 0;
-    public static int shotsUpdated = 0;
+    public static boolean shotChanged;
+    //public static int shotsUpdated = 0;
     public static ArrayList<Integer> lastShot;
 
 
@@ -50,12 +50,12 @@ public class PlayController extends Controller{
 
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
-        if(shotChanges > shotsUpdated){
+        if((!shotChanged) && !myTurn){
             System.out.println("PlayController updateShot" + lastShot);
             player.getBoard().updateBoard(lastShot.get(0),
                     lastShot.get(1),
                     lastShot.get(2));
-            shotsUpdated += 1;
+            shotChanged = false;
         }
 
     }
