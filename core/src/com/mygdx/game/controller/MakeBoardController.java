@@ -47,13 +47,11 @@ public class MakeBoardController extends Controller{
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
-        System.out.println("Sidemargin: " + player.getBoard().getSidemargin());
         x_pos = x_pos -player.getBoard().getSidemargin();
         y_pos = y_pos -player.getBoard().getSidemargin();
 
 
         ArrayList<Integer>  indexes = new ArrayList<>();
-        System.out.println("Width: " + player.getBoard().getWidth());
         float t_width = player.getBoard().getWidth();
         //float t_height = board.getTexture().getHeight();
         float cell_width = t_width / player.getBoard().getBoard().size();
@@ -61,7 +59,6 @@ public class MakeBoardController extends Controller{
 
         indexes.add((int) (x_pos / cell_width));
         indexes.add((int) (y_pos / cell_height));
-        System.out.println("Indexes: " +indexes);
         return indexes;
     }
 
@@ -75,7 +72,6 @@ public class MakeBoardController extends Controller{
         if(markedShip == null ){
             this.markedShip = player.getBoard().findShip(indexes);
         }
-        System.out.println("marked ship is updated");
         player.getBoard().printShipsLocations();
     }
 
@@ -116,7 +112,6 @@ public class MakeBoardController extends Controller{
         ArrayList<Integer> index= getIndex(new_x,new_y);
         // saves the first position of the current (old) location of the markedShip
         List<Integer> first_position = markedShip.getLocation().get(0);
-        System.out.println("indexes to new positions, (live) : " + index);
         //removes the ship from the board (changes the 1-value into 0)
         player.getBoard().removeShipPosition(markedShip.getLocation());
         //adds the new position to the board (replaces the 0-values on the cells with 1)
@@ -129,7 +124,6 @@ public class MakeBoardController extends Controller{
         // checks if the ship can be moved to the new location
         else if(!player.getBoard().isValidLocation(markedShip.getLocation())){
             firefeedbackFalse();
-            System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
 
@@ -140,7 +134,6 @@ public class MakeBoardController extends Controller{
         player.getBoard().addShipPosition(markedShip.getLocation());
         //sets the markedShip value to null so we can select new ships to move :D
         markedShip = null;
-        System.out.println("updated board: ");
         player.getBoard().printBoard();
     }
 

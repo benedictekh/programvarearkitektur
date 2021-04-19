@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.Controller;
+import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
@@ -30,12 +31,11 @@ public class PlayView extends  State {
         if(Gdx.input.justTouched()){
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
-            System.out.println("Input position. " + x_position + ", " + y_position);
             controller.shoot(controller.getIndex(x_position, y_position));
 
         }
         if (controller.isFinished()){
-            gsm.set(new GameFinishedView(gsm));
+            gsm.set(new GameFinishedView(gsm, new GameFinishedController(controller.getPlayer())));
         }
 
 
@@ -59,9 +59,8 @@ public class PlayView extends  State {
 
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
-        //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
         font.getData().setScale(3,3);
-        font.draw(sb, turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
+        font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
         sb.end();
         controller.drawBoard();
 
@@ -72,12 +71,15 @@ public class PlayView extends  State {
 
     }
 
+    /*
     private String turn(){
         if (controller.myTurn){
             return "Nå skal jeg skyte";
         }
         return "Nå skal motstander skyte";
     }
+
+     */
 
 
 }

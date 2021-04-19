@@ -31,12 +31,6 @@ public class Player {
         return name;
     }
 
-    public void setGameId(String gameId){
-        this.gameId = gameId;
-    }
 
-    public String getGameId(){
-        return gameId;
-    }
 
 }

@@ -20,12 +20,9 @@ import javax.swing.SwingUtilities;
 
 public class PlayController extends Controller{
 
-    //Player player2;
-    private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
     public static boolean shotChanged;
-    //public static int shotsUpdated = 0;
     public static ArrayList<Integer> lastShot;
 
 
@@ -33,10 +30,7 @@ public class PlayController extends Controller{
         super(player);
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
-        System.out.println("opponent list in PlayController " + Battleships.firebaseConnector.getOpponentBoard());
         this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
-        //this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
-        Battleships.firebaseConnector.playersListener(player.getGameId());
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
         Battleships.firebaseConnector.getOpponentsShot();
 
@@ -51,7 +45,6 @@ public class PlayController extends Controller{
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(){
         if(shotChanged && !myTurn){
-            System.out.println("PlayController updateShot" + lastShot);
             player.getBoard().updateBoard(lastShot.get(0),
                     lastShot.get(1),
                     lastShot.get(2));
@@ -85,13 +78,9 @@ public class PlayController extends Controller{
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
-        System.out.println("Sidemargin: " + player.getBoard().getSidemargin());
-        x_pos = x_pos -player.getBoard().getSidemargin();
-        y_pos = y_pos -player.getBoard().getSidemargin();
-
-
-        ArrayList<Integer>  indexes = new ArrayList<>();
-        System.out.println("Width: " + player.getBoard().getWidth());
+       x_pos = x_pos -player.getBoard().getSidemargin();
+       y_pos = y_pos -player.getBoard().getSidemargin();
+       ArrayList<Integer>  indexes = new ArrayList<>();
        float t_width = player.getBoard().getWidth();
        //float t_height = board.getTexture().getHeight();
        float cell_width = t_width / player.getBoard().getBoard().size();
@@ -100,13 +89,11 @@ public class PlayController extends Controller{
 
        indexes.add((int) (x_pos / cell_width));
        indexes.add((int) (y_pos / cell_height));
-       System.out.println("Indexes: " +indexes);
        return indexes;
     }
 
 
     public void shoot(ArrayList<Integer> indexes){
-        System.out.println("MyTurn: " + myTurn);
         if (myTurn){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -132,6 +119,7 @@ public class PlayController extends Controller{
     }
 
     public boolean isFinished(){
+        /*
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         Callable<Boolean> c1 = new Callable<Boolean>() {
             @Override
@@ -139,21 +127,27 @@ public class PlayController extends Controller{
                 return getBoard().isFinished();
             }
         };
-
         executor.schedule(c1, 1, TimeUnit.SECONDS);
-        return getBoard().isFinished();
 
+         */
+        return (opponentBoard.isFinished() || player.getBoard().isFinished());
     }
 
-    //funksjon som heter getTurn - henter status på firebase turn variabelen og sammenligner om det er this.player.name
 
 
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
         Battleships.firebaseConnector.changeTurn();
-        System.out.println("turn in controller: " + myTurn);
 
     }
+
+    public String turn(){
+        if (myTurn){
+            return "Nå skal jeg skyte";
+        }
+        return "Nå skal motstander skyte";
+    }
+
 
 }
