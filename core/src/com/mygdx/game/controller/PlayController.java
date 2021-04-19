@@ -56,8 +56,7 @@ public class PlayController extends Controller{
                     lastShot.get(1),
                     lastShot.get(2));
             shotChanged = false;
-        }
-        else{
+        }else {
             shotChanged = false;
         }
     }
