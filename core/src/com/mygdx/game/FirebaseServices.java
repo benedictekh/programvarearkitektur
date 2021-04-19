@@ -4,6 +4,7 @@ import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface FirebaseServices {
@@ -20,5 +21,6 @@ public interface FirebaseServices {
     public void sendShot(int x, int y, int newValue);
     public void getOpponentsShot();
     public void setScoreboard(ScoreBoard scoreboard);
+    public HashMap<String, String> retrieveScoreboard();
 
 }

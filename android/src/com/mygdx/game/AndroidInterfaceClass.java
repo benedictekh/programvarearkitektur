@@ -26,6 +26,7 @@ import com.mygdx.game.model.ScoreBoard;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer playerId;
     private String id;
     static ArrayList<List<Integer>> opponentBoard;
+    static HashMap<String, String> scoreboard;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -274,6 +276,26 @@ public class AndroidInterfaceClass implements FirebaseServices {
     @Override
     public void setScoreboard(ScoreBoard scoreboard){
         data.child("Scoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
+    }
+
+    @Override
+    public HashMap<String, String> retrieveScoreboard(){
+        data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                scoreboard = new HashMap<>();
+                Iterable<DataSnapshot> data = snapshot.getChildren();
+                for (DataSnapshot score : data){
+                    scoreboard.put(score.getKey(), (String) score.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return scoreboard;
     }
 
 }

@@ -6,6 +6,7 @@ import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirebaseConnector implements FirebaseServices{
@@ -66,6 +67,11 @@ public class FirebaseConnector implements FirebaseServices{
     @Override
     public void setScoreboard(ScoreBoard scoreboard) {
         firebaseServices.setScoreboard(scoreboard);
+    }
+
+    @Override
+    public HashMap<String, String> retrieveScoreboard() {
+        return firebaseServices.retrieveScoreboard();
     }
 
 }
