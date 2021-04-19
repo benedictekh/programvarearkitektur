@@ -62,7 +62,7 @@ public class PlayController extends Controller{
     public void drawBoard(){
         if(myTurn){
             opponentBoard.drawBoard();
-            //opponentBoard.drawShips();
+            opponentBoard.drawSunkShip();
             opponentBoard.drawUpdatedBoard();
         }
         else {
