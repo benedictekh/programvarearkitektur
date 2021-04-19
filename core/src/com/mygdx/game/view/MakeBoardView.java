@@ -41,7 +41,7 @@ public class MakeBoardView extends State implements Feedback{
      * The player can place the ships at preferred position.
      * The class has its own controller that handles the input actions.
      * The class implements the Feedback interface that talks with the MakeBoardController
-
+**/
     protected MakeBoardView(GameStateManager gsm, MakeBoardController controller) {
         super(gsm);
         this.controller = controller;
@@ -68,6 +68,8 @@ public class MakeBoardView extends State implements Feedback{
     public ArrayList<List<Integer>> getShipLocation(){
         return this.location;
     }
+
+
     public boolean getNextTouch(){
         return this.nextTouch;
     }
@@ -75,7 +77,7 @@ public class MakeBoardView extends State implements Feedback{
     /**
      * Handle input is handling the input coordinates that is pressed.
      * The findShip function in the controller detects witch ship is pressed.
-     * @param nextTouch is true if the player has pressed a ship and a ship is "marked".
+     * NextTouch is true if the player has pressed a ship and a ship is "marked".
      *                  The next thouch is then regesterd in the moveShip function.
      */
 
@@ -115,7 +117,7 @@ public class MakeBoardView extends State implements Feedback{
     /**
      * @param sb is what is drawn on.
      *
-     * @param bool is used to give feedback to the user if they have a valid move.
+     *  is used to give feedback to the user if they have a valid move.
      *
      */
 
