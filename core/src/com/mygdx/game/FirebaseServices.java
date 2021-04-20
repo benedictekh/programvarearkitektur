@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FirebaseServices {
 
-
+    public void gameFinished();
     public void addPlayer(Player player);
     public void createGame();
     public void changeTurn();
@@ -21,5 +21,6 @@ public interface FirebaseServices {
     public void getOpponentsShot();
     public void setScoreboard(ScoreBoard scoreboard);
     public void retrieveScoreboard();
+    public void gameFinsihedListener();
 
 }

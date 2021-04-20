@@ -73,4 +73,14 @@ public class FirebaseConnector implements FirebaseServices{
         firebaseServices.retrieveScoreboard();
     }
 
+    @Override
+    public void gameFinished(){
+        firebaseServices.gameFinished();
+    }
+
+    @Override
+    public void gameFinsihedListener(){
+        firebaseServices.gameFinsihedListener();
+    }
+
 }

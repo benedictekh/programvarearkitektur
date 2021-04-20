@@ -174,6 +174,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         gameInfo.child("LastShot").child("0").setValue("0");
         gameInfo.child("LastShot").child("1").setValue("0");
         gameInfo.child("LastShot").child("2").setValue("0");
+        gameInfo.child("GameFinished").setValue("False");
     }
 
     //generates a random game Id
@@ -270,8 +271,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("Scoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
     }
 
-    static ArrayList<String> l;
-
     @Override
     public void retrieveScoreboard(){
         data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -291,6 +290,28 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
         System.out.println("andorid scoreboard before return " + scoreboard);
+    }
+
+    @Override
+    public void gameFinished(){
+        data.child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").setValue("True");
+    }
+
+    @Override
+    public void gameFinsihedListener(){
+        data.child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (((String) snapshot.getValue()).equals("True")){
+                    PlayController.finishedGame = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

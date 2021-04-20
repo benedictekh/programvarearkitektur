@@ -26,6 +26,7 @@ public class PlayController extends Controller{
     public static boolean shotChanged;
     public static ArrayList<Integer> lastShot;
     private boolean canShoot;
+    public static Boolean finishedGame = false;
 
 
     public PlayController(Player player) {
@@ -37,6 +38,7 @@ public class PlayController extends Controller{
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
         canShoot = true;
         Battleships.firebaseConnector.getOpponentsShot();
+        Battleships.firebaseConnector.gameFinsihedListener();
 
     }
 
@@ -129,18 +131,14 @@ public class PlayController extends Controller{
     }
 
     public boolean isFinished(){
-        /*
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Callable<Boolean> c1 = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return getBoard().isFinished();
-            }
-        };
-        executor.schedule(c1, 1, TimeUnit.SECONDS);
+        if (opponentBoard.isFinished()){
+            Battleships.firebaseConnector.gameFinished();
+            System.out.println("(in if) FinishedGame variable PlayController: " + finishedGame);
 
-         */
-        return (opponentBoard.isFinished() || player.getBoard().isFinished());
+        }
+        System.out.println("FinishedGame variable PlayController: " + finishedGame);
+        return finishedGame;
+        //return (opponentBoard.isFinished() || player.getBoard().isFinished());
     }
 
 
