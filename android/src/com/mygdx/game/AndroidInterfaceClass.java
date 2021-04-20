@@ -1,33 +1,27 @@
 package com.mygdx.game;
 
-import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mygdx.game.controller.GameFinishedController;
+import com.mygdx.game.controller.InitializeGameController;
 import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
+import com.mygdx.game.view.InitializeGameView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -44,7 +38,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer playerId;
     private String id;
     static ArrayList<List<Integer>> opponentBoard;
-    static HashMap<String, String> scoreboard;
+    static HashMap<String, Integer> scoreboard;
 
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
@@ -278,16 +272,20 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("Scoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
     }
 
+    static ArrayList<String> l;
+
     @Override
-    public HashMap<String, String> retrieveScoreboard(){
+    public HashMap<String, Integer> retrieveScoreboard(){
         data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                scoreboard = new HashMap<>();
+                scoreboard = new HashMap<String, Integer>();
                 Iterable<DataSnapshot> data = snapshot.getChildren();
                 for (DataSnapshot score : data){
-                    scoreboard.put(score.getKey(), (String) score.getValue());
+                    scoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
                 }
+                System.out.println("RetrieveScoreboard androidInterfaceClass - in arrayList" + scoreboard);
+                GameFinishedController.printScoreboard = scoreboard;
             }
 
             @Override
@@ -295,6 +293,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
+        System.out.println("andorid scoreboard before return " + scoreboard);
         return scoreboard;
     }
 

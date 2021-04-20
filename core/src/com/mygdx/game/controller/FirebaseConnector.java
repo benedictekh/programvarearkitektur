@@ -70,7 +70,7 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
     @Override
-    public HashMap<String, String> retrieveScoreboard() {
+    public HashMap<String, Integer> retrieveScoreboard() {
         return firebaseServices.retrieveScoreboard();
     }
 

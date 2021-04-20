@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class GameFinishedController extends Controller{
 
     private ScoreBoard scoreboard;
+    public static HashMap<String, Integer> printScoreboard;
 
     public GameFinishedController(Player player){
         super(player);
@@ -19,11 +20,12 @@ public class GameFinishedController extends Controller{
     public void updateScoreboard(){
         scoreboard.calculateScore();
         Battleships.firebaseConnector.setScoreboard(scoreboard);
+        this.getScoreboard();
     }
 
     public void getScoreboard(){
-        HashMap<String, String> scoreboard = Battleships.firebaseConnector.retrieveScoreboard();
-        System.out.println(scoreboard);
+        Battleships.firebaseConnector.retrieveScoreboard();
+        System.out.println(printScoreboard);
     }
 
     @Override
