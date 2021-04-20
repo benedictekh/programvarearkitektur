@@ -72,7 +72,7 @@ public class PlayView extends  State implements FeedbackDelay{
         if(myTurn){
             font.draw(
                     sb,
-                    controller.getPlayer().getName() + ", Good move. The opontents turn. Please dont press anything",
+                    controller.getPlayer().getName() + ", Good move. The opontents turn.",
                     Battleships.WIDTH - 50,
                     Battleships.HEIGHT -10);
         }

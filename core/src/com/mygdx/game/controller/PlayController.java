@@ -27,7 +27,7 @@ public class PlayController extends Controller{
     private Board opponentBoard;
     public static boolean myTurn;
     //sette at den har muligehten til å skyte som true i starten
-    public boolean canShoot = true;
+    //public boolean canShoot = true;
 
     private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
@@ -53,14 +53,7 @@ public class PlayController extends Controller{
         this.gameId = gameId;
     }
 
-    /**
-     * computes the index in a double-linked-list from two coordinates
-     * finds the cell a person were trying to touch from on a drawn board
-     * does not check if the indexes is inside the board
-     * @param x_pos the x_coordinate
-     * @param y_pos the y_coordinate
-     * @return      the indexes for the cell you were trying to touch
-     */
+
 
     // Kalle på firebase inne i denne
     public void getOpponentBoard(){
@@ -78,6 +71,14 @@ public class PlayController extends Controller{
             player.getBoard().drawUpdatedBoard();
         }
     }
+    /**
+     * computes the index in a double-linked-list from two coordinates
+     * finds the cell a person were trying to touch from on a drawn board
+     * does not check if the indexes is inside the board
+     * @param x_pos the x_coordinate
+     * @param y_pos the y_coordinate
+     * @return      the indexes for the cell you were trying to touch
+     */
 
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
@@ -113,9 +114,11 @@ public class PlayController extends Controller{
                     public void run() {
                         firefeedbackDelay();
                         changeCurrentPlayer();
+                        setCanShoot(true);
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
+
             }
         }
         else{
@@ -151,6 +154,7 @@ public class PlayController extends Controller{
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
+
         Battleships.firebaseConnector.changeTurn();
         System.out.println("turn in controller: " + myTurn);
 
