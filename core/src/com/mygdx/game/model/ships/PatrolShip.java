@@ -10,8 +10,9 @@ public class PatrolShip extends Ship{
 
 
 
+
     public PatrolShip(boolean horizontal){
-        super(Color.BLUE);
+        super(Color.BLUE, -5);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
@@ -20,7 +21,5 @@ public class PatrolShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
-
     }
 }

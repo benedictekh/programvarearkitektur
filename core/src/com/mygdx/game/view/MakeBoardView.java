@@ -8,24 +8,32 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.MakeBoardController;
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MakeBoardView extends State{
+public class MakeBoardView extends State implements Feedback{
     private Texture background;
     private MakeBoardController controller;
     private Board board;
     private int x_position;
     private int y_position;
-    private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
     private ButtonView next;
     private Texture logo;
     private Texture setUpTutorial;
     private BitmapFont setUp;
+    private boolean bool = true;
+    private boolean pressedOK = false;
+    private BitmapFont font;
+    private ButtonView wrongButton;
+    private ButtonView rightButton;
+    private Texture notValidMove;
+    private float timecount;
+    private float totaleTime;
 
 
     /**
@@ -36,14 +44,13 @@ public class MakeBoardView extends State{
         super(gsm);
         background = new Texture("background3.jpeg");
         //må endre fra player = null
-        controller = new MakeBoardController( new Board(10, 10));
+        controller = new MakeBoardController( new Player("hei", false));
         board = new Board(10, 10);
-        //nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
-        next = new ButtonView("next.png", Battleships.WIDTH/2+420, 90, 250, 95);
+        next = new ButtonView("next.png", Battleships.WIDTH/2+650, 90, 250, 95);
         logo = new Texture("logo.png");
         setUpTutorial = new Texture("BoardSetup.png");
-        setUp = new BitmapFont();
-
+        font = new BitmapFont();
+        wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
     }
 
     public void setNextTouch(boolean bool){
@@ -51,6 +58,9 @@ public class MakeBoardView extends State{
     }
     public void setmarkedShip(ArrayList<List<Integer>> location){
         this.location = location;
+    }
+    public void setpressedOK(boolean pressedOK){
+        this.pressedOK = pressedOK;
     }
 
     public ArrayList<List<Integer>> getShipLocation(){
@@ -105,9 +115,12 @@ public class MakeBoardView extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        //sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-350, 500, 500);
+        sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-300, 400, 400);
         sb.draw(setUpTutorial, Battleships.WIDTH/2+100, 230, 850, 780);
         sb.draw(next.getTexture(),next.Buttonx,next.Buttony,next.Width, next.Height);
+        if(!bool){
+            sb.draw(wrongButton.getTexture(),wrongButton.Buttonx,wrongButton.Buttony,wrongButton.Width ,wrongButton.Height);
+        }
         sb.end();
         drawBoardView();
         drawMarkedShip();
@@ -117,8 +130,23 @@ public class MakeBoardView extends State{
         controller.drawBoardandShips();
     }
 
+
+    public void setBoolean(boolean bool){
+        this.bool = bool;
+    }
+    public Boolean getBoolean(){
+        return this.bool;
+    }
+
+    @Override
+    public void fireAction(boolean bool) {
+        setBoolean(bool);
+    }
+
     @Override
     public void dispose() {
+        if(pressedOK){
 
+        }
     }
 }

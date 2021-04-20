@@ -16,7 +16,8 @@ public class BattleShip extends Ship{
 
 
     public BattleShip(boolean horizontal){
-        super(Color.valueOf("#6021DB"));
+
+        super(Color.BROWN, -1);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
@@ -25,7 +26,5 @@ public class BattleShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
-
     }
 }

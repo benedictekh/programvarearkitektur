@@ -5,17 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.Controller;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
 public class PlayView extends  State {
 
     private Texture background;
-    private Texture board;
     private float x_position;
     private float y_position;
     private PlayController controller;
-    private Player current;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
@@ -26,8 +25,6 @@ public class PlayView extends  State {
         super(gsm);
         background = new Texture("background3.jpeg");
         this.controller = controller;
-        //controller = new BoardController( new Board(10, 10));
-        current = controller.getPlayer();
     }
 
     /**
@@ -70,13 +67,8 @@ public class PlayView extends  State {
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
-        font.draw(sb, current.getName(), Battleships.WIDTH - 50, Battleships.HEIGHT -10);
+        font.draw(sb, controller.getPlayer().getName(), Battleships.WIDTH - 50, Battleships.HEIGHT -10);
         sb.end();
-        drawBoard(current);
-        current = controller.getPlayer();
-
-
-
     }
 
     /**
@@ -90,8 +82,5 @@ public class PlayView extends  State {
 
     @Override
     public void dispose() {
-
     }
-
-
 }

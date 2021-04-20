@@ -1,12 +1,18 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 
 public abstract class Controller {
-    Board board;
+    //Board board;
+    Player player;
 
-    Controller(Board board) {
-        this.board = board;
+    Controller(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer(){
+        return this.player;
     }
 
 

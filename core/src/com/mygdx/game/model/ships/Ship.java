@@ -16,18 +16,22 @@ public abstract class Ship {
     private Texture texture;    //the texture for the ship
     private ArrayList<List<Integer>> location;  //the different cells the ships occupies on the board
     // example location: [[0,0],[0,1],[1,0],[1,1]]
-    private ArrayList<List<Integer>> shotCoordinates;   //the different cells the ship occupies that has been shot at
+    private ArrayList<List<Integer>> shotCoordinates;
+    private int shipNr;
 
     /**
      * Sets the color of the ships, creates a new list for the shotCoordinates and sets isSunk to false
      * @param color
      */
-    protected Ship(Color color){
+    protected Ship(Color color, int shipNr){
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
         this.color = color;
+        this.shipNr = shipNr;
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
+        this.location = new ArrayList<List<Integer>>();
+
     }
 
     /**
@@ -86,10 +90,10 @@ public abstract class Ship {
     public void createRandomLocation(){
         Random random = new Random();
         // finds a random cell for the ship to be placed, this will be the first cell the ship will occupy
+        location = new ArrayList<List<Integer>>();
         int start_x = random.nextInt(10 - sizex + 1);
         int start_y = random.nextInt(10 -sizey + 1);
         //creates a new location list, so you can call the function many times
-        this.location = new ArrayList<List<Integer>>();
         // adds the according cells the ship occupies to the list
         for (int x = 0 ; x < sizex; x++){
             this.location.add(Arrays.asList(start_x + x, start_y));
@@ -103,6 +107,10 @@ public abstract class Ship {
     /**
      * @return the color of the ship
      */
+    public void addLocation(int row, int col){
+        this.location.add(Arrays.asList(col, row));
+    }
+
     public Color getColor(){
         return color;
     }
@@ -136,6 +144,8 @@ public abstract class Ship {
      * @param x_coordinate  the index of the cell in x-direction
      * @param y_coordinate  the index of the cell in y-direction
      */
+    public int getShipNr(){  return shipNr; }
+
 
     public void createNewPosition(int x_coordinate, int y_coordinate){
         int start_x = x_coordinate;

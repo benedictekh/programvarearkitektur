@@ -10,7 +10,7 @@ public class CruiserShip extends Ship{
 
 
     public CruiserShip(boolean horizontal){
-        super(Color.GREEN);
+        super(Color.GREEN, -3);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
@@ -19,7 +19,6 @@ public class CruiserShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
 
     }
 }

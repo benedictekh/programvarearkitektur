@@ -1,10 +1,14 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.model.Board;
+import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 
 
 public class MakeBoardController extends Controller{
@@ -12,9 +16,11 @@ public class MakeBoardController extends Controller{
     Ship markedShip = null;
     private ArrayList<List<Integer>> location;
 
+    private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
 
-    public MakeBoardController(Board board) {
-        super(board);
+
+    public MakeBoardController(Player player) {
+        super(player);
     }
 
 
@@ -35,17 +41,17 @@ public class MakeBoardController extends Controller{
 
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
-        System.out.println("Sidemargin: " + board.getSidemargin());
-        x_pos = x_pos -board.getSidemargin();
-        y_pos = y_pos -board.getSidemargin();
+        System.out.println("Sidemargin: " + player.getBoard().getSidemargin());
+        x_pos = x_pos -player.getBoard().getSidemargin();
+        y_pos = y_pos -player.getBoard().getSidemargin();
 
 
         ArrayList<Integer>  indexes = new ArrayList<>();
-        System.out.println("Width: " + board.getWidth());
-        float t_width = board.getWidth();
+        System.out.println("Width: " + player.getBoard().getWidth());
+        float t_width = player.getBoard().getWidth();
         //float t_height = board.getTexture().getHeight();
-        float cell_width = t_width / board.getBoard().size();
-        float cell_height = t_width / board.getBoard().size();
+        float cell_width = t_width / player.getBoard().getBoard().size();
+        float cell_height = t_width / player.getBoard().getBoard().size();
 
         indexes.add((int) (x_pos / cell_width));
         indexes.add((int) (y_pos / cell_height));
@@ -61,10 +67,10 @@ public class MakeBoardController extends Controller{
 
     public void findShip(ArrayList<Integer> indexes){
         if(markedShip == null ){
-            this.markedShip = board.findShip(indexes);
+            this.markedShip = player.getBoard().findShip(indexes);
         }
         System.out.println("marked ship is updated");
-        board.printShipsLocations();
+        player.getBoard().printShipsLocations();
     }
 
     /**
@@ -81,15 +87,15 @@ public class MakeBoardController extends Controller{
      */
 
     public void drawMarkedShip() {
-        board.drawShipSquare(this.markedShip);
+        player.getBoard().drawShipSquare(this.markedShip);
     }
 
     /**
      * draws both the board and the ships
      */
     public void drawBoardandShips() {
-        board.drawBoard();
-        board.drawShips();
+        player.getBoard().drawBoard();
+        player.getBoard().drawShips();
     }
 
     /**
@@ -106,24 +112,53 @@ public class MakeBoardController extends Controller{
         List<Integer> first_position = markedShip.getLocation().get(0);
         System.out.println("indexes to new positions, (live) : " + index);
         //removes the ship from the board (changes the 1-value into 0)
-        board.removeShipPosition(markedShip.getLocation());
+        player.getBoard().removeShipPosition(markedShip.getLocation());
         //adds the new position to the board (replaces the 0-values on the cells with 1)
         markedShip.createNewPosition(index.get(0), index.get(1));
         // checks if the new location of the markedShip is inside the board
-        if(!board.isInsideBoard(markedShip.getLocation())){
+        if(!player.getBoard().isInsideBoard(markedShip.getLocation())){
+            firefeedbackFalse();
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
         // checks if the ship can be moved to the new location
-        else if(!board.isValidLocation(markedShip.getLocation())){
+        else if(!player.getBoard().isValidLocation(markedShip.getLocation())){
+            firefeedbackFalse();
             System.out.println("this is not a valid position");
             markedShip.createNewPosition(first_position.get(0),first_position.get(1));
         }
-        //ads the new location to the ship to boards ShipPositions list
-        board.addShipPosition(markedShip.getLocation());
+
+        else {
+            firefeedbackTrue();
+        }
+
+        player.getBoard().addShipPosition(markedShip.getLocation());
         //sets the markedShip value to null so we can select new ships to move :D
         markedShip = null;
         System.out.println("updated board: ");
-        board.printBoard();
+        player.getBoard().printBoard();
+    }
+
+    public static void addFeedbackListener(Feedback feedbackListener) {
+        feedbackListeners.add(feedbackListener);
+    }
+    /*
+
+    public void removeCrashListener(Feedback feedbackListener) {
+        feedbackListeners.remove(feedbackListener);
+    }
+
+     */
+
+
+    public static void firefeedbackTrue() {
+        for (Feedback feedbackListener: feedbackListeners) {
+            feedbackListener.fireAction(true);
+        }
+    }
+    public void firefeedbackFalse() {
+        for (Feedback feedbackListener: feedbackListeners) {
+            feedbackListener.fireAction(false);
+        }
     }
 
 }

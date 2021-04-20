@@ -9,10 +9,9 @@ public class SubmarineShip extends Ship{
     int sizeY = 2;
 
 
-
     public SubmarineShip(boolean horizontal){
 
-        super(Color.RED);
+        super(Color.RED, -6);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
@@ -21,7 +20,6 @@ public class SubmarineShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
 
     }
 }

@@ -6,6 +6,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.view.GameStateManager;
 
 public abstract class State {
+
+    /*
+    State is an abstract class that is implemented in all the View classes. With the gsm we can controll
+     whitch state that is showing on the screen.
+     */
     protected OrthographicCamera cam;
     protected Vector3 mouse;
     protected GameStateManager gsm;

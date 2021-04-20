@@ -16,10 +16,11 @@ public class DestroyerShip extends Ship{
     int sizeY = 1;
 
 
+
     public DestroyerShip(boolean horizontal) {
         // får inn koordinatene der dette skipet skal ligge på brettet
         // burde legge til validering om det er gyldig koordinater
-        super(Color.PINK);
+        super(Color.PINK, -4);
         if (horizontal) {
             setSizey(sizeY);
             setSizex(sizeX);
@@ -28,6 +29,5 @@ public class DestroyerShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-        createRandomLocation();
     }
 }
