@@ -133,14 +133,9 @@ public class PlayController extends Controller{
     public boolean isFinished(){
         if (opponentBoard.isFinished()){
             Battleships.firebaseConnector.gameFinished();
-            System.out.println("(in if) FinishedGame variable PlayController: " + finishedGame);
-
         }
-        System.out.println("FinishedGame variable PlayController: " + finishedGame);
         return finishedGame;
-        //return (opponentBoard.isFinished() || player.getBoard().isFinished());
     }
-
 
 
     public void changeCurrentPlayer(){

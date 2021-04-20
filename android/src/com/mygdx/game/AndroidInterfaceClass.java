@@ -294,7 +294,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     @Override
     public void gameFinished(){
-        data.child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").setValue("True");
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").setValue("True");
     }
 
     @Override
@@ -302,7 +302,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (((String) snapshot.getValue()).equals("True")){
+                if ((String.valueOf(snapshot.getValue())).equals("True")){
                     PlayController.finishedGame = true;
                 }
             }
