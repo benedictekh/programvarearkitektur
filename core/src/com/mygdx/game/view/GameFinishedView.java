@@ -20,6 +20,7 @@ public class GameFinishedView extends State {
 
     }
 
+
     @Override
     protected void handleInput() {
 

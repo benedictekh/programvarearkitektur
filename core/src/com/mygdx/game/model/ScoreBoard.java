@@ -12,10 +12,10 @@ public class ScoreBoard {
     private int score;
 
     public ScoreBoard(Player player){
-        //this.boardList = player.getOpponentBoard().getBoard();
+        this.boardList = player.getOpponentBoard().getBoard();
         this.player = player;
-
         this.score = 0;
+
     }
 
     public String getName(){
@@ -26,10 +26,6 @@ public class ScoreBoard {
         return score;
     }
 
-    //skal slettes
-    public void setScore(int score){
-        this.score = score;
-    }
 
     public void calculateScore(){
         for (List<Integer> board : boardList){
@@ -44,6 +40,8 @@ public class ScoreBoard {
             }
         }
     }
+
+
 
 
 

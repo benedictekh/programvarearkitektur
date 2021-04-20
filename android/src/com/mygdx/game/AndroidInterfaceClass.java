@@ -273,17 +273,16 @@ public class AndroidInterfaceClass implements FirebaseServices {
     static ArrayList<String> l;
 
     @Override
-    public HashMap<String, Integer> retrieveScoreboard(){
+    public void retrieveScoreboard(){
         data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                scoreboard = new HashMap<String, Integer>();
+                GameFinishedController.printScoreboard = new HashMap<String, Integer>();
                 Iterable<DataSnapshot> data = snapshot.getChildren();
                 for (DataSnapshot score : data){
-                    scoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
+                    GameFinishedController.printScoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
                 }
-                System.out.println("RetrieveScoreboard androidInterfaceClass - in arrayList" + scoreboard);
-                GameFinishedController.printScoreboard = scoreboard;
+                System.out.println("RetrieveScoreboard androidInterfaceClass - in arrayList" + GameFinishedController.printScoreboard);
             }
 
             @Override
@@ -292,7 +291,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
         System.out.println("andorid scoreboard before return " + scoreboard);
-        return scoreboard;
     }
 
 }

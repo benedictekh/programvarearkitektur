@@ -20,6 +20,6 @@ public interface FirebaseServices {
     public void sendShot(int x, int y, int newValue);
     public void getOpponentsShot();
     public void setScoreboard(ScoreBoard scoreboard);
-    public HashMap<String, Integer> retrieveScoreboard();
+    public void retrieveScoreboard();
 
 }
