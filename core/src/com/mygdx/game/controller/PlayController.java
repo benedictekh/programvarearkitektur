@@ -118,7 +118,6 @@ public class PlayController extends Controller{
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
-
             }
         }
         else{
