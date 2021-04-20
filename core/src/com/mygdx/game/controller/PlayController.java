@@ -1,10 +1,13 @@
 package com.mygdx.game.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
+import com.mygdx.game.view.FeedbackDelay;
 import com.mygdx.game.view.PlayView;
 
 import java.sql.Array;
@@ -12,6 +15,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -25,7 +29,10 @@ public class PlayController extends Controller{
     public static boolean myTurn;
     public static boolean shotChanged;
     public static ArrayList<Integer> lastShot;
+    //sette at den har muligehten til å skyte som true i starten
+    //public boolean canShoot = true;
 
+    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
     public PlayController(Player player) {
         super(player);
@@ -56,6 +63,10 @@ public class PlayController extends Controller{
 
 
 
+    // Kalle på firebase inne i denne
+    public void getOpponentBoard(){
+    }
+
     public void drawBoard(){
         if(myTurn){
             opponentBoard.drawBoard();
@@ -69,6 +80,14 @@ public class PlayController extends Controller{
             player.getBoard().drawUpdatedBoard();
         }
     }
+    /**
+     * computes the index in a double-linked-list from two coordinates
+     * finds the cell a person were trying to touch from on a drawn board
+     * does not check if the indexes is inside the board
+     * @param x_pos the x_coordinate
+     * @param y_pos the y_coordinate
+     * @return      the indexes for the cell you were trying to touch
+     */
 
 
     /**
@@ -100,23 +119,28 @@ public class PlayController extends Controller{
     public void shoot(ArrayList<Integer> indexes){
         if (myTurn){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
+                setCanShoot(false);
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-                Runnable task = new Runnable() {
+                    Runnable task = new Runnable() {
                     @Override
                     public void run() {
+                        firefeedbackDelay();
                         changeCurrentPlayer();
+                        setCanShoot(true);
                     }
                 };
-                executor.schedule(task, 3, TimeUnit.SECONDS);
+                    executor.schedule(task, 3, TimeUnit.SECONDS);
+
             }
         }
         else{
-            System.out.println("Not my turn, can't shoot");
-
+            System.out.println("Not my turn, can't shoot / cant shoot yet");
         }
-
     }
 
+    public void setCanShoot(boolean canShoot){
+        player.getBoard().setCanShootVarible(canShoot);
+    }
 
     public Board getBoard(){
         return player.getBoard();
@@ -142,8 +166,17 @@ public class PlayController extends Controller{
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
+
         Battleships.firebaseConnector.changeTurn();
 
+    }
+    public void firefeedbackDelay() {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(myTurn);
+        }
+    }
+    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
+        feedbackDelayListeners.add(feedbackDelayListener);
     }
 
     public String turn(){
