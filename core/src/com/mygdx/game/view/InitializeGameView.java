@@ -13,6 +13,8 @@ import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 
+import java.util.HashMap;
+
 public class InitializeGameView extends State{
 
     private GameStateManager g;
@@ -34,6 +36,7 @@ public class InitializeGameView extends State{
         font = new BitmapFont();
         nextButton = new ButtonView("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
         loginButton = new ButtonView("Login.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2,300,110);
+
     }
 
     @Override
@@ -42,25 +45,18 @@ public class InitializeGameView extends State{
         if(Gdx.input.justTouched()) {
             //lagre vektoren som blir trykket
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
-            if (nextButton.getRectangle().contains(touch.x, touch.y)) {
-                //vil bli lagt til i databasen og vente på motspiller i Loadingview
-                gsm.set(new LoadingView(gsm, new LoadingController(this.player)));
-
-            } else if(loginButton.getRectangle().contains(touch.x, touch.y)) {
+            if (loginButton.getRectangle().contains(touch.x, touch.y)) {
                 g = gsm;
                 //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        //vil opprette player objekt
-                        //setter dette som player name
-
-                        //tester å legge til en person i db
-
-                        createInitializeGameController(name);
+                        player = new Player(name, true);
+                        controller = new InitializeGameController(player);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
+                        gsm.set(new LoadingView(gsm, new LoadingController(player)));
                     }
 
                     @Override
@@ -69,19 +65,22 @@ public class InitializeGameView extends State{
                     }
                 },"Username","","");
 
-            }
+
+            } //else if(nextButton.getRectangle().contains(touch.x, touch.y)) {
+
+            //}
             else{
                 System.out.println("outside");
             }
         }
     }
-
+    /*
     private void createInitializeGameController(String name){
-        this.player = new Player(name, true);
-        this.controller = new InitializeGameController(this.player);
+        player = new Player(name, true);
+        controller = new InitializeGameController(player);
     }
 
-
+*/
     public void setName(String name){
         name1 = name;
     }

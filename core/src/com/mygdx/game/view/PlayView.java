@@ -6,18 +6,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.Controller;
+import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
-public class PlayView extends  State implements FeedbackDelay{
+public class PlayView extends  State {
 
     private Texture background;
     private float x_position;
     private float y_position;
     private PlayController controller;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
-    private boolean myTurn = false;
-    private float time;
 
 
     public PlayView(GameStateManager gsm, PlayController controller){
@@ -32,12 +31,11 @@ public class PlayView extends  State implements FeedbackDelay{
         if(Gdx.input.justTouched()){
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
-            System.out.println("Input position. " + x_position + ", " + y_position);
             controller.shoot(controller.getIndex(x_position, y_position));
 
         }
         if (controller.isFinished()){
-            gsm.set(new GameFinishedView(gsm));
+            gsm.set(new GameFinishedView(gsm, new GameFinishedController(controller.getPlayer())));
         }
 
 
@@ -53,13 +51,7 @@ public class PlayView extends  State implements FeedbackDelay{
     @Override
     public void update(float dt) {
         handleInput();
-        if(myTurn){
-            time += dt;
-            if(time > 2.5){
-                setMyTurn(false);
-                time= 0;
-            }
-        }
+        controller.updateShot();
     }
 
     @Override
@@ -67,29 +59,27 @@ public class PlayView extends  State implements FeedbackDelay{
 
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
-        //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
-        font.draw(sb, controller.getPlayer().getName(), Battleships.WIDTH - 50, Battleships.HEIGHT -10);
-        if(myTurn){
-            font.draw(
-                    sb,
-                    controller.getPlayer().getName() + ", Good move. The opontents turn.",
-                    Battleships.WIDTH - 50,
-                    Battleships.HEIGHT -10);
-        }
+        font.getData().setScale(3,3);
+        font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
         sb.end();
         controller.drawBoard();
+
     }
 
     @Override
     public void dispose() {
 
     }
-    public void setMyTurn(boolean myTurn){
-        this.myTurn = myTurn;
+
+    /*
+    private String turn(){
+        if (controller.myTurn){
+            return "Nå skal jeg skyte";
+        }
+        return "Nå skal motstander skyte";
     }
 
-    @Override
-    public void fireActionDelay(boolean myTurn) {
-        setMyTurn(myTurn);
-    }
+     */
+
+
 }

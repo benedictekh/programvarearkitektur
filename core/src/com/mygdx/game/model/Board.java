@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.ships.BattleShip;
 import com.mygdx.game.model.ships.CarrierShip;
 import com.mygdx.game.model.ships.CruiserShip;
@@ -33,7 +32,6 @@ public class Board {
     private Texture texture; //the board texture
     private ShapeRenderer shapeRenderer;
     private float width; //the width of the board, board is a square -> width = height
-    private boolean canShoot;
 
 
     /**
@@ -60,17 +58,12 @@ public class Board {
         //initNewShip();
     }
 
-    /**
-     * creates a board with the given size
-     * the board is a double-linked-list wit the same amounts of rows and columns
-     * where each element in the list is a "cell"
-     * every cell is given the value EMPTY (0) when the board is created
-     * size (live fjernet param før size her)  the size the board should have, how many cells it should contain in x- and y-direction
-     *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
-     */
+
     public ArrayList<List<Integer>> getOpponentBoard(){
         return initializeOpponentBoard;
     }
+
+
 
     public Board(ArrayList<List<Integer>> initializeOpponentBoard, int sidemargin){
         shapeRenderer = new ShapeRenderer();
@@ -82,7 +75,7 @@ public class Board {
         else{
             width = Battleships.WIDTH - (2 * sidemargin);
         }
-        makeBoard(initializeOpponentBoard.size());
+        makeBoard(10);
         createOpponentLists(initializeOpponentBoard);
     }
 
@@ -99,7 +92,7 @@ public class Board {
         for(int row = 0; row < initializeOpponentBoard.size(); row++){
             for(int col = 0; col < initializeOpponentBoard.size(); col++){
                 if(initializeOpponentBoard.get(row).get(col) < 0){
-                    updateBoard(row, col, cell.SHIP);
+                    updateBoard(col, row, cell.SHIP);
                     for(Ship ship : ships){
                         if(initializeOpponentBoard.get(row).get(col) == ship.getShipNr()){
                             ship.addLocation(row, col);
@@ -114,6 +107,14 @@ public class Board {
 
     }
 
+    /**
+     * creates a board with the given size
+     * the board is a double-linked-list wit the same amounts of rows and columns
+     * where each element in the list is a "cell"
+     * every cell is given the value EMPTY (0) when the board is created
+     * @param size  the size the board should have, how many cells it should contain in x- and y-direction
+     *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
+     */
 
     private void makeBoard(int size) {
         board = new ArrayList<List<Integer>>();
@@ -125,11 +126,25 @@ public class Board {
             for (int column = 0; column < size; column++) {
                 kolonne.add(cell.EMPTY);
                 kolonne2.add(cell.EMPTY);
-
             }
             board.add(kolonne);
             initializeOpponentBoard.add(kolonne2);
         }
+        printBoard();
+    }
+
+    public void makeInitalizeOpponentBoard(){
+        for (Ship ship: ships){
+            System.out.println("location: " + ship.getLocation());
+
+            // the location is valid, update the values on the board
+            for (List<Integer> coordinate : ship.getLocation()) {
+                int x = coordinate.get(0);
+                int y = coordinate.get(1);
+                updateInitalizeOpponentBoard(x, y, ship.getShipNr());
+            }
+        }
+        System.out.println("dette kommer fra initShip");
         printBoard();
     }
 
@@ -161,28 +176,16 @@ public class Board {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateBoard(x, y, cell.SHIP);
-                updateInitalizeOpponentBoard(x, y, ship.getShipNr());
             }
         }
         System.out.println("dette kommer fra initShip");
         printBoard();
     }
-    /*
-    private void initNewShip() {
-        ships.add(new CruiserShip(true));
-        for(Ship ship: ships){
-            ship.createNewPosition(1,1);
-
-        }
-}
-     */
 
     public void printBoard(){
-        System.out.println("Dette er board");
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");
         }
-        System.out.println("Dette er initializeOpponentBoard");
         for (int row = 0; row < initializeOpponentBoard.size(); row ++){
             System.out.println(initializeOpponentBoard.get(row) + "\n");
         }
@@ -198,7 +201,6 @@ public class Board {
      */
     private boolean isValidMove(int x, int y){
         if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
-            System.out.println("Valid coordinates");
             // coordinates is within range, check if cell is already been shot at
             int value = board.get(y).get(x);
             return cell.isValidMove(value);
@@ -237,34 +239,30 @@ public class Board {
      *          (returns true if it should be a change of turn after this shot)
      */
     // return true if valid move and miss, false if not valid move or hit
-    public boolean shoot(int x, int y) {
+    public boolean shoot(int x, int y){
         // is the cell you are trying to shoot at a valid cell? (on the board and not shot at earlier)
-        //canShoot er lagt inn for at motstanderen ikke kan trykke to ganger på rad.
-        if (canShoot) {
-            if (isValidMove(x, y)) {
-                int value = board.get(y).get(x);
-                System.out.println("Valid move");
-                if (cell.isHit(value)) {
-                    for (Ship ship : ships) {
-                        ship.boardChange(x, y);
-                    }
-                    updateBoard(x, y, cell.setCell(value));
-                    return false;
-                } else {
-                    updateBoard(x, y, cell.setCell(value));
-                    return true;
-                }
-            }
-        }
-        else {
-            System.out.println("Not a valid move");
-            return false;
-        }
-        return false;
-    }
+       if (isValidMove(x, y)){
+           int value = board.get(y).get(x);
+           System.out.println("Valid move");
+           if (cell.isHit(value)){
+               for (Ship ship : ships){
+                   ship.boardChange(x, y);
+               }
+               updateBoard(x, y,cell.setCell(value));
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
+               return false;
+           }
+           else {
+               updateBoard(x, y, cell.setCell(value));
+               Battleships.firebaseConnector.sendShot(x,y,cell.setCell(value));
+               return true;
+           }
 
-    public void setCanShootVarible(boolean canShoot){
-        this.canShoot = canShoot;
+       }
+       else{
+           System.out.println("Not a valid move");
+           return false;
+       }
     }
 
     /**
@@ -298,14 +296,6 @@ public class Board {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Board test = new Board(10, 10);
-        /*test.shoot(2,1);
-        System.out.println("Skutt på 2, 1");
-        test.printBoard();
-        System.out.println(test.isValidMove(11, 3)); */
     }
 
     /**
@@ -364,7 +354,6 @@ public class Board {
     public Ship findShip(ArrayList<Integer> indexes){
         for(Ship ship: ships){
             if(ship.getLocation().contains(indexes)){
-                System.out.println("ships loactions contains indexes: " + ship.getLocation() + "indexes: " + indexes);
                 return ship;
             }
         }
@@ -439,6 +428,29 @@ public class Board {
             }
     }
 
+    /**
+     * draws only the ships that are sunk
+     * is used for the opponent board so that you only can see the ships that are fully hit
+     */
+
+    public void drawSunkShip(){
+        float cell_width = width/ getBoard().size();
+        for (Ship ship: ships){
+            if (ship.isSunk()){
+                // draws filled circles
+                for ( List<Integer> coordinate : ship.getLocation()) {
+                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
+                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(ship.getColor());
+                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    shapeRenderer.end();
+                }
+            }
+        }
+
+    }
+
 
     /**
      * draws the different shots that has been done on the different cells on the board
@@ -473,7 +485,7 @@ public class Board {
     }
     public void printShipsLocations() {
         for(Ship ship: ships){
-            System.out.println("location for ships: " + ship.getLocation());
+            System.out.println("location for ship nr " + ship.getShipNr() + ": " + ship.getLocation());
         }
     }
 
