@@ -51,7 +51,9 @@ public class MenuView extends State {
                 makeBoardView = new MakeBoardView(gsm);
                 MakeBoardController.addFeedbackListener(makeBoardView);
                 gsm.set(makeBoardView);
-                */
+
+                 */
+
             }
             else{
                 System.out.println("pressed outside");
