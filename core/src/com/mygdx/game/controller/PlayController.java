@@ -1,18 +1,17 @@
 package com.mygdx.game.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
-import com.mygdx.game.view.Feedback;
-import com.mygdx.game.view.FeedbackDelay;
 import com.mygdx.game.view.PlayView;
 
+import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,25 +21,21 @@ import javax.swing.SwingUtilities;
 
 public class PlayController extends Controller{
 
-    //Player player2;
-    private String gameId;
     private Board opponentBoard;
     public static boolean myTurn;
-    //sette at den har muligehten til å skyte som true i starten
-    //public boolean canShoot = true;
+    public static boolean shotChanged;
+    public static ArrayList<Integer> lastShot;
 
-    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
     public PlayController(Player player) {
         super(player);
-        System.out.println("fra playcontroller" + player.getGameId());
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
-        this.opponentBoard = new Board(player.getBoard().getOpponentBoard(), player.getBoard().getSidemargin());
-        Battleships.firebaseConnector.playersListener(player.getGameId());
-
+        //må gjøre om til minuslista senere
+        this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
+        player.setOpponentBoard(opponentBoard);
         this.myTurn = Battleships.firebaseConnector.addTurnListener();
+        Battleships.firebaseConnector.getOpponentsShot();
 
-        System.out.println("turn in konstruktør in controller: " + myTurn);
     }
 
 
@@ -49,20 +44,23 @@ public class PlayController extends Controller{
 
     }
 
-    public void setGameId(String gameId){
-        this.gameId = gameId;
+    //må finne en måte å kalle på denne metoden fra androidInterfaceClass
+    public void updateShot(){
+        if(shotChanged && !myTurn){
+            player.getBoard().updateBoard(lastShot.get(0),
+                    lastShot.get(1),
+                    lastShot.get(2));
+        }
+        shotChanged = false;
     }
 
 
-
-    // Kalle på firebase inne i denne
-    public void getOpponentBoard(){
-    }
 
     public void drawBoard(){
         if(myTurn){
             opponentBoard.drawBoard();
-            //opponentBoard.drawShips();
+            opponentBoard.drawSunkShip();
+            opponentBoard.drawShips();
             opponentBoard.drawUpdatedBoard();
         }
         else {
@@ -71,6 +69,8 @@ public class PlayController extends Controller{
             player.getBoard().drawUpdatedBoard();
         }
     }
+
+
     /**
      * computes the index in a double-linked-list from two coordinates
      * finds the cell a person were trying to touch from on a drawn board
@@ -80,16 +80,11 @@ public class PlayController extends Controller{
      * @return      the indexes for the cell you were trying to touch
      */
 
-
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
         //finds the position on the board
-        System.out.println("Sidemargin: " + player.getBoard().getSidemargin());
-        x_pos = x_pos -player.getBoard().getSidemargin();
-        y_pos = y_pos -player.getBoard().getSidemargin();
-
-
-        ArrayList<Integer>  indexes = new ArrayList<>();
-        System.out.println("Width: " + player.getBoard().getWidth());
+       x_pos = x_pos -player.getBoard().getSidemargin();
+       y_pos = y_pos -player.getBoard().getSidemargin();
+       ArrayList<Integer>  indexes = new ArrayList<>();
        float t_width = player.getBoard().getWidth();
        //float t_height = board.getTexture().getHeight();
        float cell_width = t_width / player.getBoard().getBoard().size();
@@ -98,43 +93,37 @@ public class PlayController extends Controller{
 
        indexes.add((int) (x_pos / cell_width));
        indexes.add((int) (y_pos / cell_height));
-       System.out.println("Indexes: " +indexes);
        return indexes;
     }
 
 
     public void shoot(ArrayList<Integer> indexes){
-        System.out.println("MyTurn: " + myTurn);
         if (myTurn){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
-                setCanShoot(false);
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-                    Runnable task = new Runnable() {
+                Runnable task = new Runnable() {
                     @Override
                     public void run() {
-                        firefeedbackDelay();
                         changeCurrentPlayer();
-                        setCanShoot(true);
                     }
                 };
-                    executor.schedule(task, 3, TimeUnit.SECONDS);
-
+                executor.schedule(task, 3, TimeUnit.SECONDS);
             }
         }
         else{
-            System.out.println("Not my turn, can't shoot / cant shoot yet");
+            System.out.println("Not my turn, can't shoot");
+
         }
+
     }
 
-    public void setCanShoot(boolean canShoot){
-        player.getBoard().setCanShootVarible(canShoot);
-    }
 
     public Board getBoard(){
         return player.getBoard();
     }
 
     public boolean isFinished(){
+        /*
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         Callable<Boolean> c1 = new Callable<Boolean>() {
             @Override
@@ -142,30 +131,27 @@ public class PlayController extends Controller{
                 return getBoard().isFinished();
             }
         };
-
         executor.schedule(c1, 1, TimeUnit.SECONDS);
-        return getBoard().isFinished();
 
+         */
+        return (opponentBoard.isFinished() || player.getBoard().isFinished());
     }
 
-    //funksjon som heter getTurn - henter status på firebase turn variabelen og sammenligner om det er this.player.name
 
 
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-
         Battleships.firebaseConnector.changeTurn();
-        System.out.println("turn in controller: " + myTurn);
 
     }
-    public void firefeedbackDelay() {
-        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
-            feedbackDelayListener.fireActionDelay(myTurn);
+
+    public String turn(){
+        if (myTurn){
+            return "Nå skal jeg skyte";
         }
+        return "Nå skal motstander skyte";
     }
-    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
-        feedbackDelayListeners.add(feedbackDelayListener);
-    }
+
 
 }
