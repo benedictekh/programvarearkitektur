@@ -112,7 +112,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
 
-        System.out.println("opponent board i andoird " + opponentBoard);
+        //System.out.println("opponent board i andoird " + opponentBoard);
         return opponentBoard;
     }
 
