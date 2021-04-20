@@ -1,10 +1,11 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.FirebaseServices;
-import com.mygdx.game.GameIdHolder;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.model.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirebaseConnector implements FirebaseServices{
@@ -26,10 +27,6 @@ public class FirebaseConnector implements FirebaseServices{
 
     }
 
-    @Override
-    public String turnListener(String gameID) {
-        return null;
-    }
 
     @Override
     public void changeTurn() {
@@ -37,11 +34,6 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
 
-
-    @Override
-    public void playersListener(String gameId) {
-        firebaseServices.playersListener(gameId);
-    }
 
     @Override
     public Boolean addTurnListener() { return firebaseServices.addTurnListener(); }
@@ -68,8 +60,17 @@ public class FirebaseConnector implements FirebaseServices{
 
     @Override
     public void getOpponentsShot() {
-        System.out.println("FirebaseConnector shot list" + PlayController.lastShot);
         firebaseServices.getOpponentsShot();
+    }
+
+    @Override
+    public void setScoreboard(ScoreBoard scoreboard) {
+        firebaseServices.setScoreboard(scoreboard);
+    }
+
+    @Override
+    public HashMap<String, Integer> retrieveScoreboard() {
+        return firebaseServices.retrieveScoreboard();
     }
 
 }

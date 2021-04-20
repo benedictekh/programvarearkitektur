@@ -28,10 +28,12 @@ public class LoadingController extends Controller{
 
     public Boolean checkPlayersReady(){
         playersAdded = false;
+
         return playersReady;
     }
 
-    public void sendOpponentBoard(){
+
+    public void getOpponentBoard(){
         Battleships.firebaseConnector.getOpponentBoard();
     }
 }
