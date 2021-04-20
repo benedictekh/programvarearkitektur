@@ -3,8 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.GameIdHolder;
-import com.mygdx.game.controller.Controller;
+import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameFinishedController;
 
 public class GameFinishedView extends State {
@@ -18,8 +17,7 @@ public class GameFinishedView extends State {
         this.controller = controller;
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
-        GameIdHolder g= GameIdHolder.getInstance();
-        String a = g.gameId;
+
     }
 
     @Override

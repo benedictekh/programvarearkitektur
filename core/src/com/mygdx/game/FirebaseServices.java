@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface FirebaseServices {
-    //kanskje vi skal implementere dette grensesnittet i battleships og
 
 
     public void addPlayer(Player player);

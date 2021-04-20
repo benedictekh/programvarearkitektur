@@ -1,11 +1,7 @@
 package com.mygdx.game.controller;
 
-import com.badlogic.gdx.Game;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.GameIdHolder;
 import com.mygdx.game.model.Player;
-
-import java.util.HashMap;
 
 public class InitializeGameController extends Controller{
 

@@ -12,12 +12,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mygdx.game.controller.GameFinishedController;
-import com.mygdx.game.controller.InitializeGameController;
 import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
-import com.mygdx.game.view.InitializeGameView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +31,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     FirebaseDatabase database;
     DatabaseReference gameInfo;
     Integer turnPlayer;
-    GameIdHolder gameIdHolder;
+    GameCodeHolder gameCodeHolder;
     private Player player;
     Integer playerId;
     private String id;
@@ -43,7 +41,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
         data = database.getReference();
-        gameIdHolder = GameIdHolder.getInstance();
+        gameCodeHolder = GameCodeHolder.getInstance();
 
     }
 
@@ -62,16 +60,16 @@ public class AndroidInterfaceClass implements FirebaseServices {
         if (turnPlayer==0){
             turnPlayer=1;
             //leser feil player her. 
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("1");
+            data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").setValue("1");
         }else{
             turnPlayer=0;
-            data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
+            data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").setValue("0");
         }
     }
 
     @Override
     public Boolean addTurnListener(){
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").addValueEventListener(new ValueEventListener() {
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 turnPlayer = Integer.valueOf((String) snapshot.getValue());
@@ -89,10 +87,10 @@ public class AndroidInterfaceClass implements FirebaseServices {
     @Override
     public ArrayList<List<Integer>> getOpponentBoard() {
         int opponentId = 0;
-        if (gameIdHolder.playerId == 0){
+        if (gameCodeHolder.getPlayerId() == 0){
             opponentId = 1;
         }
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + opponentId).addListenerForSingleValueEvent(new ValueEventListener() {
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Board").child("Player" + opponentId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 opponentBoard = new ArrayList<List<Integer>>();
@@ -120,15 +118,15 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     @Override
     public void sendBoard(ArrayList<List<Integer>> board) {
-        System.out.println("sendBoard from here " + "playerid: " + gameIdHolder.playerId + " " + board);
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").child("Player" + gameIdHolder.playerId).setValue(board);
+        System.out.println("sendBoard from here " + "playerid: " + gameCodeHolder.getPlayerId() + " " + board);
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Board").child("Player" + gameCodeHolder.getPlayerId()).setValue(board);
         getOpponentBoard();
     }
 
 
     @Override
     public void boardListener(){
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Board").addValueEventListener(new ValueEventListener() {
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Board").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getChildrenCount() > 1){
@@ -143,13 +141,13 @@ public class AndroidInterfaceClass implements FirebaseServices {
     @Override
     public void sendShot(int x, int y, int newValue) {
         ArrayList<Integer> list = new ArrayList<>(Arrays.asList(x, y, newValue));
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").setValue(list);
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("LastShot").setValue(list);
     }
 
     @Override
     public void getOpponentsShot() {
         PlayController.lastShot = new ArrayList<>(Arrays.asList(0,0,0));
-        data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PlayController.lastShot = new ArrayList<>();
@@ -190,8 +188,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
 
     public void initializeGame() {
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Turn").setValue("0");
+                data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Players").child("Player0").setValue(player.getName());
+                data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").setValue("0");
                 data.child("WaitingRoom").child(player.getName()).removeValue();
                 this.turnPlayer = 0;
                 playerId = 0;
@@ -214,8 +212,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
                         pId = (String) player.getValue();
                     }
                     data.child("WaitingRoom").child(player.getName()).setValue(pId);
-                    gameIdHolder.gameId = pId;
-                    gameIdHolder.playerId = 0;
+                    gameCodeHolder.setGameId(pId);
+                    gameCodeHolder.setPlayerId(0);
                     int waiting = (int) snapshot.getChildrenCount() +1;
                     if(waiting > 1){
                         initializeGame();
@@ -227,9 +225,9 @@ public class AndroidInterfaceClass implements FirebaseServices {
                     //generates GameIs when the WaitingRoom is created
                     createGame();
 
-                    gameIdHolder.gameId = id;
-                    gameIdHolder.playerId = 1;
-                    System.out.println("playerId " + gameIdHolder.playerId);
+                    gameCodeHolder.setGameId(id);
+                    gameCodeHolder.setPlayerId(1);
+                    System.out.println("playerId " + gameCodeHolder.getPlayerId());
                     DatabaseReference waitingRoom = data.child("WaitingRoom");
                     //creates a player child and gives the player the same id as the game
                     waitingRoom.child(player.getName()).setValue(id);
@@ -253,7 +251,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {            }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                data.child("GameState").child(gameIdHolder.gameId).child("GameInfo").child("Players").child("Player1").setValue(player.getName());
+                data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Players").child("Player1").setValue(player.getName());
                 data.child("WaitingRoom").removeValue();
                 turnPlayer = 0;
                 playerId = 1;

@@ -1,7 +1,6 @@
 package com.mygdx.game.controller;
 
 import com.mygdx.game.FirebaseServices;
-import com.mygdx.game.GameIdHolder;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
 
