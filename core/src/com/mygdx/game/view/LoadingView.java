@@ -84,8 +84,7 @@ public class LoadingView extends State {
     @Override
     public void update(float dt) {
 
-        /*
-            totaleTime += dt;
+
             timecount+=dt;
             if (timecount>1)
             {
@@ -98,7 +97,9 @@ public class LoadingView extends State {
                 switchImage(witch_texture);
                 timecount=0;
             }
-            */
+
+
+
 
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView

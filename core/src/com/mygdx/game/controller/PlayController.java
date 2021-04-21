@@ -162,9 +162,9 @@ public class PlayController extends Controller{
 
     public String turn(){
         if (myTurn){
-            return "Nå skal jeg skyte";
+            return "Now you can shoot!";
         }
-        return "Nå skal motstander skyte";
+        return "Its opponents turn, they can shoot!";
     }
 
 

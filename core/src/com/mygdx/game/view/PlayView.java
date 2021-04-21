@@ -17,7 +17,7 @@ public class PlayView extends  State implements FeedbackDelay{
     private float y_position;
     private PlayController controller;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
-    private boolean feedback;
+    private boolean feedback = false;
 
 
     /**
@@ -71,6 +71,8 @@ public class PlayView extends  State implements FeedbackDelay{
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         font.getData().setScale(3,3);
         font.draw(sb, controller.turn(), Battleships.WIDTH/2+100,Battleships.HEIGHT/2 );
+        font.draw(sb, "/ - Means you have missed", Battleships.WIDTH/2+100,Battleships.HEIGHT/2 );
+        font.draw(sb, "X - Means you have hit the opponents ship!", Battleships.WIDTH/2+100,Battleships.HEIGHT/2+50 );
         if(feedback){
             font.draw(sb,"You missed! Opponents turn!" ,Battleships.WIDTH/2+100,Battleships.HEIGHT/2-150);
         }
