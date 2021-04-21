@@ -13,6 +13,7 @@ public class MenuView extends State {
     private Texture background;
     private ButtonView playbutton;
     private ButtonView initButton;
+    private TutorialView TutorialView;
 
     /**
 <<<<<<< HEAD
@@ -27,7 +28,7 @@ public class MenuView extends State {
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
-        initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
+        initButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
     }
 
     /**
@@ -47,7 +48,9 @@ public class MenuView extends State {
                 gsm.set(new InitializeGameView(gsm, new GameStateController()));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
-                gsm.set(new GameFinishedView(gsm, gsc));
+                TutorialView = new TutorialView(gsm, gsc);
+                gsm.push(TutorialView);
+
             }
             else{
                 System.out.println("pressed outside");

@@ -13,7 +13,8 @@ public class TutorialView extends State{
     private Texture logo;
     private Texture background;
     private BitmapFont tutorial;
-    private ButtonView tut_button;
+    private ButtonView backButton;
+    private Texture gamerules;
 
 
     protected TutorialView(GameStateManager gsm, GameStateController gsc) {
@@ -24,13 +25,21 @@ public class TutorialView extends State{
         logo = new Texture("cover.png");
         background = new Texture("background4.jpeg");
         tutorial = new BitmapFont();
+        gamerules = new Texture("GameRules.png");
+        backButton = new ButtonView("left-arrow.png", 50, Battleships.HEIGHT-120, 100, 100);
     }
 
     @Override
     protected void handleInput() {
+        if (Gdx.input.justTouched()) {
 
+            Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
+
+            if (backButton.getRectangle().contains(touch.x, touch.y)) {
+                gsm.pop();
+            }
         }
-
+    }
 
     @Override
     public void update(float dt) {
@@ -42,10 +51,12 @@ public class TutorialView extends State{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0,0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo,Battleships.WIDTH/2-400,Battleships.HEIGHT-250,800,300);
+        sb.draw(logo,0,-10,500,200);
         tutorial.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         tutorial.getData().setScale(4,4);
-        tutorial.draw(sb,"Part 1: Set up board", Battleships.WIDTH/2-200,Battleships.HEIGHT-300);
+        tutorial.draw(sb,"How to play battleships", Battleships.WIDTH/2-300,Battleships.HEIGHT-70);
+        sb.draw(backButton.getTexture(),backButton.Buttonx,backButton.Buttony,backButton.Width,backButton.Height);
+        sb.draw(gamerules, Battleships.WIDTH/2-750,35,1700,1000 );
         sb.end();
 
     }
