@@ -17,7 +17,7 @@ public class PlayView extends  State implements FeedbackDelay{
     private float y_position;
     private PlayController controller;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
-    private String feedback;
+    private boolean feedback;
 
 
     /**
@@ -27,7 +27,6 @@ public class PlayView extends  State implements FeedbackDelay{
         super(gsm);
         background = new Texture("background3.jpeg");
         this.controller = controller;
-        feedback = null;
     }
 
     /**
@@ -71,9 +70,9 @@ public class PlayView extends  State implements FeedbackDelay{
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         font.getData().setScale(3,3);
-        font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
-        if(feedback != null){
-            font.draw(sb, this.feedback,Battleships.WIDTH/2+100,Battleships.HEIGHT/2 );
+        font.draw(sb, controller.turn(), Battleships.WIDTH/2+100,Battleships.HEIGHT/2 );
+        if(feedback){
+            font.draw(sb,"You missed! Opponents turn!" ,Battleships.WIDTH/2+100,Battleships.HEIGHT/2-150);
         }
         sb.end();
         controller.drawBoard();
@@ -93,22 +92,14 @@ public class PlayView extends  State implements FeedbackDelay{
     @Override
     public void dispose() {
     }
-    public void setFeedback(String feedback){
+    public void setFeedback(boolean feedback){
         this.feedback = feedback;
     }
 
 
     @Override
-    public void fireActionDelay(String string) {
-        setFeedback(string);
+    public void fireActionDelay(boolean bool) {
+        setFeedback(feedback);
     }
 
-    /*
-    private String turn(){
-        if (controller.myTurn){
-            return "Nå skal jeg skyte";
-        }
-        return "Nå skal motstander skyte";
-    }
-     */
 }
