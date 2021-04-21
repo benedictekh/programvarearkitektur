@@ -5,12 +5,15 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
+import com.mygdx.game.view.FeedbackDelay;
 import com.mygdx.game.view.PlayView;
 
 import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -27,6 +30,8 @@ public class PlayController extends Controller{
     public static ArrayList<Integer> lastShot;
     private boolean canShoot;
     public static Boolean finishedGame = false;
+
+    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
 
     public PlayController(Player player) {
@@ -104,6 +109,7 @@ public class PlayController extends Controller{
         if (myTurn && canShoot){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
                 setCanShoot(false);
+                FeedbackDelay();
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 Runnable task = new Runnable() {
                     @Override
@@ -113,7 +119,6 @@ public class PlayController extends Controller{
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
-
             }
         }
         else{
@@ -123,6 +128,12 @@ public class PlayController extends Controller{
     }
     public void setCanShoot(boolean canShoot){
         this.canShoot = canShoot;
+    }
+
+    public void FeedbackDelay(){
+        if(!this.canShoot){
+            firefeedbackDelayString("You missed! Opponents turn...");
+        }
     }
 
 
@@ -151,6 +162,33 @@ public class PlayController extends Controller{
         }
         return "Nå skal motstander skyte";
     }
+
+
+
+    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
+        feedbackDelayListeners.add(feedbackDelayListener);
+    }
+    /*
+
+    public void removeCrashListener(Feedback feedbackListener) {
+        feedbackListeners.remove(feedbackListener);
+    }
+
+     */
+
+    public static void firefeedbackDelayString(String string) {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(string);
+        }
+    }
+    /*
+    public void firefeedbackDelayFalse() {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(false);
+        }
+    }
+
+     */
 
 
 }

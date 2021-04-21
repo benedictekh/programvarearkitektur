@@ -10,13 +10,14 @@ import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Player;
 
-public class PlayView extends  State {
+public class PlayView extends  State implements FeedbackDelay{
 
     private Texture background;
     private float x_position;
     private float y_position;
     private PlayController controller;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private String feedback;
 
 
     /**
@@ -26,6 +27,7 @@ public class PlayView extends  State {
         super(gsm);
         background = new Texture("background3.jpeg");
         this.controller = controller;
+        feedback = null;
     }
 
     /**
@@ -70,9 +72,13 @@ public class PlayView extends  State {
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         font.getData().setScale(3,3);
         font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
+        if(feedback != null){
+            font.draw(sb, this.feedback,Battleships.WIDTH/2+100,Battleships.HEIGHT/2 );
+        }
         sb.end();
         controller.drawBoard();
     }
+
 
     /**
      * draws board
@@ -81,12 +87,21 @@ public class PlayView extends  State {
         player.getBoard().drawBoard();
         player.getBoard().drawShips();
         player.getBoard().drawUpdatedBoard();
+
     }
 
     @Override
     public void dispose() {
     }
+    public void setFeedback(String feedback){
+        this.feedback = feedback;
+    }
 
+
+    @Override
+    public void fireActionDelay(String string) {
+        setFeedback(string);
+    }
 
     /*
     private String turn(){

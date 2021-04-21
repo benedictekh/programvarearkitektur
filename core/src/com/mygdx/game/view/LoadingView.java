@@ -24,6 +24,8 @@ public class LoadingView extends State {
     private float totaleTime;
     private BitmapFont font;
     private LoadingController controller;
+    private MakeBoardView makeBoardView;
+    private PlayView playView;
 
     /**
      *
@@ -101,7 +103,9 @@ public class LoadingView extends State {
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
             if(controller.checkPlayersAdded()){
-                gsm.set(new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer())));
+                makeBoardView = new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer()));
+                MakeBoardController.addFeedbackListener(makeBoardView);
+                gsm.set(makeBoardView);
             }
             if (controller.checkPlayersReady()){
                 controller.getOpponentBoard();
@@ -111,7 +115,9 @@ public class LoadingView extends State {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
-                gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
+                playView = new PlayView(gsm, new PlayController(controller.getPlayer()));
+                PlayController.addFeedbackDelayListener(playView);
+                gsm.set(playView);
 
             }
     }
