@@ -16,6 +16,7 @@ public class BattleShip extends Ship{
 
 
     public BattleShip(boolean horizontal){
+
         super(Color.BROWN, -1);
         if (horizontal) {
             setSizey(sizeY);
@@ -25,7 +26,5 @@ public class BattleShip extends Ship{
             setSizey(sizeX);
             setSizex(sizeY);
         }
-
-
     }
 }

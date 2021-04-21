@@ -19,12 +19,14 @@ import java.util.List;
 public class MakeBoardView extends State implements Feedback{
     private Texture background;
     private MakeBoardController controller;
-    //private Board board;
     private int x_position;
     private int y_position;
-    private ButtonView nextButton;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
+    private ButtonView next;
+    private Texture logo;
+    private Texture setUpTutorial;
+    private BitmapFont setUp;
     private boolean bool = true;
     private boolean pressedOK = false;
     private BitmapFont font;
@@ -32,6 +34,14 @@ public class MakeBoardView extends State implements Feedback{
     private ButtonView wrongButton;
     private ButtonView rightButton;
     private Texture notValidMove;
+
+    private float timecount;
+    private float totaleTime;
+
+
+    /**
+     * the constructor, sets the background, MakeBoardController, board and "next-button"
+     */
 
     /**
      * QUALITY ATTRIBUTE: USABILITY
@@ -47,15 +57,12 @@ public class MakeBoardView extends State implements Feedback{
         this.controller = controller;
 
         background = new Texture("background3.jpeg");
-        //board = new Board(10, 10);
-        nextButton = new ButtonView("next.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);
-        font = new BitmapFont();
         playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
-        wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
-        rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
-        notValidMove = new Texture("notvalid.png");
-
-
+        next = new ButtonView("next.png", Battleships.WIDTH/2+650, 90, 250, 95);
+        logo = new Texture("logo.png");
+        setUpTutorial = new Texture("BoardSetup.png");
+        font = new BitmapFont();
+        wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
     }
 
     public void setNextTouch(boolean bool){
@@ -81,6 +88,9 @@ public class MakeBoardView extends State implements Feedback{
      *                  The next thouch is then regesterd in the moveShip function.
      */
 
+    /**
+     * moves ship to where the player places it on the board
+     */
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
@@ -90,7 +100,7 @@ public class MakeBoardView extends State implements Feedback{
             controller.findShip(controller.getIndex(x_position,y_position));
 
             //ønsker å få opp feedback om spilleren er feridg med å plassere skip
-            if(playGame.getRectangle().contains(touch.x,touch.y)){
+            if(next.getRectangle().contains(touch.x,touch.y)){
                 controller.sendBoard();
                 gsm.set(new LoadingView(gsm, new LoadingController(controller.getPlayer())));
             }
@@ -102,7 +112,6 @@ public class MakeBoardView extends State implements Feedback{
                 setmarkedShip(controller.getMarkedShip().getLocation());
                 setNextTouch(true);
             }
-
         }
     }
 
@@ -119,19 +128,20 @@ public class MakeBoardView extends State implements Feedback{
      *
      */
 
+    /**
+     * renders the MakeBoardView
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        //sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width ,nextButton.Height);
+        sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-300, 400, 400);
+        sb.draw(setUpTutorial, Battleships.WIDTH/2+100, 230, 850, 780);
+        sb.draw(next.getTexture(),next.Buttonx,next.Buttony,next.Width, next.Height);
         if(!bool){
             sb.draw(wrongButton.getTexture(),wrongButton.Buttonx,wrongButton.Buttony,wrongButton.Width ,wrongButton.Height);
-            sb.draw(notValidMove,wrongButton.Buttonx+100,wrongButton.Buttony,300 ,150);
         }
-        else if(bool){
-            sb.draw(rightButton.getTexture(),rightButton.Buttonx,rightButton.Buttony,rightButton.Width ,rightButton.Height);
-        }
-        sb.draw(playGame.getTexture(),playGame.Buttonx,playGame.Buttony,playGame.Width,playGame.Height);
+        //sb.draw(playGame.getTexture(),playGame.Buttonx,playGame.Buttony,playGame.Width,playGame.Height);
         sb.end();
         drawBoardView();
         drawMarkedShip();
@@ -175,7 +185,6 @@ public class MakeBoardView extends State implements Feedback{
 
     @Override
     public void dispose() {
-
 
     }
 }

@@ -19,25 +19,31 @@ public class PlayView extends  State {
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
-    public PlayView(GameStateManager gsm, PlayController controller){
+    /**
+     * the constructor, sets background
+     */
+    public PlayView(GameStateManager gsm, PlayController controller) {
         super(gsm);
         background = new Texture("background3.jpeg");
         this.controller = controller;
     }
 
-
+    /**
+     * gets the position of where the user clicks
+     * "shoots" in the route where the user clicks
+     */
     @Override
     protected void handleInput() {
-        if(Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             controller.shoot(controller.getIndex(x_position, y_position));
 
         }
+
         if (controller.isFinished()){
             gsm.set(new GameFinishedView(gsm, new GameFinishedController(controller.getPlayer())));
         }
-
 
         /*
         Her skal det være en funksjon som sender koordiandene som blir trykket på inn
@@ -54,6 +60,9 @@ public class PlayView extends  State {
         controller.updateShot();
     }
 
+    /**
+     * renders the PlayView
+     */
     @Override
     public void render(SpriteBatch sb) {
 
@@ -63,13 +72,21 @@ public class PlayView extends  State {
         font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
         sb.end();
         controller.drawBoard();
+    }
 
+    /**
+     * draws board
+     */
+    public void drawBoard(Player player) {
+        player.getBoard().drawBoard();
+        player.getBoard().drawShips();
+        player.getBoard().drawUpdatedBoard();
     }
 
     @Override
     public void dispose() {
-
     }
+
 
     /*
     private String turn(){
@@ -78,8 +95,5 @@ public class PlayView extends  State {
         }
         return "Nå skal motstander skyte";
     }
-
      */
-
-
 }
