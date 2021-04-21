@@ -319,7 +319,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if ((String.valueOf(snapshot.getValue())).equals("True")){
-                    PlayController.finishedGame = true;
+                    GameStateController.finishedGame = true;
                 }
             }
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.GameStateController;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class GameFinishedView extends State {
         background = new Texture("background1.jpg");
         font = new BitmapFont();
         newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
-        temp = controller.getScoreboard();
+        temp = gsc.getScoreBoardController().getScoreboard();
 
 
         /*

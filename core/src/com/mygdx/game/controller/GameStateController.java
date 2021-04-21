@@ -61,6 +61,8 @@ public class GameStateController {
         setCanShoot(true);
         Battleships.firebaseConnector.getOpponentsShot();
         Battleships.firebaseConnector.gameFinsihedListener();
+        player.setOpponentBoard(opponentBoard);
+        this.scoreBoard = scoreBoardController.createNewScoreBoard(player);
     }
 
     public PlayerController getPlayerController() {
@@ -102,7 +104,6 @@ public class GameStateController {
     public void setPlayer(Player player) {
         this.player = player;
         setBoard(player.getBoard());
-        this.scoreBoard = scoreBoardController.createNewScoreBoard(player);
         System.out.println("Spilleren til controller: " + this.player.getName());
         System.out.println("Spillerens brett: ");
         boardController.printBoard(board);
@@ -353,6 +354,8 @@ public class GameStateController {
     public ScoreBoard getScoreBoard(){
         return scoreBoard;
     }
+
+
 
 
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.GameStateController;
 
 public class TutorialView extends State{
 
@@ -15,11 +16,11 @@ public class TutorialView extends State{
     private ButtonView tut_button;
 
 
-    protected TutorialView(GameStateManager gsm) {
+    protected TutorialView(GameStateManager gsm, GameStateController gsc) {
 
         //Et problem her er at jeg ikke vil tegne bagrunnen på nytt, jeg vil bare legge på tutorial
 
-        super(gsm);
+        super(gsm, gsc);
         logo = new Texture("cover.png");
         background = new Texture("background4.jpeg");
         tutorial = new BitmapFont();
