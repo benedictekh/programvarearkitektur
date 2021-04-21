@@ -22,8 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 public class BoardController {
 
-    //private Board board;
-
 
 
     /**

@@ -1,5 +1,6 @@
 package com.mygdx.game.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.controller.ShipController;
@@ -12,6 +13,7 @@ import java.util.List;
 public class GameBoardView {
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private int linewitdh = 8;
 
 
     /**
@@ -47,9 +49,14 @@ public class GameBoardView {
                 for ( List<Integer> coordinate : ship.getLocation()) {
                     float x = (coordinate.get(0) * cell_width) + board.getSidemargin() + cell_width/2;
                     float y =board.getWidth() - cell_width - (coordinate.get(1) * cell_width) + board.getSidemargin() + cell_width/2;
+                    Gdx.gl.glLineWidth(100);
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(ship.getColor());
-                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+
+                    for(float i = 0; i< linewitdh; i++){
+                        shapeRenderer.circle(x, y, (cell_width / 2 - 8)+i);
+                    }
+
                     shapeRenderer.end();
                 }
             }
@@ -59,12 +66,15 @@ public class GameBoardView {
                     float y = board.getWidth() - cell_width - (coordinate.get(1) * cell_width) + board.getSidemargin() + cell_width / 2;
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                     shapeRenderer.setColor(ship.getColor());
-                    shapeRenderer.circle(x, y, cell_width / 2 - 2);
+                    for(float i = 0; i<linewitdh; i++){
+                        shapeRenderer.circle(x, y, (cell_width / 2 - 8)+i);
+                    }
                     shapeRenderer.end();
                 }
             }
         }
     }
+
 
     /**
      * draws the selected ship as a rectangle that shows every cell the ship is occupying
@@ -119,17 +129,18 @@ public class GameBoardView {
             for ( int j = 0; j < board.getBoard().size(); j ++){
                 if (board.getBoard().get(i).get(j) == Cell.HIT) {
                     // draw a cross
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.line(board.getSidemargin() +j * cell_width, board.getWidth() + board.getSidemargin() - cell_width - y_coord, board.getSidemargin() +j * cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord);
-                    shapeRenderer.line(board.getSidemargin() + j*cell_width, board.getWidth() + board.getSidemargin() - y_coord, board.getSidemargin() + j*cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord - cell_width);
+                    shapeRenderer.rectLine(board.getSidemargin() +j * cell_width, board.getWidth() + board.getSidemargin() - cell_width - y_coord, board.getSidemargin() +j * cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord, 2);
+                    shapeRenderer.rectLine(board.getSidemargin() + j*cell_width, board.getWidth() + board.getSidemargin() - y_coord, board.getSidemargin() + j*cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord - cell_width, 2);
                     shapeRenderer.end();
                 }
                 else if (board.getBoard().get(i).get(j) == Cell.MISS) {
                     // draws a diagonal line
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.line(board.getSidemargin() +j * cell_width, board.getWidth() + board.getSidemargin() - cell_width - y_coord, board.getSidemargin() +j * cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord);
+                    shapeRenderer.rectLine(board.getSidemargin() +j * cell_width, board.getWidth() + board.getSidemargin() - cell_width - y_coord, board.getSidemargin() +j * cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord, 2);
                     shapeRenderer.end();
                 }
             }

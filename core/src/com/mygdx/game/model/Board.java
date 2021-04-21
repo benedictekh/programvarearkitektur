@@ -33,7 +33,6 @@ public class Board {
     private Texture texture; //the board texture
     private ShapeRenderer shapeRenderer;
     private float width; //the width of the board, board is a square -> width = height
-    private int linewitdh = 8;
 
 
 
@@ -153,47 +152,3 @@ public class Board {
         return board.get(x).get(y);
     }
 }
-
-
-
-
-    /**
-     * draws the ships on the board
-     * every ships has its own color and every cell the ship occupies is drawn with a circle
-     * if the ship is sunk, the drawn circles will be filled
-     */
-    public void drawShips(){
-
-        float cell_width = width/ getBoard().size();
-        for (Ship ship: ships){
-            if (ship.isSunk()){
-                // draws filled circles
-                for ( List<Integer> coordinate : ship.getLocation()) {
-                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width/2;
-                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width/2;
-                    Gdx.gl.glLineWidth(100); 
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.setColor(ship.getColor());
-                    //shapeRenderer.circle(x, y, (cell_width / 2 - 2));
-                    for(float i = 0; i<linewitdh; i++){
-                       shapeRenderer.circle(x, y, (cell_width / 2 - 8)+i);
-                    }
-
-                    shapeRenderer.end();
-                }
-            }
-            else {
-                for (List<Integer> coordinate : ship.getLocation()) {
-                    float x = (coordinate.get(0) * cell_width) + sidemargin + cell_width / 2;
-                    float y = width - cell_width - (coordinate.get(1) * cell_width) + sidemargin + cell_width / 2;
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                    shapeRenderer.setColor(ship.getColor());
-                    //shapeRenderer.circle(x, y, (cell_width / 2 - 2));
-                    for(float i = 0; i<linewitdh; i++){
-                        shapeRenderer.circle(x, y, (cell_width / 2 - 8)+i);
-                    }
-                    shapeRenderer.end();
-                }
-            }
-        }
-    }

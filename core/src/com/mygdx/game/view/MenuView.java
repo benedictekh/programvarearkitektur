@@ -47,12 +47,7 @@ public class MenuView extends State {
                 gsm.set(new InitializeGameView(gsm, new GameStateController()));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
-
-                GameFinishedView = new GameFinishedView(gsm, new GameFinishedController(new Player("isabel", true)));
-                //GameFinishedController.addFeedbackListener();
-                gsm.set(GameFinishedView);
-
-
+                gsm.set(new GameFinishedView(gsm, gsc));
             }
             else{
                 System.out.println("pressed outside");

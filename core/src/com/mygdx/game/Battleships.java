@@ -3,18 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.controller.FirebaseConnector;
-import com.mygdx.game.model.Board;
-import com.mygdx.game.model.Player;
-import com.mygdx.game.model.ScoreBoard;
 import com.mygdx.game.view.MenuView;
-import com.mygdx.game.view.PlayView;
 import com.mygdx.game.view.GameStateManager;
-
-import java.nio.file.Watchable;
-import java.util.HashMap;
 
 public class Battleships extends ApplicationAdapter {
 	private SpriteBatch batch;

@@ -3,8 +3,10 @@ package com.mygdx.game.controller;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.model.ScoreBoard;
 import com.mygdx.game.model.ships.Ship;
 import com.mygdx.game.view.Feedback;
+import com.mygdx.game.view.FeedbackDelay;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,9 +25,11 @@ public class GameStateController {
     private Player player;
     private Board board;
     private Board opponentBoard;
+    private ScoreBoard scoreBoard;
 
     public static Boolean playersAdded = false;
     public static Boolean playersReady = false;
+    public static Boolean finishedGame = false;
 
 
 
@@ -34,7 +38,8 @@ public class GameStateController {
     private boolean canShoot = true;
     public static boolean shotChanged = false;
     public static ArrayList<Integer> lastShot;
-    private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
+    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
+    private static Collection<Feedback> feedbackListeners = new ArrayList<>();
 
 
     //creates a new GameStateController with an existing player
@@ -55,7 +60,7 @@ public class GameStateController {
         setMyTurn(Battleships.firebaseConnector.addTurnListener());
         setCanShoot(true);
         Battleships.firebaseConnector.getOpponentsShot();
-
+        Battleships.firebaseConnector.gameFinsihedListener();
     }
 
     public PlayerController getPlayerController() {
@@ -97,6 +102,7 @@ public class GameStateController {
     public void setPlayer(Player player) {
         this.player = player;
         setBoard(player.getBoard());
+        this.scoreBoard = scoreBoardController.createNewScoreBoard(player);
         System.out.println("Spilleren til controller: " + this.player.getName());
         System.out.println("Spillerens brett: ");
         boardController.printBoard(board);
@@ -144,6 +150,7 @@ public class GameStateController {
 
 
 
+
     /**
      * computes the index in a double-linked-list from two coordinates
      * finds the cell a person were trying to touch from on a drawn board
@@ -174,6 +181,7 @@ public class GameStateController {
         if (myTurn && canShoot){
             if(boardController.shoot(opponentBoard, indexes.get(0), indexes.get(1))) {
                 setCanShoot(false);
+                FeedbackDelay();
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 Runnable task = new Runnable() {
                     @Override
@@ -183,6 +191,7 @@ public class GameStateController {
                     }
                 };
                 executor.schedule(task, 3, TimeUnit.SECONDS);
+                FeedbackDelay();
 
             }
         }
@@ -191,6 +200,7 @@ public class GameStateController {
 
         }
     }
+
     public void setCanShoot(boolean canShoot){
         this.canShoot = canShoot;
     }
@@ -204,9 +214,14 @@ public class GameStateController {
     }
 
     public boolean isFinished(){
+        if (boardController.isFinished(opponentBoard)){
+            Battleships.firebaseConnector.gameFinished();
+        }
 
-        return (boardController.isFinished(opponentBoard)|| boardController.isFinished(board));
+        return finishedGame;
     }
+
+
 
 
 
@@ -221,7 +236,7 @@ public class GameStateController {
         if (myTurn){
             return "Now you can shoot";
         }
-        return "I't opponents turn, they can shoot!";
+        return "It's opponents turn, they can shoot!";
     }
 
 
@@ -251,9 +266,6 @@ public class GameStateController {
         System.out.println("Nå ser initialize Opponent board sånn ut: " + board.getInitializeOpponentBoard());
     }
 
-    public static void addFeedbackListener(Feedback feedbackListener) {
-        feedbackListeners.add(feedbackListener);
-    }
 
    public void moveShip(int new_x, int new_y, ArrayList<List<Integer>> location){
        // finds the index based on the coordinates of the touch
@@ -287,6 +299,7 @@ public class GameStateController {
 
 
 
+
     public static void firefeedbackTrue() {
         for (Feedback feedbackListener: feedbackListeners) {
             feedbackListener.fireAction(true);
@@ -297,6 +310,7 @@ public class GameStateController {
             feedbackListener.fireAction(false);
         }
     }
+
 
 
     public ArrayList<List<Integer>> getOpponentBoardFromFirebase(){
@@ -311,5 +325,35 @@ public class GameStateController {
         Battleships.firebaseConnector.boardListener();
 
     }
+
+    public static void addFeedbackListener(Feedback feedbackListener){
+        feedbackListeners.add(feedbackListener);
+    }
+
+
+    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
+        feedbackDelayListeners.add(feedbackDelayListener);
+    }
+
+    public static void firefeedbackDelayBoolean(boolean feedback) {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(feedback);
+        }
+    }
+
+    public void FeedbackDelay(){
+        if(!this.canShoot){
+            firefeedbackDelayBoolean(true);
+        }
+        else{
+            firefeedbackDelayBoolean(false);
+        }
+    }
+
+    public ScoreBoard getScoreBoard(){
+        return scoreBoard;
+    }
+
+
 
 }

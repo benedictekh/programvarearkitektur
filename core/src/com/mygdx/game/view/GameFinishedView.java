@@ -7,20 +7,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.GameCodeHolder;
-import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.LoadingController;
 import com.mygdx.game.controller.GameStateController;
 
-import java.awt.Button;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public class GameFinishedView extends State {
 

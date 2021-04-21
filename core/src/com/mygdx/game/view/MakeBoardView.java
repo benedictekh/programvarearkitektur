@@ -14,8 +14,6 @@ import java.util.List;
 
 public class MakeBoardView extends State implements Feedback{
     private Texture background;
-    private MakeBoardController controller;
-    //private Board board;
     private int x_position;
     private int y_position;
     private Boolean nextTouch = false;
@@ -67,6 +65,7 @@ public class MakeBoardView extends State implements Feedback{
         rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
         notValidMove = new Texture("notvalid.png");
         System.out.println("Blir dataen sendt med videre? " + gsc.getPlayer());
+        GameStateController.addFeedbackListener(this);
 
 
     }

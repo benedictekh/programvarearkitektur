@@ -97,8 +97,6 @@ public class LoadingView extends State {
             if (gsc.checkPlayersAdded()){
                 gsm.set(new MakeBoardView(gsm, gsc));
 
-                makeBoardView = new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer()));
-                MakeBoardController.addFeedbackListener(makeBoardView);
             }
 
             if(gsc.checkPlayersReady()){
@@ -111,9 +109,6 @@ public class LoadingView extends State {
                 }
                 gsc.initilializeGameFirebase();
                 gsm.set(new PlayView(gsm, gsc));
-                playView = new PlayView(gsm, new PlayController(controller.getPlayer()));
-                PlayController.addFeedbackDelayListener(playView);
-
             }
 
     }

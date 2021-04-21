@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ScoreBoardController {
-    public static HashMap<String, Integer> printScoreboard;
+
+    public static HashMap<String, Integer> printScoreboard = new HashMap<>();
 
     public void calculateScore(ScoreBoard scoreBoard){
         for (List<Integer> board : scoreBoard.getBoardList()){
@@ -52,7 +53,7 @@ public class ScoreBoardController {
         Battleships.firebaseConnector.setScoreboard(scoreboard);
         Battleships.firebaseConnector.retrieveScoreboard();
         try{
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(2);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -60,6 +61,8 @@ public class ScoreBoardController {
         //sende tilbake til view
         System.out.println("Controller: " + printScoreboard);
     }
+
+
 
     private void sortScoreboard(){
         List<Map.Entry<String, Integer> > list =
@@ -84,6 +87,10 @@ public class ScoreBoardController {
             }
         }
         printScoreboard = temp;
+    }
+
+    public HashMap<String, Integer> getScoreboard(){
+        return printScoreboard;
     }
 
 
