@@ -107,17 +107,16 @@ public class PlayController extends Controller{
         if (myTurn && canShoot){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
                 setCanShoot(false);
+                FeedbackDelay();
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
-                        firefeedbackDelayString("You missed! Opponents turn...");
                         changeCurrentPlayer();
                         setCanShoot(true);
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
-
             }
         }
         else{
@@ -127,6 +126,12 @@ public class PlayController extends Controller{
     }
     public void setCanShoot(boolean canShoot){
         this.canShoot = canShoot;
+    }
+
+    public void FeedbackDelay(){
+        if(!this.canShoot){
+            firefeedbackDelayString("You missed! Opponents turn...");
+        }
     }
 
 
