@@ -11,6 +11,8 @@ import com.mygdx.game.controller.MakeBoardController;
 
 import com.mygdx.game.controller.PlayController;
 
+import java.util.concurrent.TimeUnit;
+
 public class LoadingView extends State {
 
     private Texture background;
@@ -102,7 +104,13 @@ public class LoadingView extends State {
                 gsm.set(new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer())));
             }
             if (controller.checkPlayersReady()){
-                controller.sendOpponentBoard();
+                controller.getOpponentBoard();
+                //spørsmål: rekker ikke hente ut opponentBrett
+                try{
+                    TimeUnit.SECONDS.sleep(3);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 gsm.set(new PlayView(gsm, new PlayController(controller.getPlayer())));
 
             }

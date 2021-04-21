@@ -97,7 +97,6 @@ public class MakeBoardView extends State implements Feedback{
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
-            System.out.println("Input position. " + x_position + ", " + y_position);
             controller.findShip(controller.getIndex(x_position,y_position));
 
             //ønsker å få opp feedback om spilleren er feridg med å plassere skip
@@ -110,7 +109,6 @@ public class MakeBoardView extends State implements Feedback{
                 setNextTouch(false);
             }
             if(controller.getMarkedShip() != null){
-                System.out.println("marked ships position" + controller.getMarkedShip().getLocation());
                 setmarkedShip(controller.getMarkedShip().getLocation());
                 setNextTouch(true);
             }

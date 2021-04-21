@@ -178,28 +178,16 @@ public class Board {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateBoard(x, y, cell.SHIP);
-                //updateInitalizeOpponentBoard(x, y, ship.getShipNr());
             }
         }
         System.out.println("dette kommer fra initShip");
         printBoard();
     }
-    /*
-    private void initNewShip() {
-        ships.add(new CruiserShip(true));
-        for(Ship ship: ships){
-            ship.createNewPosition(1,1);
-
-        }
-}
-     */
 
     public void printBoard(){
-        System.out.println("Dette er board");
         for (int row = 0; row < board.size(); row ++){
             System.out.println(board.get(row) + "\n");
         }
-        System.out.println("Dette er initializeOpponentBoard");
         for (int row = 0; row < initializeOpponentBoard.size(); row ++){
             System.out.println(initializeOpponentBoard.get(row) + "\n");
         }
@@ -215,7 +203,6 @@ public class Board {
      */
     private boolean isValidMove(int x, int y){
         if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
-            System.out.println("Valid coordinates");
             // coordinates is within range, check if cell is already been shot at
             int value = board.get(y).get(x);
             return cell.isValidMove(value);
@@ -313,14 +300,6 @@ public class Board {
         return true;
     }
 
-    public static void main(String[] args) {
-        Board test = new Board(10, 10);
-        /*test.shoot(2,1);
-        System.out.println("Skutt på 2, 1");
-        test.printBoard();
-        System.out.println(test.isValidMove(11, 3)); */
-    }
-
     /**
      *
      * @return the boards texture
@@ -377,7 +356,6 @@ public class Board {
     public Ship findShip(ArrayList<Integer> indexes){
         for(Ship ship: ships){
             if(ship.getLocation().contains(indexes)){
-                System.out.println("ships loactions contains indexes: " + ship.getLocation() + "indexes: " + indexes);
                 return ship;
             }
         }

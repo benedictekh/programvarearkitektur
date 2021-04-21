@@ -3,6 +3,7 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.controller.Controller;
 import com.mygdx.game.view.GameStateManager;
 
 public abstract class State {

@@ -13,6 +13,8 @@ import com.mygdx.game.controller.PlayController;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 
+import java.util.HashMap;
+
 public class InitializeGameView extends State{
 
     private GameStateManager g;
@@ -37,6 +39,7 @@ public class InitializeGameView extends State{
         font = new BitmapFont();
         nextButton = new ButtonView("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
         loginButton = new ButtonView("Login.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2,300,110);
+
     }
 
     /**
@@ -61,7 +64,6 @@ public class InitializeGameView extends State{
                         setName(name1);
                         System.out.println(name1);
                         gsm.set(new LoadingView(gsm, new LoadingController(player)));
-
                     }
 
                     @Override
