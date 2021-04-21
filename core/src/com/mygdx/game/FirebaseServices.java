@@ -11,7 +11,6 @@ public interface FirebaseServices {
 
     public void gameFinished();
     public void addPlayer(Player player);
-    public void createGame();
     public void changeTurn();
     public Boolean addTurnListener();
     public ArrayList<List<Integer>> getOpponentBoard();

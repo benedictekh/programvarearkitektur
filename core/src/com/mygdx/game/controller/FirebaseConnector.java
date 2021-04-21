@@ -11,7 +11,6 @@ import java.util.List;
 public class FirebaseConnector implements FirebaseServices{
     FirebaseServices firebaseServices;
 
-
     public FirebaseConnector(FirebaseServices firebaseServices){
         this.firebaseServices = firebaseServices;
     }
