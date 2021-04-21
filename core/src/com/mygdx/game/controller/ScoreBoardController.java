@@ -35,7 +35,6 @@ public class ScoreBoardController {
 
     public ScoreBoard createNewScoreBoard(Player player){
         ScoreBoard scoreboard = new ScoreBoard(player);
-        updateScoreboard(scoreboard);
         return scoreboard;
     }
 

@@ -45,6 +45,7 @@ public class PlayView extends  State implements FeedbackDelay{
 
         }
         if (gsc.isFinished()){
+            gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
             gsc.getScoreBoardController().updateScoreboard(gsc.getScoreBoard());
             gsm.set(new GameFinishedView(gsm, gsc));
         }
