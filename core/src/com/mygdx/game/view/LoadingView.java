@@ -35,6 +35,7 @@ public class LoadingView extends State {
 
     protected LoadingView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
+        System.out.println("Nå er vi innom loadingview");
         background = new Texture("background1.jpg");
         loading = new Texture("load0.png");
         loading_2 = new Texture("load1.png");
@@ -86,7 +87,12 @@ public class LoadingView extends State {
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
 
-            if(gsc.playersAdded && gsc.playersReady){
+            if (gsc.checkPlayersAdded()){
+                gsm.set(new MakeBoardView(gsm, gsc));
+
+            }
+
+            if(gsc.checkPlayersReady()){
                 gsc.getOpponentBoardFromFirebase();
                 //spørsmål: rekker ikke hente ut opponentBrett
                 try{
@@ -98,10 +104,7 @@ public class LoadingView extends State {
                 gsm.set(new PlayView(gsm, gsc));
 
             }
-            if (gsc.playersAdded){
-                gsm.set(new MakeBoardView(gsm, gsc));
 
-            }
     }
 
     @Override
