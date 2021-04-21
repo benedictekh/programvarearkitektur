@@ -95,6 +95,7 @@ public class LoadingView extends State {
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+                gsc.initilializeGameFirebase();
                 gsm.set(new PlayView(gsm, gsc));
 
             }

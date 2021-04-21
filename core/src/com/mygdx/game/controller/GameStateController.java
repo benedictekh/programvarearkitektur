@@ -30,8 +30,8 @@ public class GameStateController {
 
 
 
-    public static boolean myTurn;
-    public static boolean shotChanged;
+    public static boolean myTurn = true;
+    public static boolean shotChanged = false;
     public static ArrayList<Integer> lastShot;
     private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
 
@@ -45,11 +45,16 @@ public class GameStateController {
 
 
     /* må flyttes til et annet sted
+
+     */
+    }
+
+    public void initilializeGameFirebase(){
         this.opponentBoard = boardController.createBoardFromOpponent(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
         setMyTurn(Battleships.firebaseConnector.addTurnListener());
         setCanShoot(true);
         Battleships.firebaseConnector.getOpponentsShot();
-     */
+
     }
 
     public PlayerController getPlayerController() {
@@ -91,6 +96,9 @@ public class GameStateController {
     public void setPlayer(Player player) {
         this.player = player;
         setBoard(player.getBoard());
+        System.out.println("Spilleren til controller: " + this.player.getName());
+        System.out.println("Spillerens brett: ");
+        boardController.printBoard(board);
     }
 
     public void setBoard(Board board) {

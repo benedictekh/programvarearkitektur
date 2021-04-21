@@ -47,11 +47,11 @@ public class InitializeGameView extends State{
                         //creates a new player with the given name
                         gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
                         gsc.getPlayerController().addPlayerFirebase(gsc.getPlayer());
-                        player = new Player(name);
-                        gsc.setPlayer(player);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
+                        System.out.println("brettet som blir hentet av getBoard(): ");
+                        gsc.getBoardController().printBoard(gsc.getBoard());
                         gsm.set(new LoadingView(gsm, gsc));
                     }
 
