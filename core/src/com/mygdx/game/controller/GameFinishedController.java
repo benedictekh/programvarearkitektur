@@ -20,15 +20,17 @@ public class GameFinishedController extends Controller{
 
     public GameFinishedController(Player player){
         super(player);
-        /*
+
         scoreboard = new ScoreBoard(player);
         printScoreboard = new HashMap<>();
         this.updateScoreboard();
-
-         */
     }
 
-    /*
+    public HashMap<String, Integer> getScoreboard(){
+        return printScoreboard;
+    }
+
+
     public void updateScoreboard(){
         scoreboard.calculateScore();
         //Kommenter tilbake
@@ -68,7 +70,8 @@ public class GameFinishedController extends Controller{
         }
         printScoreboard = temp;
     }
-*/
+
+    /*
     private void sortScoreboard(){
         HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
         if (temp.size() >= 10){
@@ -78,6 +81,8 @@ public class GameFinishedController extends Controller{
         }
         printScoreboard = temp;
     }
+
+     */
 
     @Override
     public void update(float dt) {

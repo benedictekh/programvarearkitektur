@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
@@ -36,13 +37,27 @@ public class GameFinishedView extends State {
         background = new Texture("background1.jpg");
         font = new BitmapFont();
         newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
+        /*
+        try{
+            TimeUnit.SECONDS.sleep(1);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
+         */
+        temp = controller.getScoreboard();
+
+
+        /*
         temp = new LinkedHashMap<String, Integer>();
         temp.put("isa", 52);
         temp.put("Anne", 35);
         temp.put("Benedicte", 20);
         temp.put("Helena", 5);
         temp.put("Live", 10);
+
+         */
     }
 
 
@@ -51,7 +66,7 @@ public class GameFinishedView extends State {
         if(Gdx.input.justTouched()){
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
             if(newGame.getRectangle().contains(touch.x,touch.y)){
-               //Sendes til nytt spill?
+               gsm.push(new MenuView(gsm));
             }
         }
 
