@@ -21,7 +21,7 @@ public class MenuView extends State {
      */
 
     public MenuView(GameStateManager gsm) {
-        super(gsm, null);
+        super(gsm, new GameStateController());
 
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
@@ -45,11 +45,15 @@ public class MenuView extends State {
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
                 /*
-                makeBoardView = new MakeBoardView(gsm);
-                MakeBoardController.addFeedbackListener(makeBoardView);
+                gsc = new GameStateController();
+
+                 gsc.setPlayer(gsc.getPlayerController().createPlayer("Test Ane"));
+                //gsc.addFeedbackListener(makeBoardView);
+                State makeBoardView = new MakeBoardView(gsm, gsc);
                 gsm.set(makeBoardView);
 
                  */
+
 
             }
             else{

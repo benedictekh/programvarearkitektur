@@ -23,6 +23,8 @@ public class MakeBoardView extends State implements Feedback{
     private boolean bool = true;
     private boolean pressedOK = false;
     private BitmapFont font;
+
+
     private ButtonView playGame;
     private ButtonView wrongButton;
     private ButtonView rightButton;
@@ -49,6 +51,7 @@ public class MakeBoardView extends State implements Feedback{
         wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
         rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
         notValidMove = new Texture("notvalid.png");
+        System.out.println("Blir dataen sendt med videre? " + gsc.getPlayer());
 
 
     }
@@ -88,6 +91,7 @@ public class MakeBoardView extends State implements Feedback{
             if(playGame.getRectangle().contains(touch.x,touch.y)){
                 gsc.sendBoard();
                 gsm.set(new LoadingView(gsm, gsc));
+                gsm.set(new PlayView(gsm, gsc));
             }
             if(getNextTouch()){
                 gsc.moveShip(x_position,y_position,getShipLocation());

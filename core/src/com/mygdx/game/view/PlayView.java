@@ -23,6 +23,7 @@ public class PlayView extends  State {
         this.gameBoardView = new GameBoardView();
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
+        gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(Battleships.firebaseConnector.getOpponentBoard(), gsc.getPlayer().getBoard().getSidemargin()));
 
     }
 

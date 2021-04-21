@@ -30,7 +30,8 @@ public class GameStateController {
 
 
 
-    public static boolean myTurn = true;
+    public static boolean myTurn = false;
+    private boolean canShoot = true;
     public static boolean shotChanged = false;
     public static ArrayList<Integer> lastShot;
     private static Collection<Feedback> feedbackListeners = new ArrayList<Feedback>();
@@ -99,6 +100,7 @@ public class GameStateController {
         System.out.println("Spilleren til controller: " + this.player.getName());
         System.out.println("Spillerens brett: ");
         boardController.printBoard(board);
+        System.out.println("brettes bredde: " + board.getWidth());
     }
 
     public void setBoard(Board board) {
@@ -125,29 +127,6 @@ public class GameStateController {
         GameStateController.lastShot = lastShot;
     }
 
-    public boolean isCanShoot() {
-        return canShoot;
-    }
-
-    private boolean canShoot;
-
-
-
-    public Boolean getCanShoot() {
-        return canShoot;
-    }
-
-    public void setCanShoot(Boolean canShoot) {
-        this.canShoot = canShoot;
-    }
-
-    public boolean isShotChanged() {
-        return shotChanged;
-    }
-
-    public static boolean isMyTurn() {
-        return myTurn;
-    }
 
     public static ArrayList<Integer> getLastShot() {
         return lastShot;
@@ -208,6 +187,7 @@ public class GameStateController {
             }
         }
         else{
+            changeCurrentPlayer();
             System.out.println("Not my turn, can't shoot");
 
         }
@@ -218,7 +198,7 @@ public class GameStateController {
 
 
     public Board getBoard(){
-        if (myTurn){
+        if (!myTurn){
             return board;
         }
         return opponentBoard;
@@ -244,25 +224,18 @@ public class GameStateController {
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-        Battleships.firebaseConnector.changeTurn();
+        //Battleships.firebaseConnector.changeTurn(); må kommenteres tilbake!!
+        myTurn = !myTurn;
 
     }
 
     public String turn(){
         if (myTurn){
-            return "Nå skal jeg skyte";
+            return "Nå skal jeg skyte, da ser jeg brett uten skip";
         }
-        return "Nå skal motstander skyte";
+        return "Nå skal motstander skyte, da skal jeg se mitt brett med skip, og jeg kan ikke skyte";
     }
 
-
-
-    public String turn(Player player){
-        if (myTurn){
-            return "Nå skal jeg skyte";
-        }
-        return "Nå skal motstander skyte";
-    }
 
     //må finne en måte å kalle på denne metoden fra androidInterfaceClass
     public void updateShot(Player player, BoardController controller){
@@ -287,6 +260,7 @@ public class GameStateController {
 
     public void createInitalizeOpponentBoard(){
         boardController.makeInitalizeOpponentBoard(board);
+        System.out.println("Nå ser initialize Opponent board sånn ut: " + board.getInitializeOpponentBoard());
     }
 
     public static void addFeedbackListener(Feedback feedbackListener) {
@@ -346,6 +320,7 @@ public class GameStateController {
         createInitalizeOpponentBoard();
         Battleships.firebaseConnector.sendBoard(board.getOpponentBoard());
         Battleships.firebaseConnector.boardListener();
+
     }
 
 }

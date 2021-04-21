@@ -73,6 +73,7 @@ public class BoardController {
 
 
     public void createOpponentLists(Board board, ArrayList<List<Integer>> initializeOpponentBoard){
+        System.out.println("Nå skal jeg lage et nytt brett fra dette: " + initializeOpponentBoard);
         board.createNewShipsList();
         board.addShip(new DestroyerShip(true));
 
@@ -83,7 +84,7 @@ public class BoardController {
         board.addShip(new PatrolShip(true));
         for(int row = 0; row < board.getInitializeOpponentBoard().size(); row++){
             for(int col = 0; col < board.getInitializeOpponentBoard().size(); col++){
-                if(board.getInitializeOpponentBoard().get(row).get(col) < 0){
+                if(initializeOpponentBoard.get(row).get(col) < 0){
                     updateBoard(board, col, row, board.getCell().SHIP);
                     for(Ship ship : board.getShips()){
                         if(initializeOpponentBoard.get(row).get(col) == ship.getShipNr()){
@@ -95,8 +96,16 @@ public class BoardController {
             }
         }
         System.out.println("Board laget av createOpponentLists"+ board.getBoard());
-        System.out.println("Ships laget av createOpponentLists"+ board.getShips());
+        System.out.println("Ships laget av createOpponentLists"+ printShipslocation(board));
 
+    }
+
+    private String printShipslocation(Board board) {
+        String s = "\n";
+        for (Ship ship: board.getShips()){
+            s = s + "Skip nr " + ship.getShipNr() + ", location: " + ship.getLocation() + "\n";
+        }
+        return s;
     }
 
     /**

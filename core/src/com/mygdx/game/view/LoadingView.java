@@ -19,7 +19,6 @@ public class LoadingView extends State {
     float timecount;
     float totaleTime;
     BitmapFont font;
-    private GameStateController gsc;
 
     /**
      *
