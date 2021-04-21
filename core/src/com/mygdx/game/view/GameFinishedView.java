@@ -37,15 +37,6 @@ public class GameFinishedView extends State {
         background = new Texture("background1.jpg");
         font = new BitmapFont();
         newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
-        /*
-        try{
-            TimeUnit.SECONDS.sleep(1);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-         */
         temp = controller.getScoreboard();
 
 

@@ -59,7 +59,7 @@ public class GameFinishedController extends Controller{
         });
 
         HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        if (temp.size() >= 5){
+        if (list.size() >= 5){
             for (int i = 0; i < 5 ; i++) {
                 temp.put(list.get(i).getKey(), list.get(i).getValue());
             }
