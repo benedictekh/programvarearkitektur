@@ -26,6 +26,9 @@ public class InitializeGameView extends State{
     private InitializeGameController controller;
 
 
+    /**
+     * the constructor sets the background, buttons, logo, and font
+     */
     protected InitializeGameView(GameStateManager gsm) {
         super(gsm);
         g = gsm;
@@ -36,6 +39,10 @@ public class InitializeGameView extends State{
         loginButton = new ButtonView("Login.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2,300,110);
     }
 
+    /**
+     * switches to loadingView when touching the "next" button
+     * creates a player with username from the input-field when clicking on login
+     */
     @Override
     protected void handleInput() {
         g = gsm;
@@ -91,6 +98,10 @@ public class InitializeGameView extends State{
         handleInput();
     }
 
+    /**
+     * renders the InitializeGameView
+     * prints the username of the user if it exists
+     */
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 255, 1);

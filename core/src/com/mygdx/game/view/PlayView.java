@@ -18,26 +18,31 @@ public class PlayView extends  State {
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
-    public PlayView(GameStateManager gsm, PlayController controller){
+    /**
+     * the constructor, sets background
+     */
+    public PlayView(GameStateManager gsm, PlayController controller) {
         super(gsm);
         background = new Texture("background3.jpeg");
         this.controller = controller;
     }
 
-
+    /**
+     * gets the position of where the user clicks
+     * "shoots" in the route where the user clicks
+     */
     @Override
     protected void handleInput() {
-        if(Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             System.out.println("Input position. " + x_position + ", " + y_position);
             controller.shoot(controller.getIndex(x_position, y_position));
 
         }
-        if (controller.isFinished()){
+        if (controller.isFinished()) {
             gsm.set(new GameFinishedView(gsm));
         }
-
 
         /*
         Her skal det være en funksjon som sender koordiandene som blir trykket på inn
@@ -54,30 +59,40 @@ public class PlayView extends  State {
         controller.updateShot();
     }
 
+    /**
+     * renders the PlayView
+     */
     @Override
     public void render(SpriteBatch sb) {
 
         sb.begin();
-        sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
+        sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         //sb.draw(board,0,0,battleships.WIDTH,battleships.HEIGHT);
-        font.getData().setScale(3,3);
-        font.draw(sb, turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
+        font.getData().setScale(3, 3);
+        font.draw(sb, turn(), Battleships.WIDTH - 300, Battleships.HEIGHT / 2);
         sb.end();
         controller.drawBoard();
 
     }
 
-    @Override
-    public void dispose() {
-
+    /**
+     * draws board
+     */
+    public void drawBoard(Player player) {
+        player.getBoard().drawBoard();
+        player.getBoard().drawShips();
+        player.getBoard().drawUpdatedBoard();
     }
 
-    private String turn(){
-        if (controller.myTurn){
+    @Override
+    public void dispose() {
+    }
+
+
+    private String turn() {
+        if (controller.myTurn) {
             return "Nå skal jeg skyte";
         }
         return "Nå skal motstander skyte";
     }
-
-
 }
