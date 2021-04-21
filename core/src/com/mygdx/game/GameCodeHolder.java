@@ -8,8 +8,10 @@ import java.util.List;
 
 public class GameCodeHolder implements FirebaseServices{
 
+    private Boolean wonGame = false;
     private String gameId;
     private Integer playerId;
+    private String opponentName;
     private static GameCodeHolder instance = null;
     private  FirebaseServices firebaseServices;
 
@@ -41,6 +43,22 @@ public class GameCodeHolder implements FirebaseServices{
 
     public void setPlayerId(Integer playerId){
         this.playerId = playerId;
+    }
+
+    public void setWonGame(Boolean wonGame){
+        this.wonGame = wonGame;
+    }
+
+    public Boolean getWonGame(){
+        return wonGame;
+    }
+
+    public String getOpponentName(){
+        return opponentName;
+    }
+
+    public void setOpponentName(String name){
+        this.opponentName = name;
     }
 
     @Override

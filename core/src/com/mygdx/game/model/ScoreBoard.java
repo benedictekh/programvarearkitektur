@@ -15,6 +15,7 @@ public class ScoreBoard {
     private Player player;
     private Stage stage;
 
+    private int opponentScore;
     private int score;
 
     public ScoreBoard(Player player){
@@ -29,6 +30,14 @@ public class ScoreBoard {
 
     public int getScore(){
         return score;
+    }
+
+    public int getOpponentScore(){
+        return this.opponentScore;
+    }
+
+    public void setOpponentScore(int score){
+        this.opponentScore = score;
     }
 
     public void makeScoreBoard(){

@@ -332,6 +332,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 for (DataSnapshot score : data){
                     ScoreBoardController.printScoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
                 }
+                getPlayers();
             }
 
             @Override
@@ -339,7 +340,25 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
-        System.out.println("andorid scoreboard before return " + scoreboard);
+    }
+
+    public void getPlayers(){
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Players").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Iterable<DataSnapshot> players = snapshot.getChildren();
+                for (DataSnapshot child : players){
+                    if(!child.getKey().equals("Player" + gameCodeHolder.getPlayerId())){
+                        gameCodeHolder.setOpponentName(child.getValue().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     /**
@@ -348,6 +367,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     @Override
     public void gameFinished(){
         data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").setValue("True");
+        gameCodeHolder.setWonGame(true);
     }
 
     /**
