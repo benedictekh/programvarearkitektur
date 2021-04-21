@@ -60,7 +60,6 @@ public class MakeBoardView extends State implements Feedback{
         setUpTutorial = new Texture("BoardSetup.png");
         font = new BitmapFont();
         wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
-        playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
         wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
         rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
         notValidMove = new Texture("notvalid.png");
@@ -105,7 +104,7 @@ public class MakeBoardView extends State implements Feedback{
             gsc.getShipController().findShip(gsc.getBoard(),gsc.getIndex(x_position,y_position));
 
             //ønsker å få opp feedback om spilleren er feridg med å plassere skip
-            if(playGame.getRectangle().contains(touch.x,touch.y)){
+            if(next.getRectangle().contains(touch.x,touch.y)){
                 gsc.sendBoard();
                 gsm.set(new LoadingView(gsm, gsc));
                 
