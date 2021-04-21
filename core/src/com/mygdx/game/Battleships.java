@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 public class Battleships extends ApplicationAdapter {
 	private SpriteBatch batch;
+	//gjøre gsm static
 	private GameStateManager gsm;
 	public static int WIDTH;
 	public static int HEIGHT;

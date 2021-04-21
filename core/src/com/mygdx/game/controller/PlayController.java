@@ -119,6 +119,7 @@ public class PlayController extends Controller{
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
+                    FeedbackDelay();
             }
         }
         else{
@@ -132,7 +133,10 @@ public class PlayController extends Controller{
 
     public void FeedbackDelay(){
         if(!this.canShoot){
-            firefeedbackDelayString("You missed! Opponents turn...");
+            firefeedbackDelayBoolean(true);
+        }
+        else{
+            firefeedbackDelayBoolean(false);
         }
     }
 
@@ -158,9 +162,9 @@ public class PlayController extends Controller{
 
     public String turn(){
         if (myTurn){
-            return "Nå skal jeg skyte";
+            return "Now you can shoot!";
         }
-        return "Nå skal motstander skyte";
+        return "Its opponents turn, they can shoot!";
     }
 
 
@@ -168,27 +172,12 @@ public class PlayController extends Controller{
     public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
         feedbackDelayListeners.add(feedbackDelayListener);
     }
-    /*
 
-    public void removeCrashListener(Feedback feedbackListener) {
-        feedbackListeners.remove(feedbackListener);
-    }
-
-     */
-
-    public static void firefeedbackDelayString(String string) {
+    public static void firefeedbackDelayBoolean(boolean feedback) {
         for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
-            feedbackDelayListener.fireActionDelay(string);
+            feedbackDelayListener.fireActionDelay(feedback);
         }
     }
-    /*
-    public void firefeedbackDelayFalse() {
-        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
-            feedbackDelayListener.fireActionDelay(false);
-        }
-    }
-
-     */
 
 
 }
