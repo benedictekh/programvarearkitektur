@@ -13,11 +13,19 @@ public class GameStateManager {
      * The state abstract class is implemented to all the views.
      */
 
+    static private GameStateManager instance;
+
     private Stack<State> states;
 
-    public GameStateManager(){
+    private GameStateManager(){
 
         states = new Stack<State>();
+    }
+    public static GameStateManager getInstance(){
+        if(instance == null){
+            instance = new GameStateManager();
+        }
+        return instance;
     }
 
 

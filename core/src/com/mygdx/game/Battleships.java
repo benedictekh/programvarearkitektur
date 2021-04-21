@@ -29,7 +29,7 @@ public class Battleships extends ApplicationAdapter {
 		//this.firebaseConnector = new FirebaseConnector(firebaseServices);
 		this.firebaseConnector = GameCodeHolder.getInstance(firebaseServices);
 		batch = new SpriteBatch();
-		gsm = new GameStateManager();
+		gsm.getInstance();
 		gsm.push(new MenuView(gsm));
 
 	}

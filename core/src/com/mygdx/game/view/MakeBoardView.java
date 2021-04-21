@@ -33,9 +33,6 @@ public class MakeBoardView extends State implements Feedback{
     private Texture notValidMove;
     private GameBoardView gameBoardView = new GameBoardView();
 
-    private float timecount;
-    private float totaleTime;
-
 
     /**
      * the constructor, sets the background, MakeBoardController, board and "next-button"
