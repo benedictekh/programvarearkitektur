@@ -10,6 +10,7 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.LoadingController;
+import com.mygdx.game.controller.GameStateController;
 
 import java.awt.Button;
 import java.lang.reflect.Array;
@@ -25,14 +26,12 @@ public class GameFinishedView extends State {
 
     private Texture logo;
     private Texture background;
-    private GameFinishedController controller;
     private BitmapFont font;
     private ButtonView newGame;
     private HashMap<String, Integer> temp;
 
-    protected GameFinishedView(GameStateManager gsm, GameFinishedController controller) {
-        super(gsm);
-        this.controller = controller;
+    protected GameFinishedView(GameStateManager gsm, GameStateController gsc) {
+        super(gsm, gsc);
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         font = new BitmapFont();

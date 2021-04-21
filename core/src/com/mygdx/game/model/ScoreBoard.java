@@ -37,23 +37,23 @@ public class ScoreBoard {
     }
 
 
-    public void calculateScore(){
-        for (List<Integer> board : boardList){
-            for (Integer b : board){
-                if (b == 2){
-                    this.score += -20;
-                    //a miss
-                }else if(b == 3){
-                    //a hit
-                    this.score += 100;
-                }
-            }
-        }
+    public ArrayList<List<Integer>> getBoardList() {
+        return boardList;
     }
 
+    public void setBoardList(ArrayList<List<Integer>> boardList) {
+        this.boardList = boardList;
+    }
 
+    public Player getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
-
-
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

@@ -6,11 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.LoadingController;
-import com.mygdx.game.controller.MakeBoardController;
-import com.mygdx.game.controller.PlayController;
-import com.mygdx.game.model.Board;
-import com.mygdx.game.model.Player;
+import com.mygdx.game.controller.GameStateController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +15,7 @@ import java.util.List;
 public class MakeBoardView extends State implements Feedback{
     private Texture background;
     private MakeBoardController controller;
+    //private Board board;
     private int x_position;
     private int y_position;
     private Boolean nextTouch = false;
@@ -30,10 +27,13 @@ public class MakeBoardView extends State implements Feedback{
     private boolean bool = true;
     private boolean pressedOK = false;
     private BitmapFont font;
+
+
     private ButtonView playGame;
     private ButtonView wrongButton;
     private ButtonView rightButton;
     private Texture notValidMove;
+    private GameBoardView gameBoardView = new GameBoardView();
 
     private float timecount;
     private float totaleTime;
@@ -52,9 +52,8 @@ public class MakeBoardView extends State implements Feedback{
      * The class has its own controller that handles the input actions.
      * The class implements the Feedback interface that talks with the MakeBoardController
 **/
-    protected MakeBoardView(GameStateManager gsm, MakeBoardController controller) {
-        super(gsm);
-        this.controller = controller;
+    protected MakeBoardView(GameStateManager gsm, GameStateController gsc) {
+        super(gsm, gsc);
 
         background = new Texture("background3.jpeg");
         playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
@@ -63,6 +62,13 @@ public class MakeBoardView extends State implements Feedback{
         setUpTutorial = new Texture("BoardSetup.png");
         font = new BitmapFont();
         wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
+        playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
+        wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
+        notValidMove = new Texture("notvalid.png");
+        System.out.println("Blir dataen sendt med videre? " + gsc.getPlayer());
+
+
     }
 
     public void setNextTouch(boolean bool){
@@ -97,19 +103,20 @@ public class MakeBoardView extends State implements Feedback{
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
-            controller.findShip(controller.getIndex(x_position,y_position));
+            gsc.getShipController().findShip(gsc.getBoard(),gsc.getIndex(x_position,y_position));
 
             //ønsker å få opp feedback om spilleren er feridg med å plassere skip
-            if(next.getRectangle().contains(touch.x,touch.y)){
-                controller.sendBoard();
-                gsm.set(new LoadingView(gsm, new LoadingController(controller.getPlayer())));
+            if(playGame.getRectangle().contains(touch.x,touch.y)){
+                gsc.sendBoard();
+                gsm.set(new LoadingView(gsm, gsc));
+                
             }
             if(getNextTouch()){
-                controller.moveShip(x_position,y_position,getShipLocation());
+                gsc.moveShip(x_position,y_position,getShipLocation());
                 setNextTouch(false);
             }
-            if(controller.getMarkedShip() != null){
-                setmarkedShip(controller.getMarkedShip().getLocation());
+            if(gsc.getShipController().getMarkedShip() != null){
+                setmarkedShip(gsc.getShipController().getMarkedShip().getLocation());
                 setNextTouch(true);
             }
         }
@@ -153,15 +160,15 @@ public class MakeBoardView extends State implements Feedback{
      */
 
     public void drawBoardView(){
-        controller.drawBoardandShips();
+        gameBoardView.drawBoardandShips(gsc.getBoard());
     }
 
     /**
      * if a ship is pressed, the ship is then marked my coloring the squares.
      */
     public void drawMarkedShip() {
-        if(controller.getMarkedShip() != null){
-            controller.drawMarkedShip();
+        if(gsc.getShipController().getMarkedShip() != null){
+            gameBoardView.drawMarkedShip(gsc.getShipController().getMarkedShip(), gsc.getBoard());
         }
     }
 

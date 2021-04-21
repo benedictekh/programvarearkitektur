@@ -5,32 +5,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.Controller;
-import com.mygdx.game.controller.LoadingController;
-import com.mygdx.game.controller.MakeBoardController;
-
-import com.mygdx.game.controller.PlayController;
+import com.mygdx.game.controller.GameStateController;
 
 import java.util.concurrent.TimeUnit;
 
 public class LoadingView extends State {
 
-    private Texture background;
-    private Texture loading;
-    private Texture loading_2;
-    private boolean witch_texture = true;
-    private Texture texture;
-    private float timecount;
-    private float totaleTime;
-    private BitmapFont font;
-    private LoadingController controller;
-    private MakeBoardView makeBoardView;
-    private PlayView playView;
+    Texture background;
+    Texture loading;
+    Texture loading_2;
+    boolean witch_texture = true;
+    Texture texture;
+    float timecount;
+    float totaleTime;
+    BitmapFont font;
 
     /**
      *
      * @param gsm
-     * @param controller
+     * @param gsc
      *
      * the LoadingView is anintermidian stage / state where the handling of the database is done
      * The user will be sent into the game when they are connected to another user on aother divice.
@@ -40,16 +33,13 @@ public class LoadingView extends State {
      * QUALITY ATTRIBUTE: MODIFIABILITY
      */
 
-
-    protected LoadingView(GameStateManager gsm, LoadingController controller) {
-
-        super(gsm);
+    protected LoadingView(GameStateManager gsm, GameStateController gsc) {
+        super(gsm, gsc);
         background = new Texture("background1.jpg");
         loading = new Texture("load0.png");
         loading_2 = new Texture("load1.png");
         texture = new Texture("load0.png");
         font = new BitmapFont();
-        this.controller=controller;
     }
 
     @Override
@@ -103,24 +93,29 @@ public class LoadingView extends State {
 
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
-            if(controller.checkPlayersAdded()){
+
+            if (gsc.checkPlayersAdded()){
+                gsm.set(new MakeBoardView(gsm, gsc));
+
                 makeBoardView = new MakeBoardView(gsm, new MakeBoardController(controller.getPlayer()));
                 MakeBoardController.addFeedbackListener(makeBoardView);
-                gsm.set(makeBoardView);
             }
-            if (controller.checkPlayersReady()){
-                controller.getOpponentBoard();
+
+            if(gsc.checkPlayersReady()){
+                gsc.getOpponentBoardFromFirebase();
                 //spørsmål: rekker ikke hente ut opponentBrett
                 try{
                     TimeUnit.SECONDS.sleep(3);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+                gsc.initilializeGameFirebase();
+                gsm.set(new PlayView(gsm, gsc));
                 playView = new PlayView(gsm, new PlayController(controller.getPlayer()));
                 PlayController.addFeedbackDelayListener(playView);
-                gsm.set(playView);
 
             }
+
     }
 
     /**
