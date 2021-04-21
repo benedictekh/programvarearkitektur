@@ -219,9 +219,9 @@ public class GameStateController {
 
     public String turn(){
         if (myTurn){
-            return "Nå skal jeg skyte, da ser jeg brett uten skip";
+            return "Now you can shoot";
         }
-        return "Nå skal motstander skyte, da skal jeg se mitt brett med skip, og jeg kan ikke skyte";
+        return "I't opponents turn, they can shoot!";
     }
 
 

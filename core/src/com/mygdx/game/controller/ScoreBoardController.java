@@ -74,8 +74,8 @@ public class ScoreBoardController {
         });
 
         HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        if (temp.size() >= 10){
-            for (int i = 0; i < 10 ; i++) {
+        if (list.size() >= 5){
+            for (int i = 0; i < 5 ; i++) {
                 temp.put(list.get(i).getKey(), list.get(i).getValue());
             }
         }else {
