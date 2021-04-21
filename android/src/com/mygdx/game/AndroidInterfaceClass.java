@@ -11,9 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.mygdx.game.controller.GameFinishedController;
-import com.mygdx.game.controller.LoadingController;
-import com.mygdx.game.controller.PlayController;
+import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.controller.ScoreBoardController;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
 
@@ -74,7 +73,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 turnPlayer = Integer.valueOf((String) snapshot.getValue());
                 System.out.println("addturnListener in android: " + turnPlayer);
-                PlayController.myTurn = turnPlayer.equals(playerId);
+                GameStateController.myTurn = turnPlayer.equals(playerId);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {            }
@@ -130,7 +129,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getChildrenCount() > 1){
-                    LoadingController.playersReady = true;
+                    GameStateController.playersReady = true;
                 }
             }
             @Override
@@ -146,16 +145,16 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     @Override
     public void getOpponentsShot() {
-        PlayController.lastShot = new ArrayList<>(Arrays.asList(0,0,0));
+        GameStateController.lastShot = new ArrayList<>(Arrays.asList(0,0,0));
         data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("LastShot").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PlayController.lastShot = new ArrayList<>();
+                GameStateController.lastShot = new ArrayList<>();
                 Iterable<DataSnapshot> data = snapshot.getChildren();
                 for(DataSnapshot value : data){
-                    PlayController.lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
+                    GameStateController.lastShot.add(Integer.parseInt(String.valueOf(value.getValue())));
                 }
-                PlayController.shotChanged = true;
+                GameStateController.shotChanged = true;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -193,7 +192,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("WaitingRoom").child(player.getName()).removeValue();
                 this.turnPlayer = 0;
                 playerId = 0;
-                LoadingController.playersAdded = true;
+                GameStateController.playersAdded = true;
     }
 
     public void addWaitingroomListener(){
@@ -255,7 +254,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
                 data.child("WaitingRoom").removeValue();
                 turnPlayer = 0;
                 playerId = 1;
-                LoadingController.playersAdded = true;
+                GameStateController.playersAdded = true;
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {            }
@@ -277,12 +276,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                GameFinishedController.printScoreboard = new HashMap<String, Integer>();
+                ScoreBoardController.printScoreboard = new HashMap<String, Integer>();
                 Iterable<DataSnapshot> data = snapshot.getChildren();
                 for (DataSnapshot score : data){
-                    GameFinishedController.printScoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
+                    ScoreBoardController.printScoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
                 }
-                System.out.println("RetrieveScoreboard androidInterfaceClass - in arrayList" + GameFinishedController.printScoreboard);
+                System.out.println("RetrieveScoreboard androidInterfaceClass - in arrayList" + ScoreBoardController.printScoreboard);
             }
 
             @Override

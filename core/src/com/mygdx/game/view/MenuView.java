@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.MakeBoardController;
-
-import javax.swing.text.View;
+import com.mygdx.game.controller.GameStateController;
 
 public class MenuView extends State {
 
@@ -15,7 +13,6 @@ public class MenuView extends State {
     private Texture background;
     private ButtonView playbutton;
     private ButtonView initButton;
-    private MakeBoardView makeBoardView;
 
     /**
      * This is the first view and state that is added to the stack in the gsm.
@@ -24,7 +21,7 @@ public class MenuView extends State {
      */
 
     public MenuView(GameStateManager gsm) {
-        super(gsm);
+        super(gsm, null);
 
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
@@ -44,7 +41,7 @@ public class MenuView extends State {
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
 
             if(playbutton.getRectangle().contains(touch.x,touch.y)){
-                gsm.set(new InitializeGameView(gsm));
+                gsm.set(new InitializeGameView(gsm, new GameStateController()));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
                 /*

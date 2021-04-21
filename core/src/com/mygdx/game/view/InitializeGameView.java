@@ -7,17 +7,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.InitializeGameController;
-import com.mygdx.game.controller.LoadingController;
-import com.mygdx.game.controller.PlayController;
-import com.mygdx.game.model.Board;
+import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.model.Player;
-
-import java.util.HashMap;
 
 public class InitializeGameView extends State{
 
-    private GameStateManager g;
+
     private Player player;
     private Texture background;
     private Texture logo;
@@ -25,12 +20,11 @@ public class InitializeGameView extends State{
     public String name1;
     public ButtonView nextButton;
     public ButtonView loginButton;
-    private InitializeGameController controller;
 
 
-    protected InitializeGameView(GameStateManager gsm) {
-        super(gsm);
-        g = gsm;
+
+    protected InitializeGameView(GameStateManager gsm, GameStateController gsc) {
+        super(gsm, gsc);
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         font = new BitmapFont();
@@ -41,22 +35,24 @@ public class InitializeGameView extends State{
 
     @Override
     protected void handleInput() {
-        g = gsm;
+
         if(Gdx.input.justTouched()) {
             //lagre vektoren som blir trykket
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
             if (loginButton.getRectangle().contains(touch.x, touch.y)) {
-                g = gsm;
                 //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        player = new Player(name, true);
-                        controller = new InitializeGameController(player);
+                        //creates a new player with the given name
+                        gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
+                        gsc.getPlayerController().addPlayerFirebase(gsc.getPlayer());
+                        player = new Player(name);
+                        gsc.setPlayer(player);
                         name1 = name;
                         setName(name1);
                         System.out.println(name1);
-                        gsm.set(new LoadingView(gsm, new LoadingController(player)));
+                        gsm.set(new LoadingView(gsm, gsc));
                     }
 
                     @Override

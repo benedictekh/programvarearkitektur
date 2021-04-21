@@ -13,20 +13,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class GameFinishedController extends Controller{
-
-    private ScoreBoard scoreboard;
+public class ScoreBoardController {
     public static HashMap<String, Integer> printScoreboard;
 
+    public void calculateScore(ScoreBoard scoreBoard){
+        for (List<Integer> board : scoreBoard.getBoardList()){
+            for (Integer b : board){
+                if (b == 2){
+                    scoreBoard.setScore(scoreBoard.getScore() - 20);
+                    //this.score += -20;
+                    //a miss
+                }else if(b == 3){
+                    //a hit
+                    //this.score += 100;
+                    scoreBoard.setScore(scoreBoard.getScore() + 100);
+                }
+            }
+        }
+    }
+
+    public ScoreBoard createNewScoreBoard(Player player){
+        ScoreBoard scoreboard = new ScoreBoard(player);
+        updateScoreboard(scoreboard);
+        return scoreboard;
+    }
+
+    /*
     public GameFinishedController(Player player){
         super(player);
         scoreboard = new ScoreBoard(player);
         printScoreboard = new HashMap<>();
         this.updateScoreboard();
     }
+    */
 
-    public void updateScoreboard(){
-        scoreboard.calculateScore();
+    public void updateScoreboard(ScoreBoard scoreboard){
+        calculateScore(scoreboard);
         Battleships.firebaseConnector.setScoreboard(scoreboard);
         Battleships.firebaseConnector.retrieveScoreboard();
         try{
@@ -65,8 +87,4 @@ public class GameFinishedController extends Controller{
     }
 
 
-    @Override
-    public void update(float dt) {
-
-    }
 }

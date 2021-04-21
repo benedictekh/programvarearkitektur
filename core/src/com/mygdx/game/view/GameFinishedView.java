@@ -3,18 +3,15 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.GameCodeHolder;
-import com.mygdx.game.controller.GameFinishedController;
+import com.mygdx.game.controller.GameStateController;
 
 public class GameFinishedView extends State {
 
     private Texture logo;
     private Texture background;
-    private GameFinishedController controller;
 
-    protected GameFinishedView(GameStateManager gsm, GameFinishedController controller) {
-        super(gsm);
-        this.controller = controller;
+    protected GameFinishedView(GameStateManager gsm, GameStateController gsc) {
+        super(gsm, gsc);
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
 

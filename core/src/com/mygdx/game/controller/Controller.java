@@ -4,8 +4,8 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 
 public abstract class Controller {
-    //Board board;
-    Player player;
+
+    private Player player;
 
     Controller(Player player) {
         this.player = player;
@@ -16,5 +16,4 @@ public abstract class Controller {
     }
 
 
-    public abstract void update(float dt);
 }

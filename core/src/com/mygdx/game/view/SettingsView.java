@@ -18,7 +18,7 @@ public class SettingsView extends State{
 
         //Et problem her er at jeg ikke vil tegne bagrunnen på nytt, jeg vil bare legge på tutorial
 
-        super(gsm);
+        super(gsm, null);
         settings = new Texture("background1.jpg");
         tutorial = new Texture("tutorial.png");
         tut_button = new ButtonView("tutorial.png", Battleships.WIDTH/2-100, Battleships.HEIGHT/2,200,75);

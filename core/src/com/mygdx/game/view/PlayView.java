@@ -5,24 +5,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Battleships;
-import com.mygdx.game.controller.Controller;
-import com.mygdx.game.controller.GameFinishedController;
-import com.mygdx.game.controller.PlayController;
-import com.mygdx.game.model.Player;
+import com.mygdx.game.controller.GameStateController;
 
 public class PlayView extends  State {
 
     private Texture background;
     private float x_position;
     private float y_position;
-    private PlayController controller;
+    private GameBoardView gameBoardView;
+    //private Board opponentBoard;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
-    public PlayView(GameStateManager gsm, PlayController controller){
-        super(gsm);
+    public PlayView(GameStateManager gsm, GameStateController gsc){
+        super(gsm, gsc);
         background = new Texture("background3.jpeg");
-        this.controller = controller;
+        this.gameBoardView = new GameBoardView();
+        //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
+        //må gjøre om til minuslista senere
+
     }
 
 
@@ -31,11 +32,11 @@ public class PlayView extends  State {
         if(Gdx.input.justTouched()){
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
-            controller.shoot(controller.getIndex(x_position, y_position));
+            gsc.shoot(gsc.getIndex(x_position, y_position));
 
         }
-        if (controller.isFinished()){
-            gsm.set(new GameFinishedView(gsm, new GameFinishedController(controller.getPlayer())));
+        if (gsc.isFinished()){
+            gsm.set(new GameFinishedView(gsm, gsc));
         }
 
 
@@ -51,7 +52,7 @@ public class PlayView extends  State {
     @Override
     public void update(float dt) {
         handleInput();
-        controller.updateShot();
+        gsc.updateShot();
     }
 
     @Override
@@ -60,9 +61,9 @@ public class PlayView extends  State {
         sb.begin();
         sb.draw(background,0,0, Battleships.WIDTH, Battleships.HEIGHT);
         font.getData().setScale(3,3);
-        font.draw(sb, controller.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
+        font.draw(sb, gsc.turn(), Battleships.WIDTH-300,Battleships.HEIGHT/2 );
         sb.end();
-        controller.drawBoard();
+        gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());
 
     }
 
@@ -80,6 +81,8 @@ public class PlayView extends  State {
     }
 
      */
+
+
 
 
 }
