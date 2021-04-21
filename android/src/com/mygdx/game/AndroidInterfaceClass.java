@@ -316,7 +316,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     @Override
     public void gameFinsihedListener(){
-        data.child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").addValueEventListener(new ValueEventListener() {
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if ((String.valueOf(snapshot.getValue())).equals("True")){

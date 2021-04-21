@@ -21,11 +21,6 @@ public class FirebaseConnector implements FirebaseServices{
     }
 
 
-    @Override
-    public void createGame() {
-
-    }
-
 
     @Override
     public void changeTurn() {
