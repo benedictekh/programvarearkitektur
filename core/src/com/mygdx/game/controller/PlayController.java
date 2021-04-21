@@ -5,12 +5,15 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ships.Ship;
+import com.mygdx.game.view.Feedback;
+import com.mygdx.game.view.FeedbackDelay;
 import com.mygdx.game.view.PlayView;
 
 import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -26,6 +29,9 @@ public class PlayController extends Controller{
     public static boolean shotChanged;
     public static ArrayList<Integer> lastShot;
     private boolean canShoot;
+    public static Boolean finishedGame = false;
+
+    private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
 
 
     public PlayController(Player player) {
@@ -34,9 +40,10 @@ public class PlayController extends Controller{
         //må gjøre om til minuslista senere
         this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
         player.setOpponentBoard(opponentBoard);
-        this.myTurn = Battleships.firebaseConnector.addTurnListener();
+        myTurn = Battleships.firebaseConnector.addTurnListener();
         canShoot = true;
         Battleships.firebaseConnector.getOpponentsShot();
+        Battleships.firebaseConnector.gameFinsihedListener();
 
     }
 
@@ -102,6 +109,7 @@ public class PlayController extends Controller{
         if (myTurn && canShoot){
             if (this.opponentBoard.shoot(indexes.get(0), indexes.get(1))) {
                 setCanShoot(false);
+                FeedbackDelay();
                 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                 Runnable task = new Runnable() {
                     @Override
@@ -111,7 +119,7 @@ public class PlayController extends Controller{
                     }
                 };
                     executor.schedule(task, 3, TimeUnit.SECONDS);
-
+                    FeedbackDelay();
             }
         }
         else{
@@ -123,26 +131,26 @@ public class PlayController extends Controller{
         this.canShoot = canShoot;
     }
 
+    public void FeedbackDelay(){
+        if(!this.canShoot){
+            firefeedbackDelayBoolean(true);
+        }
+        else{
+            firefeedbackDelayBoolean(false);
+        }
+    }
+
 
     public Board getBoard(){
         return player.getBoard();
     }
 
     public boolean isFinished(){
-        /*
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Callable<Boolean> c1 = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return getBoard().isFinished();
-            }
-        };
-        executor.schedule(c1, 1, TimeUnit.SECONDS);
-
-         */
-        return (opponentBoard.isFinished() || player.getBoard().isFinished());
+        if (opponentBoard.isFinished()){
+            Battleships.firebaseConnector.gameFinished();
+        }
+        return finishedGame;
     }
-
 
 
     public void changeCurrentPlayer(){
@@ -154,9 +162,21 @@ public class PlayController extends Controller{
 
     public String turn(){
         if (myTurn){
-            return "Nå skal jeg skyte";
+            return "Now you can shoot!";
         }
-        return "Nå skal motstander skyte";
+        return "Its opponents turn, they can shoot!";
+    }
+
+
+
+    public static void addFeedbackDelayListener(FeedbackDelay feedbackDelayListener) {
+        feedbackDelayListeners.add(feedbackDelayListener);
+    }
+
+    public static void firefeedbackDelayBoolean(boolean feedback) {
+        for (FeedbackDelay feedbackDelayListener: feedbackDelayListeners) {
+            feedbackDelayListener.fireActionDelay(feedback);
+        }
     }
 
 

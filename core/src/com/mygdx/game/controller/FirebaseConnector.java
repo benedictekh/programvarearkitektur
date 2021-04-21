@@ -11,7 +11,6 @@ import java.util.List;
 public class FirebaseConnector implements FirebaseServices{
     FirebaseServices firebaseServices;
 
-
     public FirebaseConnector(FirebaseServices firebaseServices){
         this.firebaseServices = firebaseServices;
     }
@@ -21,11 +20,6 @@ public class FirebaseConnector implements FirebaseServices{
         firebaseServices.addPlayer(player);
     }
 
-
-    @Override
-    public void createGame() {
-
-    }
 
 
     @Override
@@ -71,6 +65,16 @@ public class FirebaseConnector implements FirebaseServices{
     @Override
     public void retrieveScoreboard() {
         firebaseServices.retrieveScoreboard();
+    }
+
+    @Override
+    public void gameFinished(){
+        firebaseServices.gameFinished();
+    }
+
+    @Override
+    public void gameFinsihedListener(){
+        firebaseServices.gameFinsihedListener();
     }
 
 }

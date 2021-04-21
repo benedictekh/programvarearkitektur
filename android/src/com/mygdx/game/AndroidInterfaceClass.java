@@ -38,28 +38,37 @@ public class AndroidInterfaceClass implements FirebaseServices {
     static ArrayList<List<Integer>> opponentBoard;
     static HashMap<String, Integer> scoreboard;
 
+
+    /**
+     * AndroidInterfaceClass contains all the logic to write and retrieve data to our firebase
+     * realtime database. The class contains the singelton gameCodeHolder to save the gameId
+     * and playerId throughout the game.
+     */
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
         data = database.getReference();
-        gameCodeHolder = GameCodeHolder.getInstance();
+        gameCodeHolder = GameCodeHolder.getInstance(this);
 
     }
 
 
-    // Adds a player to the waitingRoom, input: A player object
+    /**
+     * Recieve the player and pass it on to the waitingroom method.
+     * @param player player object from model, contains board and name.
+     */
     @Override
     public void addPlayer(Player player) {
         this.player = player;
         this.addWaitingroomListener();
-        //this.addWaitingroomLisenerOnce();
-
     }
 
+    /**
+     * Checks witch players turn it is and changes it to the other player locally and in realtime database.
+     */
     @Override
     public void changeTurn() {
         if (turnPlayer==0){
             turnPlayer=1;
-            //leser feil player her. 
             data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").setValue("1");
         }else{
             turnPlayer=0;
@@ -67,6 +76,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
         }
     }
 
+    /**
+     * Design pattern: Observer
+     * Initalize a listener to the turn attribute in firebase first time it is called.
+     * onDataChange() is called everytime the variable is updated after the initial call.
+     * @return true if it is the local players turn
+     */
     @Override
     public Boolean addTurnListener(){
         data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Turn").addValueEventListener(new ValueEventListener() {
@@ -83,7 +98,10 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
 
-
+    /**
+     * Retrieves the opponents board when the game is initalized.
+     * @return linked arraylist with the opponents board
+     */
     @Override
     public ArrayList<List<Integer>> getOpponentBoard() {
         int opponentId = 0;
@@ -112,7 +130,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
 
-        //System.out.println("opponent board i andoird " + opponentBoard);
         return opponentBoard;
     }
 
@@ -165,7 +182,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
 
     //create the gameId, this will be the same for the two players and the game
-    @Override
+
     public void createGame(){
         this.id = this.generateGameId();
         this.gameInfo = data.child("GameState").child(id).child("GameInfo");
@@ -174,6 +191,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
         gameInfo.child("LastShot").child("0").setValue("0");
         gameInfo.child("LastShot").child("1").setValue("0");
         gameInfo.child("LastShot").child("2").setValue("0");
+        gameInfo.child("GameFinished").setValue("False");
     }
 
     //generates a random game Id
@@ -270,8 +288,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
         data.child("Scoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
     }
 
-    static ArrayList<String> l;
-
     @Override
     public void retrieveScoreboard(){
         data.child("Scoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -291,6 +307,28 @@ public class AndroidInterfaceClass implements FirebaseServices {
             }
         });
         System.out.println("andorid scoreboard before return " + scoreboard);
+    }
+
+    @Override
+    public void gameFinished(){
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").setValue("True");
+    }
+
+    @Override
+    public void gameFinsihedListener(){
+        data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("GameFinished").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if ((String.valueOf(snapshot.getValue())).equals("True")){
+                    PlayController.finishedGame = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

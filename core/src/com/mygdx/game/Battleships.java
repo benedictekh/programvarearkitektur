@@ -18,11 +18,13 @@ import java.util.HashMap;
 
 public class Battleships extends ApplicationAdapter {
 	private SpriteBatch batch;
+	//gjøre gsm static
 	private GameStateManager gsm;
 	public static int WIDTH;
 	public static int HEIGHT;
 	FirebaseServices firebaseServices;
-	public static FirebaseConnector firebaseConnector;
+	//public static FirebaseConnector firebaseConnector;
+	public static GameCodeHolder firebaseConnector;
 
 	public Battleships(FirebaseServices firebaseServices) {
 		this.firebaseServices = firebaseServices;
@@ -33,8 +35,8 @@ public class Battleships extends ApplicationAdapter {
 		WIDTH = Gdx.app.getGraphics().getWidth();
 		HEIGHT = Gdx.app.getGraphics().getHeight();
 
-		//tester med statisk for å bruke den i initializeGameView
-		this.firebaseConnector = new FirebaseConnector(firebaseServices);
+		//this.firebaseConnector = new FirebaseConnector(firebaseServices);
+		this.firebaseConnector = GameCodeHolder.getInstance(firebaseServices);
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		gsm.push(new MenuView(gsm));
