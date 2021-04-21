@@ -91,7 +91,7 @@ public class MakeBoardView extends State implements Feedback{
             if(playGame.getRectangle().contains(touch.x,touch.y)){
                 gsc.sendBoard();
                 gsm.set(new LoadingView(gsm, gsc));
-                gsm.set(new PlayView(gsm, gsc));
+                
             }
             if(getNextTouch()){
                 gsc.moveShip(x_position,y_position,getShipLocation());
