@@ -16,6 +16,7 @@ public class MenuView extends State {
     private ButtonView playbutton;
     private ButtonView initButton;
     private MakeBoardView makeBoardView;
+    private TutorialView TutorialView;
 
     /**
 <<<<<<< HEAD
@@ -29,7 +30,7 @@ public class MenuView extends State {
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
-        initButton = new ButtonView("Settings.png", Battleships.WIDTH/2-150, 300,300,100);
+        initButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
     }
 
     /**
@@ -53,8 +54,9 @@ public class MenuView extends State {
                 makeBoardView = new MakeBoardView(gsm);
                 MakeBoardController.addFeedbackListener(makeBoardView);
                 gsm.set(makeBoardView);
-
                  */
+                TutorialView = new TutorialView(gsm);
+                gsm.push(TutorialView);
 
             }
             else{

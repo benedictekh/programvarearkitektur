@@ -82,7 +82,7 @@ public class LoadingView extends State {
     @Override
     public void update(float dt) {
 
-        /*
+
             totaleTime += dt;
             timecount+=dt;
             if (timecount>1)
@@ -96,7 +96,7 @@ public class LoadingView extends State {
                 switchImage(witch_texture);
                 timecount=0;
             }
-            */
+
 
             // om framen har vart i mer enn 4 sekunder, så skifter den
             //dersom det er to spillere kommer de til playView
@@ -126,7 +126,7 @@ public class LoadingView extends State {
         sb.draw(getTexture(),Battleships.WIDTH/2-175,Battleships.HEIGHT/2-50,350,300);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3,3);
-        font.draw(sb,"Please wait", Battleships.WIDTH/2-100,300);
+        font.draw(sb,"Waiting for another player to join", Battleships.WIDTH/2-100,300);
         sb.end();
     }
 
