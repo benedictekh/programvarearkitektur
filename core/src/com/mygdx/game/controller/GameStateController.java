@@ -191,8 +191,8 @@ public class GameStateController {
                         setCanShoot(true);
                     }
                 };
-                executor.schedule(task, 3, TimeUnit.SECONDS);
-                FeedbackDelay();
+                executor.schedule(task, 2, TimeUnit.SECONDS);
+
 
             }
         }
@@ -204,6 +204,7 @@ public class GameStateController {
 
     public void setCanShoot(boolean canShoot){
         this.canShoot = canShoot;
+        FeedbackDelay();
     }
 
 
