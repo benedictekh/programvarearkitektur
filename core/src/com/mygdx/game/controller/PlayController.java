@@ -40,7 +40,7 @@ public class PlayController extends Controller{
         //må gjøre om til minuslista senere
         this.opponentBoard = new Board(Battleships.firebaseConnector.getOpponentBoard(), player.getBoard().getSidemargin());
         player.setOpponentBoard(opponentBoard);
-        this.myTurn = Battleships.firebaseConnector.addTurnListener();
+        myTurn = Battleships.firebaseConnector.addTurnListener();
         canShoot = true;
         Battleships.firebaseConnector.getOpponentsShot();
         Battleships.firebaseConnector.gameFinsihedListener();

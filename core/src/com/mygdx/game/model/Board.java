@@ -342,7 +342,7 @@ public class Board {
      *
      * @param x x-postion for the cell
      * @param y y-position for the cell
-     * @return  returns the value of the cell on a given coordiante
+     * @return  returns the value of the cell on a given coordinate
      */
     public int getCellValue(int x, int y){
         return board.get(x).get(y);
@@ -476,17 +476,17 @@ public class Board {
             for ( int j = 0; j < getBoard().size(); j ++){
                 if (board.get(i).get(j) == Cell.HIT) {
                     // draw a cross
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
-                    shapeRenderer.line(sidemargin + j*cell_width, width + sidemargin - y_coord, sidemargin + j*cell_width + cell_width, width + sidemargin - y_coord - cell_width);
+                    shapeRenderer.rectLine(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord, 2);
+                    shapeRenderer.rectLine(sidemargin + j*cell_width, width + sidemargin - y_coord, sidemargin + j*cell_width + cell_width, width + sidemargin - y_coord - cell_width, 2);
                     shapeRenderer.end();
                 }
                 else if (board.get(i).get(j) == Cell.MISS) {
                     // draws a diagonal line
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.line(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord);
+                    shapeRenderer.rectLine(sidemargin +j * cell_width, width + sidemargin - cell_width - y_coord, sidemargin +j * cell_width + cell_width, width + sidemargin - y_coord, 2);
                     shapeRenderer.end();
                 }
             }
