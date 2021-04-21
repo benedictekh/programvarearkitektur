@@ -1,28 +1,59 @@
 package com.mygdx.game.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameFinishedController;
+import com.mygdx.game.controller.LoadingController;
+
+import java.awt.Button;
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public class GameFinishedView extends State {
 
     private Texture logo;
     private Texture background;
     private GameFinishedController controller;
+    private BitmapFont font;
+    private ButtonView newGame;
+    private HashMap<String, Integer> temp;
 
     protected GameFinishedView(GameStateManager gsm, GameFinishedController controller) {
         super(gsm);
         this.controller = controller;
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
+        font = new BitmapFont();
+        newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
 
+        temp = new LinkedHashMap<String, Integer>();
+        temp.put("isa", 52);
+        temp.put("Anne", 35);
+        temp.put("Benedicte", 20);
+        temp.put("Helena", 5);
+        temp.put("Live", 10);
     }
 
 
     @Override
     protected void handleInput() {
+        if(Gdx.input.justTouched()){
+            Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
+            if(newGame.getRectangle().contains(touch.x,touch.y)){
+               //Sendes til nytt spill?
+            }
+        }
 
     }
 
@@ -34,9 +65,30 @@ public class GameFinishedView extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo, Battleships.WIDTH/2-275, Battleships.HEIGHT-150, 500, 200);
+        sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(4,4);
+        font.draw(sb,"You (navn) won!", 200,Battleships.HEIGHT-200);
+        font.draw(sb,"Your score: ", 200,Battleships.HEIGHT-400);
+        font.draw(sb,"Opponent (navn) loose!:(", Battleships.WIDTH-700,Battleships.HEIGHT-200);
+        font.draw(sb,"Opponent score: ", Battleships.WIDTH-700,Battleships.HEIGHT-400);
+        font.draw(sb,"Score board: ", Battleships.WIDTH/2-200,900);
+
+        Iterator iterator = temp.entrySet().iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Map.Entry mapElement = (Map.Entry) iterator.next();
+            //for (int i = 0; i < 10; i++) {
+                int score = ((int)mapElement.getValue());
+                font.setColor(Color.BLACK);
+                font.draw(sb, mapElement.getKey().toString(), Battleships.WIDTH/2-300, 800-i*70);
+                font.draw(sb, " : ", Battleships.WIDTH/2, 800-i*70);
+                font.draw(sb, String.valueOf(score), Battleships.WIDTH/2+100, 800-i*70);
+            //}
+            i++;
+        }
+        sb.draw(newGame.getTexture(), newGame.Buttonx, newGame.Buttony, newGame.Width, newGame.Height);
         sb.end();
     }
 

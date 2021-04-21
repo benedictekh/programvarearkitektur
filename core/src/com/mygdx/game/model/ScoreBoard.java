@@ -1,5 +1,10 @@
 package com.mygdx.game.model;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +13,7 @@ public class ScoreBoard {
 
     private ArrayList<List<Integer>> boardList;
     private Player player;
+    private Stage stage;
 
     private int score;
 
@@ -15,7 +21,6 @@ public class ScoreBoard {
         this.boardList = player.getOpponentBoard().getBoard();
         this.player = player;
         this.score = 0;
-
     }
 
     public String getName(){
@@ -24,6 +29,11 @@ public class ScoreBoard {
 
     public int getScore(){
         return score;
+    }
+
+    public void makeScoreBoard(){
+        stage = new Stage(new ScreenViewport());
+        Container<Table> tableContainer = new Container<Table>();
     }
 
 

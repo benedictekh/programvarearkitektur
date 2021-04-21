@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.controller.GameFinishedController;
 import com.mygdx.game.controller.MakeBoardController;
+import com.mygdx.game.model.Player;
 
 import javax.swing.text.View;
 
@@ -16,6 +18,7 @@ public class MenuView extends State {
     private ButtonView playbutton;
     private ButtonView initButton;
     private MakeBoardView makeBoardView;
+    private GameFinishedView GameFinishedView;
 
     /**
 <<<<<<< HEAD
@@ -49,12 +52,10 @@ public class MenuView extends State {
                 gsm.set(new InitializeGameView(gsm));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
-                /*
-                makeBoardView = new MakeBoardView(gsm);
-                MakeBoardController.addFeedbackListener(makeBoardView);
-                gsm.set(makeBoardView);
 
-                 */
+                GameFinishedView = new GameFinishedView(gsm, new GameFinishedController(new Player("isabel", true)));
+                //GameFinishedController.addFeedbackListener();
+                gsm.set(GameFinishedView);
 
             }
             else{

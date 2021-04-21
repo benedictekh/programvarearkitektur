@@ -20,13 +20,18 @@ public class GameFinishedController extends Controller{
 
     public GameFinishedController(Player player){
         super(player);
+        /*
         scoreboard = new ScoreBoard(player);
         printScoreboard = new HashMap<>();
         this.updateScoreboard();
+
+         */
     }
 
+    /*
     public void updateScoreboard(){
         scoreboard.calculateScore();
+        //Kommenter tilbake
         Battleships.firebaseConnector.setScoreboard(scoreboard);
         Battleships.firebaseConnector.retrieveScoreboard();
         try{
@@ -52,8 +57,8 @@ public class GameFinishedController extends Controller{
         });
 
         HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        if (temp.size() >= 10){
-            for (int i = 0; i < 10 ; i++) {
+        if (temp.size() >= 5){
+            for (int i = 0; i < 5 ; i++) {
                 temp.put(list.get(i).getKey(), list.get(i).getValue());
             }
         }else {
@@ -63,7 +68,16 @@ public class GameFinishedController extends Controller{
         }
         printScoreboard = temp;
     }
-
+*/
+    private void sortScoreboard(){
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        if (temp.size() >= 10){
+            for (int i = 0; i < 10 ; i++) {
+                temp.put("isa", 52);
+            }
+        }
+        printScoreboard = temp;
+    }
 
     @Override
     public void update(float dt) {
