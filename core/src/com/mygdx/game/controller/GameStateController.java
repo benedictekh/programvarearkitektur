@@ -224,8 +224,7 @@ public class GameStateController {
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase
-        //Battleships.firebaseConnector.changeTurn(); må kommenteres tilbake!!
-        myTurn = !myTurn;
+        Battleships.firebaseConnector.changeTurn();
 
     }
 
@@ -311,8 +310,9 @@ public class GameStateController {
     }
 
 
-    public void getOpponentBoardFromFirebase(){
-        Battleships.firebaseConnector.getOpponentBoard();
+    public ArrayList<List<Integer>> getOpponentBoardFromFirebase(){
+        System.out.println("Brett fra firebase: " + Battleships.firebaseConnector.getOpponentBoard());
+        return Battleships.firebaseConnector.getOpponentBoard();
     }
 
 
