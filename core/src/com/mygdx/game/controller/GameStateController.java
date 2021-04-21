@@ -187,7 +187,6 @@ public class GameStateController {
             }
         }
         else{
-            changeCurrentPlayer();
             System.out.println("Not my turn, can't shoot");
 
         }
@@ -205,17 +204,7 @@ public class GameStateController {
     }
 
     public boolean isFinished(){
-        /*
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Callable<Boolean> c1 = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return getBoard().isFinished();
-            }
-        };
-        executor.schedule(c1, 1, TimeUnit.SECONDS);
 
-         */
         return (boardController.isFinished(opponentBoard)|| boardController.isFinished(board));
     }
 
