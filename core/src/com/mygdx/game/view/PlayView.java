@@ -1,11 +1,14 @@
 package com.mygdx.game.view;//package com.mygdx.game.view; //endret
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.model.ScoreBoard;
 
 public class PlayView extends  State implements FeedbackDelay{
 
@@ -15,7 +18,12 @@ public class PlayView extends  State implements FeedbackDelay{
     private GameBoardView gameBoardView;
     //private Board opponentBoard;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private BitmapFont turn = new BitmapFont();
     private boolean feedback = false;
+    private Texture logo;
+    private ButtonView tutorialButton;
+    private TutorialView TutorialView;
+    private Texture missed;
 
 
     /**
@@ -24,7 +32,10 @@ public class PlayView extends  State implements FeedbackDelay{
     public PlayView(GameStateManager gsm, GameStateController gsc){
         super(gsm, gsc);
         background = new Texture("background3.jpeg");
+        logo = new Texture("logo.png");
+        missed = new Texture("missed.png");
         this.gameBoardView = new GameBoardView();
+        tutorialButton = new ButtonView("tutorial1.png", Battleships.WIDTH/2+380, 135,250,100);
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
         gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(gsc.getOpponentBoardFromFirebase(), gsc.getPlayer().getBoard().getSidemargin()));
@@ -39,10 +50,18 @@ public class PlayView extends  State implements FeedbackDelay{
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
+            Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
+
+            if(tutorialButton.getRectangle().contains(touch.x, touch.y)) {
+                TutorialView = new TutorialView(gsm, gsc);
+                gsm.push(TutorialView);
+            }
+
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             gsc.shoot(gsc.getIndex(x_position, y_position));
-
+            gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
+            gsc.getScoreBoardController().updateScore(gsc.getScoreBoard());
         }
         if (gsc.isFinished()){
             gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
@@ -55,12 +74,11 @@ public class PlayView extends  State implements FeedbackDelay{
         til controlleren. Controlleren vil videre regne ut hvilket rutenummer det er og sende dette
         Board model.
          */
-
-
     }
 
     @Override
     public void update(float dt) {
+
         handleInput();
         gsc.updateShot();
     }
@@ -73,12 +91,18 @@ public class PlayView extends  State implements FeedbackDelay{
 
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
+        sb.draw(logo, Battleships.WIDTH/2+220, Battleships.HEIGHT-400, 600, 600);
         font.getData().setScale(3, 3);
-        font.draw(sb, gsc.turn(), Battleships.WIDTH/2 + 100, Battleships.HEIGHT / 2-200);
-        font.draw(sb, "/ - Means you have missed", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2);
-        font.draw(sb, "X - Means you have hit the opponents ship!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 + 50);
-        if (feedback) {
-            font.draw(sb, "You missed! Opponents turn!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 - 150);
+        turn.getData().setScale(4, 4);
+        //font.setColor(Color.BLACK);
+        turn.setColor(Color.BLACK);
+        turn.draw(sb, gsc.turn(), Battleships.WIDTH/2+310, 760);
+        turn.draw(sb, "Your score: " + gsc.getScoreBoard().getScore() , Battleships.WIDTH / 2 + 310, 590);
+        font.draw(sb, "/ - Represents MISS", Battleships.WIDTH / 2 + 320, 420);
+        font.draw(sb, "X - Represents HIT", Battleships.WIDTH / 2 + 320, 370);
+        sb.draw(tutorialButton.getTexture(),tutorialButton.Buttonx,tutorialButton.Buttony,tutorialButton.Width,tutorialButton.Height);
+        if(feedback){
+            sb.draw(missed, Battleships.WIDTH/2+40, 40,280,200);
         }
         sb.end();
         gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());

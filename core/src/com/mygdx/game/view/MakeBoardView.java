@@ -55,15 +55,11 @@ public class MakeBoardView extends State implements Feedback{
 
         background = new Texture("background3.jpeg");
         playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
-        next = new ButtonView("next.png", Battleships.WIDTH/2+650, 90, 250, 95);
+        next = new ButtonView("done.png", Battleships.WIDTH/2+650, 90, 250, 95);
         logo = new Texture("logo.png");
         setUpTutorial = new Texture("BoardSetup.png");
         font = new BitmapFont();
         wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
-        wrongButton = new ButtonView("wrong.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
-        rightButton = new ButtonView("OK.png",Battleships.WIDTH/2+100, Battleships.HEIGHT-500,200,200);
-        notValidMove = new Texture("notvalid.png");
-        System.out.println("Blir dataen sendt med videre? " + gsc.getPlayer());
         GameStateController.addFeedbackListener(this);
 
 
@@ -140,7 +136,7 @@ public class MakeBoardView extends State implements Feedback{
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo, Battleships.WIDTH/2+250, Battleships.HEIGHT-300, 400, 400);
+        sb.draw(logo, Battleships.WIDTH/2+260, Battleships.HEIGHT-260, 400, 400);
         sb.draw(setUpTutorial, Battleships.WIDTH/2+100, 230, 850, 780);
         sb.draw(next.getTexture(),next.Buttonx,next.Buttony,next.Width, next.Height);
         if(!bool){

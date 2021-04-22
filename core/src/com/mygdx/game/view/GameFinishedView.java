@@ -55,7 +55,7 @@ public class GameFinishedView extends State {
 
     @Override
     public void update(float dt) {
-
+        handleInput();
     }
 
     @Override

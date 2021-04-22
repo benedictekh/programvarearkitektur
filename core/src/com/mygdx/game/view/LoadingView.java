@@ -118,7 +118,7 @@ public class LoadingView extends State {
         sb.draw(getTexture(),Battleships.WIDTH/2-175,Battleships.HEIGHT/2-50,350,300);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3,3);
-        font.draw(sb,"Waiting for another player to join", Battleships.WIDTH/2-100,300);
+        font.draw(sb,"Waiting for opponent", Battleships.WIDTH/2-200,300);
         sb.end();
     }
 

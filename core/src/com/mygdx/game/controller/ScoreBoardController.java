@@ -18,6 +18,7 @@ public class ScoreBoardController {
     public static HashMap<String, Integer> printScoreboard = new HashMap<>();
 
     public void calculateScore(ScoreBoard scoreBoard){
+        scoreBoard.setScore(0);
         for (List<Integer> board : scoreBoard.getBoardList()){
             for (Integer b : board){
                 if (b == 2){
@@ -61,7 +62,10 @@ public class ScoreBoardController {
         System.out.println("Controller: " + printScoreboard);
     }
 
-
+    public void updateScore(ScoreBoard scoreboard){
+        //gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
+        calculateScore(scoreboard);
+    }
 
     private void sortScoreboard(){
         List<Map.Entry<String, Integer> > list =
