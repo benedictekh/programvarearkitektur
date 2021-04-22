@@ -224,9 +224,6 @@ public class GameStateController {
     }
 
 
-
-
-
     public void changeCurrentPlayer(){
         //called when it is next player's turn
         // må si ifra til firebase

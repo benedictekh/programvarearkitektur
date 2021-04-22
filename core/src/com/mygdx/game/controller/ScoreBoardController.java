@@ -1,6 +1,8 @@
 package com.mygdx.game.controller;
 
+import com.badlogic.gdx.Game;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
 
@@ -50,18 +52,29 @@ public class ScoreBoardController {
     public void updateScoreboard(ScoreBoard scoreboard){
         calculateScore(scoreboard);
         Battleships.firebaseConnector.setScoreboard(scoreboard);
+        try{
+            TimeUnit.SECONDS.sleep(1);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         Battleships.firebaseConnector.retrieveScoreboard();
         try{
             TimeUnit.SECONDS.sleep(2);
         }catch(Exception e){
             e.printStackTrace();
         }
+        this.opponentScore(scoreboard);
         this.sortScoreboard();
         //sende tilbake til view
         System.out.println("Controller: " + printScoreboard);
     }
 
-
+    private void opponentScore(ScoreBoard scoreboard){
+        GameCodeHolder gameCodeHolder = GameCodeHolder.getInstance(Battleships.firebaseConnector);
+        System.out.println("the whole scoreboard" + printScoreboard);
+        System.out.println("opponent name: " + gameCodeHolder.getOpponentName());
+        scoreboard.setOpponentScore(printScoreboard.get(gameCodeHolder.getOpponentName()));
+    }
 
     private void sortScoreboard(){
         List<Map.Entry<String, Integer> > list =
