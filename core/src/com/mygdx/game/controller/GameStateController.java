@@ -192,8 +192,10 @@ public class GameStateController {
                     }
                 };
                 executor.schedule(task, 2, TimeUnit.SECONDS);
-
-
+            }
+            else{
+                setCanShoot(true);
+                FeedbackDelay();
             }
         }
         else{

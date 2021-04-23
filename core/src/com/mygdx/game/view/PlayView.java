@@ -1,6 +1,7 @@
 package com.mygdx.game.view;//package com.mygdx.game.view; //endret
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,9 @@ public class PlayView extends  State implements FeedbackDelay{
     //private Board opponentBoard;
     private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
     private boolean feedback = false;
+    private int i=0;
+    private static Sound hitSound;
+    private float timecount;
 
 
     /**
@@ -29,6 +33,7 @@ public class PlayView extends  State implements FeedbackDelay{
         //må gjøre om til minuslista senere
         gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(gsc.getOpponentBoardFromFirebase(), gsc.getPlayer().getBoard().getSidemargin()));
         GameStateController.addFeedbackDelayListener(this);
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/hitshoot.wav"));
 
     }
 
@@ -63,6 +68,7 @@ public class PlayView extends  State implements FeedbackDelay{
     public void update(float dt) {
         handleInput();
         gsc.updateShot();
+
     }
 
     /**
@@ -79,6 +85,7 @@ public class PlayView extends  State implements FeedbackDelay{
         font.draw(sb, "X - Means you have hit the opponents ship!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 + 50);
         if (feedback) {
             font.draw(sb, "You missed! Opponents turn!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 - 150);
+
         }
         sb.end();
         gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());
@@ -87,10 +94,22 @@ public class PlayView extends  State implements FeedbackDelay{
 
     @Override
     public void dispose() {
+        hitSound.dispose();
+    }
 
+    public void playSound(){
+        if(!feedback && i>0){
+            long id = hitSound.play(4f);
+            hitSound.setPitch(id,0.6f);
+            i=0;
+        }
     }
 
     public void setFeedback(boolean feedback){
+        if(!feedback){
+            this.i+=1;
+            playSound();
+        }
         this.feedback = feedback;
     }
 

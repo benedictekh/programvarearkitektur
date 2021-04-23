@@ -1,9 +1,11 @@
 package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 
@@ -19,6 +21,11 @@ public class LoadingView extends State {
     float timecount;
     float totaleTime;
     BitmapFont font;
+    private boolean musicBool = true;
+    private Music loading_song ;
+    private ButtonView soundOnButton;
+    private ButtonView soundOffButton;
+    private ButtonView soundButton;
 
     /**
      *
@@ -40,13 +47,25 @@ public class LoadingView extends State {
         loading_2 = new Texture("load1.png");
         texture = new Texture("load0.png");
         font = new BitmapFont();
+        loading_song =  Gdx.audio.newMusic(Gdx.files.internal("Sounds/sail.mp3"));
+        soundOnButton = new ButtonView("soundOn.jpg",Battleships.WIDTH/2+100,Battleships.HEIGHT/2+100,100,100);
+        soundOffButton = new ButtonView("soundOff.png",Battleships.WIDTH/2+100,Battleships.HEIGHT/2+100,100,100);
+        setMusicButton(soundOnButton);
+
     }
 
     @Override
     protected void handleInput() {
         if(Gdx.input.isTouched()){
-            System.out.println("success!");
+            Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
+            if(soundOnButton.getRectangle().contains(touch.x,touch.y)){
+                loading_song.pause();
+                setMusicButton(soundOffButton);
+            }
         }
+    }
+    public void setMusicButton(ButtonView soundButton){
+        this.soundButton = soundButton;
     }
 
     /**
@@ -71,9 +90,22 @@ public class LoadingView extends State {
     /**
      * updates the loading image making it look like it's spinning
      */
+
+    public void playMusic(){
+        loading_song.play();
+        loading_song.getVolume();
+    }
+    public void setMusicTrue(boolean musicBool){
+        this.musicBool = musicBool;
+        loading_song.play();
+        loading_song.setVolume(10f);
+    }
     @Override
     public void update(float dt) {
-
+        if(musicBool){
+            setMusicTrue(false);
+            //playMusic();
+        }
             timecount+=dt;
             if (timecount>1)
             {
@@ -105,6 +137,7 @@ public class LoadingView extends State {
                 gsc.initilializeGameFirebase();
                 gsm.set(new PlayView(gsm, gsc));
             }
+            handleInput();
 
     }
 
@@ -113,17 +146,20 @@ public class LoadingView extends State {
      */
     @Override
     public void render(SpriteBatch sb) {
+        loading_song.play();
         sb.begin();
         sb.draw(background, 0,0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(getTexture(),Battleships.WIDTH/2-175,Battleships.HEIGHT/2-50,350,300);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3,3);
         font.draw(sb,"Waiting for another player to join", Battleships.WIDTH/2-100,300);
+        sb.draw(soundButton.getTexture(),soundOnButton.Buttonx,soundOnButton.Buttony,soundOnButton.Width,soundOnButton.Height);
         sb.end();
     }
 
     @Override
     public void dispose() {
+        loading_song.dispose();
 
     }
 }
