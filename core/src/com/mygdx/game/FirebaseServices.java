@@ -21,5 +21,6 @@ public interface FirebaseServices {
     public void setScoreboard(ScoreBoard scoreboard);
     public void retrieveScoreboard();
     public void gameFinsihedListener();
-
+    public void setSinglePLayerScoreboard(ScoreBoard scoreboard);
+    public void retrieveSingleScoreboard();
 }

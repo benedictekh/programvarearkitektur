@@ -25,11 +25,7 @@ public class ScoreBoardController {
             for (Integer b : board){
                 if (b == 2){
                     scoreBoard.setScore(scoreBoard.getScore() - 20);
-                    //this.score += -20;
-                    //a miss
                 }else if(b == 3){
-                    //a hit
-                    //this.score += 100;
                     scoreBoard.setScore(scoreBoard.getScore() + 100);
                 }
             }
@@ -41,14 +37,11 @@ public class ScoreBoardController {
         return scoreboard;
     }
 
-    /*
-    public GameFinishedController(Player player){
-        super(player);
-        scoreboard = new ScoreBoard(player);
-        printScoreboard = new HashMap<>();
-        this.updateScoreboard();
+    public ScoreBoard createNewSingleScoreBoard(Player player, Boolean singlePlayer){
+        ScoreBoard scoreboard = new ScoreBoard(player, singlePlayer);
+        return scoreboard;
     }
-    */
+
 
     public void updateScoreboard(ScoreBoard scoreboard){
         calculateScore(scoreboard);
@@ -66,19 +59,33 @@ public class ScoreBoardController {
         }
         this.opponentScore(scoreboard);
         this.sortScoreboard();
+    }
+
+    public void updateSingleScoreboard(ScoreBoard scoreboard){
+        calculateScore(scoreboard);
+        Battleships.firebaseConnector.setSinglePLayerScoreboard(scoreboard);
+        try{
+            TimeUnit.SECONDS.sleep(1);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        Battleships.firebaseConnector.retrieveSingleScoreboard();
+        try{
+            TimeUnit.SECONDS.sleep(2);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        this.sortScoreboard();
         //sende tilbake til view
         System.out.println("Controller: " + printScoreboard);
     }
 
     private void opponentScore(ScoreBoard scoreboard) {
         GameCodeHolder gameCodeHolder = GameCodeHolder.getInstance(Battleships.firebaseConnector);
-        System.out.println("the whole scoreboard" + printScoreboard);
-        System.out.println("opponent name: " + gameCodeHolder.getOpponentName());
         scoreboard.setOpponentScore(printScoreboard.get(gameCodeHolder.getOpponentName()));
     }
 
     public void updateScore(ScoreBoard scoreboard){
-        //gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
         calculateScore(scoreboard);
     }
 

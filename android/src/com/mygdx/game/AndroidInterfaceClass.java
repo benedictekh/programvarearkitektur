@@ -392,4 +392,28 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    @Override
+    public void setSinglePLayerScoreboard(ScoreBoard scoreboard){
+        data.child("SingleScoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
+    }
+
+    @Override
+    public void retrieveSingleScoreboard(){
+        data.child("SingleScoreboard").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ScoreBoardController.printScoreboard = new HashMap<String, Integer>();
+                Iterable<DataSnapshot> data = snapshot.getChildren();
+                for (DataSnapshot score : data){
+                    ScoreBoardController.printScoreboard.put(score.getKey(), Integer.parseInt(String.valueOf(score.getValue())));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

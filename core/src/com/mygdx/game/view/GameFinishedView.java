@@ -65,37 +65,47 @@ public class GameFinishedView extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-        sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        font.getData().setScale(4,4);
-        if(gch.getWonGame()){
-            font.draw(sb,"You Won!", 200,Battleships.HEIGHT-200);
+        if(gsc.getSinglePlayer()){
+            sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
+            sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            font.getData().setScale(4,4);
+            font.setColor(Color.BLACK);
+            font.draw(sb,"Your score: " + gsc.getScoreBoard().getScore(), 200,Battleships.HEIGHT-400);
+            sb.draw(newGame.getTexture(), newGame.Buttonx, newGame.Buttony, newGame.Width, newGame.Height);
         }else{
-            font.draw(sb,"You Lose!", 200,Battleships.HEIGHT-200);
+            sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
+            sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            font.getData().setScale(4,4);
+            if(gch.getWonGame()){
+                font.draw(sb,"You Won!", 200,Battleships.HEIGHT-200);
+            }else{
+                font.draw(sb,"You Lose!", 200,Battleships.HEIGHT-200);
 
+            }
+            font.draw(sb,"Your score: " + gsc.getScoreBoard().getScore(), 200,Battleships.HEIGHT-400);
+            font.draw(sb,"", Battleships.WIDTH-700,Battleships.HEIGHT-200);
+            font.draw(sb,"Opponent score: " + gsc.getScoreBoard().getOpponentScore(), Battleships.WIDTH-700,Battleships.HEIGHT-400);
         }
-        font.draw(sb,"Your score: " + gsc.getScoreBoard().getScore(), 200,Battleships.HEIGHT-400);
+            font.draw(sb,"Scoreboard: ", Battleships.WIDTH/2-200,900);
 
-        font.draw(sb,"", Battleships.WIDTH-700,Battleships.HEIGHT-200);
-        font.draw(sb,"Opponent score: " + gsc.getScoreBoard().getOpponentScore(), Battleships.WIDTH-700,Battleships.HEIGHT-400);
-        font.draw(sb,"Scoreboard: ", Battleships.WIDTH/2-200,900);
-
-        Iterator iterator = temp.entrySet().iterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry) iterator.next();
-            //for (int i = 0; i < 10; i++) {
+            Iterator iterator = temp.entrySet().iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                Map.Entry mapElement = (Map.Entry) iterator.next();
+                //for (int i = 0; i < 10; i++) {
                 int score = ((int)mapElement.getValue());
                 font.setColor(Color.BLACK);
                 font.draw(sb, mapElement.getKey().toString(), Battleships.WIDTH/2-300, 800-i*70);
                 font.draw(sb, " : ", Battleships.WIDTH/2, 800-i*70);
                 font.draw(sb, String.valueOf(score), Battleships.WIDTH/2+100, 800-i*70);
-            //}
-            i++;
-        }
-        sb.draw(newGame.getTexture(), newGame.Buttonx, newGame.Buttony, newGame.Width, newGame.Height);
-        sb.end();
+                //}
+                i++;
+            }
+            sb.draw(newGame.getTexture(), newGame.Buttonx, newGame.Buttony, newGame.Width, newGame.Height);
+            sb.end();
+
     }
 
     @Override

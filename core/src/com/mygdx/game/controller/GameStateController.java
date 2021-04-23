@@ -26,6 +26,7 @@ public class GameStateController {
     private Board board;
     private Board opponentBoard;
     private ScoreBoard scoreBoard;
+    private Boolean singlePlayer = false;
 
     public static Boolean playersAdded = false;
     public static Boolean playersReady = false;
@@ -35,6 +36,7 @@ public class GameStateController {
 
 
     public static boolean myTurn = false;
+    private boolean singleTurn = true;
     private boolean canShoot = true;
     public static boolean shotChanged = false;
     public static ArrayList<Integer> lastShot;
@@ -177,6 +179,11 @@ public class GameStateController {
         return indexes;
     }
 
+    public void shootSingle(ArrayList<Integer> indexes) {
+        if (boardController.singleShoot(board, indexes.get(0), indexes.get(1))) {
+            FeedbackDelay();
+        }
+    }
 
     public void shoot(ArrayList<Integer> indexes){
         if (myTurn && canShoot){
@@ -207,6 +214,9 @@ public class GameStateController {
         FeedbackDelay();
     }
 
+    public Board getSingleBoard(){
+        return board;
+    }
 
     public Board getBoard(){
         if (!myTurn){
@@ -353,8 +363,20 @@ public class GameStateController {
         return scoreBoard;
     }
 
+    public void setScoreBoard(ScoreBoard scoreBoard){
+        this.scoreBoard = scoreBoard;
+    }
 
+    public Boolean getSingleTurn(){
+        return this.singleTurn;
+    }
 
+    public void setSinglePlayer(Boolean singlePlayer){
+        this.singlePlayer = singlePlayer;
+    }
 
+    public Boolean getSinglePlayer(){
+        return this.singlePlayer;
+    }
 
 }

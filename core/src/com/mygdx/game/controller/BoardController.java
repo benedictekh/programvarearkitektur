@@ -268,6 +268,31 @@ public class BoardController {
         }
     }
 
+    public boolean singleShoot(Board board, int x, int y){
+        ShipController controller = new ShipController();
+        // is the cell you are trying to shoot at a valid cell? (on the board and not shot at earlier)
+        if (isValidMove(board, x, y)){
+            int value = board.getBoard().get(y).get(x);
+            System.out.println("Valid move");
+            if (board.getCell().isHit(value)){
+                for (Ship ship :board.getShips()){
+                    controller.boardChange(ship, x, y);
+                }
+                updateBoard(board, x, y,board.getCell().setCell(value));
+                return false;
+            }
+            else {
+                updateBoard(board, x, y, board.getCell().setCell(value));
+                return true;
+            }
+
+        }
+        else{
+            System.out.println("Not a valid move");
+            return false;
+        }
+    }
+
     /**
      * updates the cell on the board with the given value
      * @param x x-position for the cell

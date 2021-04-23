@@ -20,6 +20,7 @@ public class InitializeGameView extends State{
     public String name1;
     public ButtonView nextButton;
     public ButtonView loginButton;
+    public ButtonView singlePlayerButton;
 
 
     /**
@@ -33,6 +34,7 @@ public class InitializeGameView extends State{
         font = new BitmapFont();
         nextButton = new ButtonView("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
         loginButton = new ButtonView("username.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,420,110);
+        singlePlayerButton = new ButtonView("username.png", Battleships.WIDTH/2-200, 300,420,110);
 
     }
 
@@ -69,9 +71,24 @@ public class InitializeGameView extends State{
                 },"Username","","");
 
 
-            } //else if(nextButton.getRectangle().contains(touch.x, touch.y)) {
+            } if (singlePlayerButton.getRectangle().contains(touch.x, touch.y)) {
+                //med den innebgyde funksjonen textinputlistener har
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+                    @Override
+                    public void input(String name) {
+                        //creates a new player with the given name
+                        gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
+                        gsm.set(new SinglePlayerView(gsm, gsc));
+                    }
 
-            //}
+                    @Override
+                    public void canceled() {
+                        System.out.println("ups");
+                    }
+                },"Username","","");
+
+
+            }
             else{
                 System.out.println("outside");
             }
@@ -117,6 +134,8 @@ public class InitializeGameView extends State{
             font.draw(sb, "USERNAME:  " + getName(), Battleships.WIDTH/2-150, Battleships.HEIGHT/2+175);
             sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width,nextButton.Height);
         }
+        sb.draw(singlePlayerButton.getTexture(),singlePlayerButton.Buttonx,singlePlayerButton.Buttony,singlePlayerButton.Width,singlePlayerButton.Height);
+
         sb.end();
 
     }

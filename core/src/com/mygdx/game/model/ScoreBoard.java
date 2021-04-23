@@ -18,11 +18,18 @@ public class ScoreBoard {
     private int opponentScore;
     private int score;
 
+
     public ScoreBoard(Player player){
         this.boardList = player.getOpponentBoard().getBoard();
         this.player = player;
         this.score = 0;
     }
+
+    public ScoreBoard(Player player, Boolean singlePayer){
+        this.player = player;
+        this.score = 0;
+    }
+
 
     public String getName(){
         return player.getName();
