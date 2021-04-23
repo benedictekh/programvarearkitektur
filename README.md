@@ -14,7 +14,7 @@ Settings: <br/>
 ![Screenshot](emulator_innstillinger.png) <br/>
 
 
-You can set up two of these devices on yout computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. <br/>
+You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. <br/>
 
 You should have the latest Android Emulator version to make your emulator run faster, we reccommend version 30.5.4 <br/>
 
