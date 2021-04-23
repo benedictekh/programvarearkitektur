@@ -13,6 +13,7 @@ public class MenuView extends State {
     private Texture background;
     private ButtonView playbutton;
     private ButtonView initButton;
+    private ButtonView singlePlayerButton;
     private TutorialView TutorialView;
 
     /**
@@ -29,6 +30,8 @@ public class MenuView extends State {
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
         initButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
+        singlePlayerButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 100,300,120);
+
     }
 
     /**
@@ -52,6 +55,9 @@ public class MenuView extends State {
                 gsm.push(TutorialView);
 
             }
+            else if(singlePlayerButton.getRectangle().contains(touch.x,touch.y)) {
+                //gsm.push(SinglePlayerView);
+            }
             else{
                 System.out.println("pressed outside");
             }
@@ -74,6 +80,7 @@ public class MenuView extends State {
         sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
         sb.draw(playbutton.getTexture(),playbutton.Buttonx,playbutton.Buttony,playbutton.Width ,playbutton.Height);
         sb.draw(initButton.getTexture(),initButton.Buttonx,initButton.Buttony,initButton.Width,initButton.Height);
+        sb.draw(singlePlayerButton.getTexture(),singlePlayerButton.Buttonx,singlePlayerButton.Buttony,singlePlayerButton.Width,singlePlayerButton.Height);
         sb.end();
     }
 
