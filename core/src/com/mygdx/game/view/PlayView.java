@@ -45,6 +45,7 @@ public class PlayView extends  State implements FeedbackDelay{
 
         }
         if (gsc.isFinished()){
+            gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
             gsc.getScoreBoardController().updateScoreboard(gsc.getScoreBoard());
             gsm.set(new GameFinishedView(gsm, gsc));
         }
@@ -73,7 +74,7 @@ public class PlayView extends  State implements FeedbackDelay{
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         font.getData().setScale(3, 3);
-        font.draw(sb, gsc.turn(), Battleships.WIDTH - 300, Battleships.HEIGHT / 2);
+        font.draw(sb, gsc.turn(), Battleships.WIDTH/2 + 100, Battleships.HEIGHT / 2-200);
         font.draw(sb, "/ - Means you have missed", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2);
         font.draw(sb, "X - Means you have hit the opponents ship!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 + 50);
         if (feedback) {

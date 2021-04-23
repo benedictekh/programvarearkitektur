@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
+import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.controller.ScoreBoardController;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +22,7 @@ public class GameFinishedView extends State {
     private BitmapFont font;
     private ButtonView newGame;
     private HashMap<String, Integer> temp;
+    private GameCodeHolder gch;
 
     protected GameFinishedView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
@@ -28,6 +31,7 @@ public class GameFinishedView extends State {
         font = new BitmapFont();
         newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
         temp = gsc.getScoreBoardController().getScoreboard();
+        gch = GameCodeHolder.getInstance(Battleships.firebaseConnector);
 
 
         /*
@@ -65,11 +69,17 @@ public class GameFinishedView extends State {
         sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(4,4);
-        font.draw(sb,"You (navn) won!", 200,Battleships.HEIGHT-200);
-        font.draw(sb,"Your score: ", 200,Battleships.HEIGHT-400);
-        font.draw(sb,"Opponent (navn) loose!:(", Battleships.WIDTH-700,Battleships.HEIGHT-200);
-        font.draw(sb,"Opponent score: ", Battleships.WIDTH-700,Battleships.HEIGHT-400);
-        font.draw(sb,"Score board: ", Battleships.WIDTH/2-200,900);
+        if(gch.getWonGame()){
+            font.draw(sb,"You Won!", 200,Battleships.HEIGHT-200);
+        }else{
+            font.draw(sb,"You Lose!", 200,Battleships.HEIGHT-200);
+
+        }
+        font.draw(sb,"Your score: " + gsc.getScoreBoard().getScore(), 200,Battleships.HEIGHT-400);
+
+        font.draw(sb,"", Battleships.WIDTH-700,Battleships.HEIGHT-200);
+        font.draw(sb,"Opponent score: " + gsc.getScoreBoard().getOpponentScore(), Battleships.WIDTH-700,Battleships.HEIGHT-400);
+        font.draw(sb,"Scoreboard: ", Battleships.WIDTH/2-200,900);
 
         Iterator iterator = temp.entrySet().iterator();
         int i = 0;
