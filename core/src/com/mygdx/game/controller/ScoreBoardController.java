@@ -20,6 +20,7 @@ public class ScoreBoardController {
     public static HashMap<String, Integer> printScoreboard = new HashMap<>();
 
     public void calculateScore(ScoreBoard scoreBoard){
+        scoreBoard.setScore(0);
         for (List<Integer> board : scoreBoard.getBoardList()){
             for (Integer b : board){
                 if (b == 2){
@@ -69,11 +70,16 @@ public class ScoreBoardController {
         System.out.println("Controller: " + printScoreboard);
     }
 
-    private void opponentScore(ScoreBoard scoreboard){
+    private void opponentScore(ScoreBoard scoreboard) {
         GameCodeHolder gameCodeHolder = GameCodeHolder.getInstance(Battleships.firebaseConnector);
         System.out.println("the whole scoreboard" + printScoreboard);
         System.out.println("opponent name: " + gameCodeHolder.getOpponentName());
         scoreboard.setOpponentScore(printScoreboard.get(gameCodeHolder.getOpponentName()));
+    }
+
+    public void updateScore(ScoreBoard scoreboard){
+        //gsc.getScoreBoard().setBoardList(gsc.getOpponentBoard().getBoard());
+        calculateScore(scoreboard);
     }
 
     private void sortScoreboard(){

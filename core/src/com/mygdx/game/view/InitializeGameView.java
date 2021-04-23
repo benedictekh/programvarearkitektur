@@ -32,7 +32,7 @@ public class InitializeGameView extends State{
         background = new Texture("background1.jpg");
         font = new BitmapFont();
         nextButton = new ButtonView("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
-        loginButton = new ButtonView("Login.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2,300,110);
+        loginButton = new ButtonView("username.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,420,110);
 
     }
 

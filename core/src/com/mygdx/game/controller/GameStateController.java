@@ -233,9 +233,9 @@ public class GameStateController {
 
     public String turn(){
         if (myTurn){
-            return "Now you can shoot";
+            return "Now you can shoot!";
         }
-        return "It's opponents turn, they can shoot!";
+        return "Opponents turn!";
     }
 
 
