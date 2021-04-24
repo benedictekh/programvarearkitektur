@@ -10,6 +10,7 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.controller.ScoreBoardController;
+import com.mygdx.game.model.Assets;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,23 +27,13 @@ public class GameFinishedView extends State {
 
     protected GameFinishedView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
-        logo = new Texture("cover.png");
-        background = new Texture("background1.jpg");
+        logo = Assets.coverLogo;
+        background = Assets.mainBackground;
         font = new BitmapFont();
-        newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
+        newGame = new ButtonView(Assets.newGame, Battleships.WIDTH/2-150, 90, 300, 110);
         temp = gsc.getScoreBoardController().getScoreboard();
         gch = GameCodeHolder.getInstance(Battleships.firebaseConnector);
 
-
-        /*
-        temp = new LinkedHashMap<String, Integer>();
-        temp.put("isa", 52);
-        temp.put("Anne", 35);
-        temp.put("Benedicte", 20);
-        temp.put("Helena", 5);
-        temp.put("Live", 10);
-
-         */
     }
 
 

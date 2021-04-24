@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.model.Assets;
 
 public class TutorialView extends State{
 
@@ -22,11 +23,11 @@ public class TutorialView extends State{
         //Et problem her er at jeg ikke vil tegne bagrunnen på nytt, jeg vil bare legge på tutorial
 
         super(gsm, gsc);
-        logo = new Texture("cover.png");
-        background = new Texture("background4.jpeg");
+        logo = Assets.coverLogo;
+        background = Assets.tutorialBackground;
         tutorial = new BitmapFont();
-        gamerules = new Texture("GameRules1.png");
-        backButton = new ButtonView("left-arrow.png", 50, Battleships.HEIGHT-120, 100, 100);
+        gamerules = Assets.tutorial;
+        backButton = new ButtonView(Assets.backButton, 50, Battleships.HEIGHT-120, 100, 100);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.model.Assets;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,15 +44,15 @@ public class LoadingView extends State {
 
     protected LoadingView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
-        background = new Texture("background1.jpg");
-        loading = new Texture("load0.png");
-        loading_2 = new Texture("load1.png");
-        texture = new Texture("load0.png");
+        background = Assets.mainBackground;
+        loading = Assets.load0;
+        loading_2 = Assets.load1;
+        texture = Assets.load0;
         font = new BitmapFont();
         loading_song =  Gdx.audio.newMusic(Gdx.files.internal("Sounds/sail.mp3"));
         musicBool = true;
-        soundOnButton = new ButtonView("soundOn.jpg",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
-        soundOffButton = new ButtonView("soundOff.png",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        soundOnButton = new ButtonView(Assets.soundOn,Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        soundOffButton = new ButtonView(Assets.soundOff,Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
         //setMusicButton(soundOnButton);
 
 

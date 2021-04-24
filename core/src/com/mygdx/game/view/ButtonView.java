@@ -21,8 +21,9 @@ public class ButtonView {
      * The class makes it easy to make a button, and will go under the QUALITY ATTRIBUTE: modifiability.
      */
 
-    public ButtonView(String texturePath, int buttonx, int buttony, int width, int height) {
-        texture = new Texture(texturePath);
+    public ButtonView(Texture tex, int buttonx, int buttony, int width, int height) {
+        //texture = new Texture(texturePath);
+        texture = tex;
         Buttonx= buttonx;
         Buttony = buttony;
         Width = width;
