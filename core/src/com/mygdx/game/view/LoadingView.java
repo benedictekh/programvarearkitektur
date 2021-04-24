@@ -16,16 +16,17 @@ public class LoadingView extends State {
     Texture background;
     Texture loading;
     Texture loading_2;
-    boolean witch_texture = true;
+    boolean which_texture = true;
     Texture texture;
     float timecount;
     float totaleTime;
     BitmapFont font;
-    private boolean musicBool = true;
+    private boolean musicBool;
     private Music loading_song ;
     private ButtonView soundOnButton;
     private ButtonView soundOffButton;
     private ButtonView soundButton;
+    private boolean music = true;
 
     /**
      *
@@ -48,9 +49,11 @@ public class LoadingView extends State {
         texture = new Texture("load0.png");
         font = new BitmapFont();
         loading_song =  Gdx.audio.newMusic(Gdx.files.internal("Sounds/sail.mp3"));
-        soundOnButton = new ButtonView("soundOn.jpg",Battleships.WIDTH/2+100,Battleships.HEIGHT/2+100,100,100);
-        soundOffButton = new ButtonView("soundOff.png",Battleships.WIDTH/2+100,Battleships.HEIGHT/2+100,100,100);
-        setMusicButton(soundOnButton);
+        musicBool = true;
+        soundOnButton = new ButtonView("soundOn.jpg",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        soundOffButton = new ButtonView("soundOff.png",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        //setMusicButton(soundOnButton);
+
 
     }
 
@@ -59,13 +62,35 @@ public class LoadingView extends State {
         if(Gdx.input.isTouched()){
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
             if(soundOnButton.getRectangle().contains(touch.x,touch.y)){
-                loading_song.pause();
-                setMusicButton(soundOffButton);
-            }
+                if(music){
+                    pauseMusic();
+                    setMusic(false);
+                    try{
+                        TimeUnit.SECONDS.sleep(1);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    playMusic();
+                    setMusic(true);
+                    try{
+                        TimeUnit.SECONDS.sleep(1);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }         
         }
     }
-    public void setMusicButton(ButtonView soundButton){
-        this.soundButton = soundButton;
+
+    public void setMusic(boolean music){
+        this.music = music;
+    }
+    public void pauseMusic(){
+        loading_song.pause();
     }
 
     /**
@@ -92,30 +117,28 @@ public class LoadingView extends State {
      */
 
     public void playMusic(){
-        loading_song.play();
-        loading_song.getVolume();
+        if(musicBool){
+            loading_song.play();
+            loading_song.setVolume(1f);
+            setIsMusic(false);
+        }
     }
-    public void setMusicTrue(boolean musicBool){
+    public void setIsMusic(boolean musicBool){
         this.musicBool = musicBool;
-        loading_song.play();
-        loading_song.setVolume(10f);
     }
     @Override
     public void update(float dt) {
-        if(musicBool){
-            setMusicTrue(false);
-            //playMusic();
-        }
+            playMusic();
             timecount+=dt;
             if (timecount>1)
             {
-                if(witch_texture){
-                    witch_texture = false;
+                if(which_texture){
+                    which_texture = false;
                 }
                 else {
-                    witch_texture = true;
+                    which_texture = true;
                 }
-                switchImage(witch_texture);
+                switchImage(which_texture);
                 timecount=0;
             }
             // om framen har vart i mer enn 4 sekunder, så skifter den
@@ -138,7 +161,6 @@ public class LoadingView extends State {
                 gsm.set(new PlayView(gsm, gsc));
             }
             handleInput();
-
     }
 
     /**
@@ -146,20 +168,23 @@ public class LoadingView extends State {
      */
     @Override
     public void render(SpriteBatch sb) {
-        loading_song.play();
         sb.begin();
         sb.draw(background, 0,0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(getTexture(),Battleships.WIDTH/2-175,Battleships.HEIGHT/2-50,350,300);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3,3);
         font.draw(sb,"Waiting for another player to join", Battleships.WIDTH/2-100,300);
-        sb.draw(soundButton.getTexture(),soundOnButton.Buttonx,soundOnButton.Buttony,soundOnButton.Width,soundOnButton.Height);
+        if(music){
+            sb.draw(soundOnButton.getTexture(),soundOnButton.Buttonx,soundOnButton.Buttony,soundOnButton.Width,soundOnButton.Height);
+        }
+        else if(!music){
+            sb.draw(soundOffButton.getTexture(),soundOffButton.Buttonx,soundOffButton.Buttony,soundOffButton.Width,soundOffButton.Height);
+        }
         sb.end();
     }
 
     @Override
     public void dispose() {
         loading_song.dispose();
-
     }
 }

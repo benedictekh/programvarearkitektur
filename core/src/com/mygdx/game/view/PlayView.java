@@ -85,7 +85,6 @@ public class PlayView extends  State implements FeedbackDelay{
         font.draw(sb, "X - Means you have hit the opponents ship!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 + 50);
         if (feedback) {
             font.draw(sb, "You missed! Opponents turn!", Battleships.WIDTH / 2 + 100, Battleships.HEIGHT / 2 - 150);
-
         }
         sb.end();
         gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());
