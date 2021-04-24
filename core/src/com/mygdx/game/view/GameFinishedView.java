@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameStateController;
-import com.mygdx.game.controller.ScoreBoardController;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ public class GameFinishedView extends State {
     private Texture logo;
     private Texture background;
     private BitmapFont font;
-    private ButtonView newGame;
+    private ButtonCreator newGame;
     private HashMap<String, Integer> temp;
     private GameCodeHolder gch;
 
@@ -29,7 +29,7 @@ public class GameFinishedView extends State {
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         font = new BitmapFont();
-        newGame = new ButtonView("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
+        newGame = new ButtonCreator("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
         temp = gsc.getScoreBoardController().getScoreboard();
         gch = GameCodeHolder.getInstance(Battleships.firebaseConnector);
 

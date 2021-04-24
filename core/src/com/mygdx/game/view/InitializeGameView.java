@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.model.Player;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class InitializeGameView extends State{
 
@@ -18,9 +19,9 @@ public class InitializeGameView extends State{
     private Texture logo;
     private BitmapFont font;
     public String name1;
-    public ButtonView nextButton;
-    public ButtonView loginButton;
-    public ButtonView singlePlayerButton;
+    public ButtonCreator nextButton;
+    public ButtonCreator loginButton;
+    public ButtonCreator singlePlayerButton;
 
 
     /**
@@ -32,9 +33,9 @@ public class InitializeGameView extends State{
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
         font = new BitmapFont();
-        nextButton = new ButtonView("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
-        loginButton = new ButtonView("username.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,420,110);
-        singlePlayerButton = new ButtonView("username.png", Battleships.WIDTH/2-200, 300,420,110);
+        nextButton = new ButtonCreator("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
+        loginButton = new ButtonCreator("username.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,420,110);
+        singlePlayerButton = new ButtonCreator("username.png", Battleships.WIDTH/2-200, 300,420,110);
 
     }
 

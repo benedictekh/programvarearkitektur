@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class TutorialView extends State{
 
     private Texture logo;
     private Texture background;
     private BitmapFont tutorial;
-    private ButtonView backButton;
+    private ButtonCreator backButton;
     private Texture gamerules;
 
 
@@ -26,7 +27,7 @@ public class TutorialView extends State{
         background = new Texture("background4.jpeg");
         tutorial = new BitmapFont();
         gamerules = new Texture("GameRules1.png");
-        backButton = new ButtonView("left-arrow.png", 50, Battleships.HEIGHT-120, 100, 100);
+        backButton = new ButtonCreator("left-arrow.png", 50, Battleships.HEIGHT-120, 100, 100);
     }
 
     @Override

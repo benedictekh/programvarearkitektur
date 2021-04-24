@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class MenuView extends State {
 
     private Texture logo;
     private Texture background;
-    private ButtonView playbutton;
-    private ButtonView initButton;
+    private ButtonCreator playbutton;
+    private ButtonCreator initButton;
     private TutorialView TutorialView;
 
     /**
@@ -27,8 +28,8 @@ public class MenuView extends State {
 
         logo = new Texture("cover.png");
         background = new Texture("background1.jpg");
-        playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
-        initButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
+        playbutton = new ButtonCreator("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
+        initButton = new ButtonCreator("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
 
     }
 

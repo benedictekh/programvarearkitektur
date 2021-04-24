@@ -11,9 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
-import com.mygdx.game.model.ScoreBoard;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 
-public class PlayView extends  State implements FeedbackDelay{
+public class PlayView extends  State implements FeedbackDelay {
 
     private Texture background;
     private float x_position;
@@ -25,12 +26,13 @@ public class PlayView extends  State implements FeedbackDelay{
     private boolean feedback = false;
 
     private Texture logo;
-    private ButtonView tutorialButton;
+    private ButtonCreator tutorialButton;
     private TutorialView TutorialView;
     private Texture missed;
 
     private int i=0;
     private static Sound hitSound;
+    private static Sound missSound;
     private float timecount;
 
 
@@ -44,12 +46,14 @@ public class PlayView extends  State implements FeedbackDelay{
         logo = new Texture("logo.png");
         missed = new Texture("missed.png");
         this.gameBoardView = new GameBoardView();
-        tutorialButton = new ButtonView("tutorial1.png", Battleships.WIDTH/2+380, 135,250,100);
+        tutorialButton = new ButtonCreator("tutorial1.png", Battleships.WIDTH/2+380, 135,250,100);
         //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
         //må gjøre om til minuslista senere
         gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(gsc.getOpponentBoardFromFirebase(), gsc.getPlayer().getBoard().getSidemargin()));
         GameStateController.addFeedbackDelayListener(this);
         hitSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/hitshoot.wav"));
+        missSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/miss.mp3"));
+
 
     }
 
@@ -125,18 +129,26 @@ public class PlayView extends  State implements FeedbackDelay{
         hitSound.dispose();
     }
 
-    public void playSound(){
+    public void playSoundHit(){
         if(!feedback && i>0){
             long id = hitSound.play(4f);
             hitSound.setPitch(id,0.6f);
             i=0;
         }
     }
+    public void playSoundMiss(){
+            long id = missSound.play(4f);
+            hitSound.setPitch(id,0.6f);
+
+    }
 
     public void setFeedback(boolean feedback){
         if(!feedback){
             this.i+=1;
-            playSound();
+            playSoundHit();
+        }
+        else if(feedback){
+            playSoundMiss();
         }
         this.feedback = feedback;
     }

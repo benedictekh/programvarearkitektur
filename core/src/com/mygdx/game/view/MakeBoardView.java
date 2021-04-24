@@ -7,18 +7,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.Feedback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MakeBoardView extends State implements Feedback{
+public class MakeBoardView extends State implements Feedback {
     private Texture background;
     private int x_position;
     private int y_position;
     private Boolean nextTouch = false;
     private ArrayList<List<Integer>> location;
-    private ButtonView next;
+    private ButtonCreator next;
     private Texture logo;
     private Texture setUpTutorial;
     private BitmapFont setUp;
@@ -27,9 +29,9 @@ public class MakeBoardView extends State implements Feedback{
     private BitmapFont font;
 
 
-    private ButtonView playGame;
-    private ButtonView wrongButton;
-    private ButtonView rightButton;
+    private ButtonCreator playGame;
+    private ButtonCreator wrongButton;
+    private ButtonCreator rightButton;
     private Texture notValidMove;
     private GameBoardView gameBoardView = new GameBoardView();
 
@@ -51,12 +53,12 @@ public class MakeBoardView extends State implements Feedback{
         super(gsm, gsc);
 
         background = new Texture("background3.jpeg");
-        playGame = new ButtonView("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
-        next = new ButtonView("done.png", Battleships.WIDTH/2+650, 90, 250, 95);
+        playGame = new ButtonCreator("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
+        next = new ButtonCreator("done.png", Battleships.WIDTH/2+650, 90, 250, 95);
         logo = new Texture("logo.png");
         setUpTutorial = new Texture("BoardSetup.png");
         font = new BitmapFont();
-        wrongButton = new ButtonView("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
+        wrongButton = new ButtonCreator("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
         GameStateController.addFeedbackListener(this);
 
 

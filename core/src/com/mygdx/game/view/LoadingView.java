@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,9 +24,9 @@ public class LoadingView extends State {
     BitmapFont font;
     private boolean musicBool;
     private Music loading_song ;
-    private ButtonView soundOnButton;
-    private ButtonView soundOffButton;
-    private ButtonView soundButton;
+    private ButtonCreator soundOnButton;
+    private ButtonCreator soundOffButton;
+    private ButtonCreator soundButton;
     private boolean music = true;
 
     /**
@@ -50,8 +51,8 @@ public class LoadingView extends State {
         font = new BitmapFont();
         loading_song =  Gdx.audio.newMusic(Gdx.files.internal("Sounds/sail.mp3"));
         musicBool = true;
-        soundOnButton = new ButtonView("soundOn.jpg",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
-        soundOffButton = new ButtonView("soundOff.png",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        soundOnButton = new ButtonCreator("soundOn.jpg",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
+        soundOffButton = new ButtonCreator("soundOff.png",Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
         //setMusicButton(soundOnButton);
 
 
@@ -117,18 +118,20 @@ public class LoadingView extends State {
      */
 
     public void playMusic(){
-        if(musicBool){
             loading_song.play();
             loading_song.setVolume(1f);
-            setIsMusic(false);
-        }
+
     }
     public void setIsMusic(boolean musicBool){
         this.musicBool = musicBool;
     }
     @Override
     public void update(float dt) {
+        if(musicBool) {
             playMusic();
+            setIsMusic(false);
+
+        }
             timecount+=dt;
             if (timecount>1)
             {

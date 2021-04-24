@@ -4,9 +4,8 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
-import com.mygdx.game.model.ships.Ship;
-import com.mygdx.game.view.Feedback;
-import com.mygdx.game.view.FeedbackDelay;
+import com.mygdx.game.view.ViewComponents.Feedback;
+import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 
 import java.util.ArrayList;
 import java.util.Collection;
