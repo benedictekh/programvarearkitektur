@@ -174,7 +174,6 @@ public class LoadingView extends State {
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(3,3);
         font.draw(sb,"Waiting for opponent", Battleships.WIDTH/2-200,300);
-
         if(music){
             sb.draw(soundOnButton.getTexture(),soundOnButton.Buttonx,soundOnButton.Buttony,soundOnButton.Width,soundOnButton.Height);
         }
