@@ -119,4 +119,11 @@ public class GameCodeHolder implements FirebaseServices{
     public void gameFinsihedListener(){
         firebaseServices.gameFinsihedListener();
     }
+
+    @Override
+    public void setSinglePLayerScoreboard(ScoreBoard scoreboard){firebaseServices.setSinglePLayerScoreboard(scoreboard);}
+
+    @Override
+    public void retrieveSingleScoreboard(){ firebaseServices.retrieveSingleScoreboard();}
+
 }

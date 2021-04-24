@@ -29,6 +29,7 @@ public class MenuView extends State {
         background = new Texture("background1.jpg");
         playbutton = new ButtonView("playbutton.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,400,125);
         initButton = new ButtonView("tutorial3.png", Battleships.WIDTH/2-150, 300,300,120);
+
     }
 
     /**
