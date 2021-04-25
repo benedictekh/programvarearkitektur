@@ -1,16 +1,11 @@
 package com.mygdx.game.model;
 
-import com.badlogic.gdx.graphics.Texture;
-
 public class Cell {
 
     public static int SHIP = 1;
     public static int MISS = 2;
     public static int EMPTY = 0;
     public static int HIT = 3;
-
-    private Texture hit;
-    private Texture miss;
 
     /**
      * cheks if a cell has already been shot at
@@ -47,7 +42,6 @@ public class Cell {
         else {
             newValue = MISS;
         }
-        System.out.println("new value: "+ newValue);
         return newValue;
     }
 }

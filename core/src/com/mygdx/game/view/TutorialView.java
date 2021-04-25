@@ -20,9 +20,6 @@ public class TutorialView extends State{
 
 
     protected TutorialView(GameStateManager gsm, GameStateController gsc) {
-
-        //Et problem her er at jeg ikke vil tegne bagrunnen på nytt, jeg vil bare legge på tutorial
-
         super(gsm, gsc);
         logo = Assets.coverLogo;
         background = Assets.tutorialBackground;
@@ -34,9 +31,7 @@ public class TutorialView extends State{
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
-
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
-
             if (backButton.getRectangle().contains(touch.x, touch.y)) {
                 gsm.pop();
             }
@@ -46,7 +41,6 @@ public class TutorialView extends State{
     @Override
     public void update(float dt) {
         handleInput();
-
     }
 
     @Override

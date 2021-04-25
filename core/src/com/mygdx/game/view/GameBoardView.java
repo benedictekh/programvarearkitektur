@@ -3,7 +3,6 @@ package com.mygdx.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.controller.ShipController;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 import com.mygdx.game.model.ships.Ship;
@@ -20,11 +19,7 @@ public class GameBoardView {
      * draws the board as a "rutenett" with square cells
      */
     public void drawBoard(Board board){
-        // finds the size of each rectangle
-        // should be square
-        // board is square so width = height
         float cell_width = board.getWidth() / board.getBoard().size();
-
         for ( int i = 0;  i < board.getBoard().size(); i ++){
             float y_coord = board.getSidemargin() + i * cell_width;
             for ( int j = 0; j < board.getBoard().size(); j ++){
@@ -52,11 +47,9 @@ public class GameBoardView {
                     Gdx.gl.glLineWidth(100);
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeRenderer.setColor(ship.getColor());
-
                     for(float i = 0; i< linewitdh; i++){
                         shapeRenderer.circle(x, y, (cell_width / 2 - 8)+i);
                     }
-
                     shapeRenderer.end();
                 }
             }
@@ -130,7 +123,6 @@ public class GameBoardView {
                 if (board.getBoard().get(i).get(j) == Cell.HIT) {
                     // draw a cross
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
                     shapeRenderer.setColor(Color.BLACK);
                     shapeRenderer.rectLine(board.getSidemargin() +j * cell_width, board.getWidth() + board.getSidemargin() - cell_width - y_coord, board.getSidemargin() +j * cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord, 2);
                     shapeRenderer.rectLine(board.getSidemargin() + j*cell_width, board.getWidth() + board.getSidemargin() - y_coord, board.getSidemargin() + j*cell_width + cell_width, board.getWidth() + board.getSidemargin() - y_coord - cell_width, 2);
@@ -144,12 +136,9 @@ public class GameBoardView {
                     shapeRenderer.end();
                 }
             }
-
         }
-
     }
 
-    //skal gjøres fra GameBoardView
     public void drawBoardView(boolean myTurn, Board board){
         if(myTurn){
             drawBoard(board);

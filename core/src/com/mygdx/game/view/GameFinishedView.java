@@ -35,9 +35,7 @@ public class GameFinishedView extends State {
         newGame = new ButtonCreator(Assets.newGame, Battleships.WIDTH/2-150, 90, 300, 110);
         temp = gsc.getScoreBoardController().getScoreboard();
         gch = GameCodeHolder.getInstance(Battleships.firebaseConnector);
-
     }
-
 
     @Override
     protected void handleInput() {
@@ -47,7 +45,6 @@ public class GameFinishedView extends State {
                gsm.push(new MenuView(gsm));
             }
         }
-
     }
 
     @Override
@@ -82,7 +79,6 @@ public class GameFinishedView extends State {
             font.draw(sb,"Opponent score: " + gsc.getScoreBoard().getOpponentScore(), Battleships.WIDTH-700,Battleships.HEIGHT-400);
         }
             font.draw(sb,"Scoreboard: ", Battleships.WIDTH/2-200,900);
-
             Iterator iterator = temp.entrySet().iterator();
             int i = 0;
             while (iterator.hasNext()) {
@@ -98,7 +94,6 @@ public class GameFinishedView extends State {
             }
             sb.draw(newGame.getTexture(), newGame.Buttonx, newGame.Buttony, newGame.Width, newGame.Height);
             sb.end();
-
     }
 
     @Override

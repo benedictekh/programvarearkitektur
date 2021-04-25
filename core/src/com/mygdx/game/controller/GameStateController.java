@@ -43,17 +43,11 @@ public class GameStateController {
     private static Collection<Feedback> feedbackListeners = new ArrayList<>();
 
 
-    //creates a new GameStateController with an existing player
     public  GameStateController(){
         this.playerController = new PlayerController();
         this.boardController = new BoardController();
         this.scoreBoardController = new ScoreBoardController();
         this.shipController = new ShipController();
-
-
-    /* må flyttes til et annet sted
-
-     */
     }
 
     public void initilializeGameFirebase(){
@@ -70,33 +64,20 @@ public class GameStateController {
         return playerController;
     }
 
-    public void setPlayerController(PlayerController playerController) {
-        this.playerController = playerController;
-    }
 
     public BoardController getBoardController() {
         return boardController;
     }
 
-    public void setBoardController(BoardController boardController) {
-        this.boardController = boardController;
-    }
 
     public ShipController getShipController() {
         return shipController;
-    }
-
-    public void setShipController(ShipController shipController) {
-        this.shipController = shipController;
     }
 
     public ScoreBoardController getScoreBoardController() {
         return scoreBoardController;
     }
 
-    public void setScoreBoardController(ScoreBoardController scoreBoardController) {
-        this.scoreBoardController = scoreBoardController;
-    }
 
     public Player getPlayer() {
         return player;
@@ -105,10 +86,6 @@ public class GameStateController {
     public void setPlayer(Player player) {
         this.player = player;
         setBoard(player.getBoard());
-        System.out.println("Spilleren til controller: " + this.player.getName());
-        System.out.println("Spillerens brett: ");
-        boardController.printBoard(board);
-        System.out.println("brettes bredde: " + board.getWidth());
     }
 
     public void setBoard(Board board) {
@@ -127,31 +104,15 @@ public class GameStateController {
         GameStateController.myTurn = myTurn;
     }
 
-    public static void setShotChanged(boolean shotChanged) {
-        GameStateController.shotChanged = shotChanged;
-    }
-
-    public static void setLastShot(ArrayList<Integer> lastShot) {
-        GameStateController.lastShot = lastShot;
-    }
-
-
-    public static ArrayList<Integer> getLastShot() {
-        return lastShot;
-    }
-
-    //må finne en måte å kalle på denne metoden fra androidInterfaceClass
+    /**
+     * Updates the players board after opponent has shot, so that the shot appears on the screen
+     */
     public void updateShot(){
         if(shotChanged && !myTurn){
             boardController.updateBoard(board, lastShot.get(0), lastShot.get(1), lastShot.get(2));
         }
         shotChanged = false;
     }
-
-
-
-
-
 
     /**
      * computes the index in a double-linked-list from two coordinates
@@ -161,17 +122,13 @@ public class GameStateController {
      * @param y_pos the y_coordinate
      * @return      the indexes for the cell you were trying to touch
      */
-
     public ArrayList<Integer> getIndex(float x_pos, float y_pos){
-        //finds the position on the board
         x_pos = x_pos -player.getBoard().getSidemargin();
         y_pos = y_pos -player.getBoard().getSidemargin();
         ArrayList<Integer>  indexes = new ArrayList<>();
         float t_width = player.getBoard().getWidth();
-        //float t_height = board.getTexture().getHeight();
         float cell_width = t_width / player.getBoard().getBoard().size();
         float cell_height = t_width / player.getBoard().getBoard().size();
-
 
         indexes.add((int) (x_pos / cell_width));
         indexes.add((int) (y_pos / cell_height));
@@ -207,10 +164,6 @@ public class GameStateController {
                 FeedbackDelay();
             }
         }
-        else{
-            System.out.println("Not my turn, can't shoot");
-
-        }
     }
 
     public void setCanShoot(boolean canShoot){
@@ -233,16 +186,12 @@ public class GameStateController {
         if (boardController.isFinished(opponentBoard)){
             Battleships.firebaseConnector.gameFinished();
         }
-
         return finishedGame;
     }
 
 
     public void changeCurrentPlayer(){
-        //called when it is next player's turn
-        // må si ifra til firebase
         Battleships.firebaseConnector.changeTurn();
-
     }
 
     public String turn(){
@@ -251,17 +200,6 @@ public class GameStateController {
         }
         return "Opponents turn!";
     }
-
-
-    //må finne en måte å kalle på denne metoden fra androidInterfaceClass
-    public void updateShot(Player player, BoardController controller){
-        if(shotChanged && !myTurn){
-            controller.updateBoard(player.getBoard(), lastShot.get(0), lastShot.get(1), lastShot.get(2));
-        }
-        shotChanged = false;
-    }
-
-
 
 
     public Boolean checkPlayersAdded(){
@@ -273,12 +211,10 @@ public class GameStateController {
         return playersReady;
     }
 
-
     public void createInitalizeOpponentBoard(){
         boardController.makeInitalizeOpponentBoard(board);
         System.out.println("Nå ser initialize Opponent board sånn ut: " + board.getInitializeOpponentBoard());
     }
-
 
    public void moveShip(int new_x, int new_y, ArrayList<List<Integer>> location){
        // finds the index based on the coordinates of the touch
@@ -290,7 +226,7 @@ public class GameStateController {
        //adds the new position to the board (replaces the 0-values on the cells with 1)
        shipController.createNewPosition(shipController.getMarkedShip(), index.get(0), index.get(1));
        // checks if the new location of the markedShip is inside the board
-       if(!boardController.isInsideBoard(board, shipController.getMarkedShip().getLocation())){
+       if(!boardController.isInsideBoard(shipController.getMarkedShip().getLocation())){
            firefeedbackFalse();
            shipController.createNewPosition(shipController.getMarkedShip(), first_position.get(0),first_position.get(1));
        }
@@ -307,7 +243,6 @@ public class GameStateController {
        boardController.addShipPosition(board, shipController.getMarkedShip().getLocation());
        //sets the markedShip value to null so we can select new ships to move :D
        shipController.setMarkedShip(null);
-       boardController.printBoard(board);
    }
 
 
@@ -327,7 +262,6 @@ public class GameStateController {
 
 
     public ArrayList<List<Integer>> getOpponentBoardFromFirebase(){
-        System.out.println("Brett fra firebase: " + Battleships.firebaseConnector.getOpponentBoard());
         return Battleships.firebaseConnector.getOpponentBoard();
     }
 
@@ -336,7 +270,6 @@ public class GameStateController {
         createInitalizeOpponentBoard();
         Battleships.firebaseConnector.sendBoard(board.getOpponentBoard());
         Battleships.firebaseConnector.boardListener();
-
     }
 
     public static void addFeedbackListener(Feedback feedbackListener){

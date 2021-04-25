@@ -3,8 +3,6 @@ package com.mygdx.game.view.ViewComponents;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
-
-
 public class ButtonCreator {
 
     private Texture texture;
@@ -20,10 +18,7 @@ public class ButtonCreator {
      * This class makes it possible to initiate an action by placing a rectangle around the texture.
      * The class makes it easy to make a button, and will go under the QUALITY ATTRIBUTE: modifiability.
      */
-
-
     public ButtonCreator(Texture tex, int buttonx, int buttony, int width, int height) {
-        //texture = new Texture(texturePath);
         texture = tex;
         Buttonx= buttonx;
         Buttony = buttony;
@@ -33,7 +28,6 @@ public class ButtonCreator {
     }
 
     public Rectangle getRectangle() {
-        System.out.println("rec:" + rectangle);
         return this.rectangle;
 
     }

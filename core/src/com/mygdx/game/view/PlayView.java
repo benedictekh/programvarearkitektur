@@ -1,10 +1,9 @@
-package com.mygdx.game.view;//package com.mygdx.game.view; //endret
+package com.mygdx.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -13,7 +12,6 @@ import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
 import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 import com.mygdx.game.model.Assets;
-import com.mygdx.game.model.ScoreBoard;
 
 
 public class PlayView extends  State implements FeedbackDelay {
@@ -22,8 +20,7 @@ public class PlayView extends  State implements FeedbackDelay {
     private float x_position;
     private float y_position;
     private GameBoardView gameBoardView;
-    //private Board opponentBoard;
-    private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private BitmapFont font = new BitmapFont();
     private BitmapFont turn = new BitmapFont();
     private boolean feedback = false;
 
@@ -35,8 +32,6 @@ public class PlayView extends  State implements FeedbackDelay {
     private int i=0;
     private static Sound hitSound;
     private static Sound missSound;
-    private float timecount;
-
 
 
     /**
@@ -49,14 +44,10 @@ public class PlayView extends  State implements FeedbackDelay {
         missed = Assets.missed;
         this.gameBoardView = new GameBoardView();
         tutorialButton = new ButtonCreator(Assets.tutorialButton, Battleships.WIDTH/2+380, 135,250,100);
-        //Battleships.firebaseConnector.sendBoard(player.getBoard().getOpponentBoard());
-        //må gjøre om til minuslista senere
         gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(gsc.getOpponentBoardFromFirebase(), gsc.getPlayer().getBoard().getSidemargin()));
         GameStateController.addFeedbackDelayListener(this);
         hitSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/hitshoot.wav"));
         missSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/miss.mp3"));
-
-
     }
 
     /**
@@ -67,12 +58,10 @@ public class PlayView extends  State implements FeedbackDelay {
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
-
             if(tutorialButton.getRectangle().contains(touch.x, touch.y)) {
                 TutorialView = new TutorialView(gsm, gsc);
                 gsm.push(TutorialView);
             }
-
             x_position = Gdx.input.getX();
             y_position = Gdx.input.getY();
             gsc.shoot(gsc.getIndex(x_position, y_position));
@@ -84,20 +73,12 @@ public class PlayView extends  State implements FeedbackDelay {
             gsc.getScoreBoardController().updateScoreboard(gsc.getScoreBoard());
             gsm.set(new GameFinishedView(gsm, gsc));
         }
-
-        /*
-        Her skal det være en funksjon som sender koordiandene som blir trykket på inn
-        til controlleren. Controlleren vil videre regne ut hvilket rutenummer det er og sende dette
-        Board model.
-         */
     }
 
     @Override
     public void update(float dt) {
-
         handleInput();
         gsc.updateShot();
-
     }
 
     /**
@@ -105,13 +86,11 @@ public class PlayView extends  State implements FeedbackDelay {
      */
     @Override
     public void render(SpriteBatch sb) {
-
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(logo, Battleships.WIDTH/2+100, Battleships.HEIGHT-250, 800, 300);
         font.getData().setScale(3, 3);
         turn.getData().setScale(5, 5);
-        //font.setColor(Color.BLACK);
         turn.setColor(Color.BLACK);
         font.setColor(Color.BLACK);
         turn.draw(sb, gsc.turn(), Battleships.WIDTH/2+300, 800);
@@ -124,7 +103,6 @@ public class PlayView extends  State implements FeedbackDelay {
         }
         sb.end();
         gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());
-
     }
 
     @Override
@@ -142,7 +120,6 @@ public class PlayView extends  State implements FeedbackDelay {
     public void playSoundMiss(){
             long id = missSound.play(4f);
             hitSound.setPitch(id,0.6f);
-
     }
 
     public void setFeedback(boolean feedback){

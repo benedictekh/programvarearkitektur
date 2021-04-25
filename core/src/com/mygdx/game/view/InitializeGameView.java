@@ -14,7 +14,6 @@ import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class InitializeGameView extends State{
 
-    private Player player;
     private Texture background;
     private Texture logo;
     private BitmapFont font;
@@ -46,26 +45,19 @@ public class InitializeGameView extends State{
      */
     @Override
     protected void handleInput() {
-
         if(Gdx.input.justTouched()) {
-            //lagre vektoren som blir trykket
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
             if (backButton.getRectangle().contains(touch.x, touch.y)) {
                 gsm.pop();
             }
             if (multiplayerButton.getRectangle().contains(touch.x, touch.y)) {
-                //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        //creates a new player with the given name
                         gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
                         gsc.getPlayerController().addPlayerFirebase(gsc.getPlayer());
                         name1 = name;
                         setName(name1);
-                        System.out.println(name1);
-                        System.out.println("brettet som blir hentet av getBoard(): ");
-                        gsc.getBoardController().printBoard(gsc.getBoard());
                         gsm.set(new LoadingView(gsm, gsc));
                     }
 
@@ -77,11 +69,9 @@ public class InitializeGameView extends State{
 
 
             } if (singlePlayerButton.getRectangle().contains(touch.x, touch.y)) {
-                //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        //creates a new player with the given name
                         gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
                         gsm.set(new SinglePlayerView(gsm, gsc));
                     }
@@ -91,24 +81,15 @@ public class InitializeGameView extends State{
                         System.out.println("ups");
                     }
                 },"Username","","");
-
-
-            }
-            else{
-                System.out.println("outside");
             }
         }
     }
-    /*
-    private void createInitializeGameController(String name){
-        player = new Player(name, true);
-        controller = new InitializeGameController(player);
-    }
 
-*/
+
     public void setName(String name){
         name1 = name;
     }
+
     public String getName(){
         return name1;
     }
@@ -125,7 +106,6 @@ public class InitializeGameView extends State{
     @Override
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 255, 1);
-
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);

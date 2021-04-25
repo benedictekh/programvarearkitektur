@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class SubmarineShip extends Ship{
 
-    // the size is based on a horizontal direction
     int sizeX = 3;
     int sizeY = 2;
-
 
     public SubmarineShip(boolean horizontal){
 

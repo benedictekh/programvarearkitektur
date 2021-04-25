@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayerController {
 
-
-
     /**
      * creates a new player and a board for this player
      * @param name the name of the player
@@ -26,20 +24,9 @@ public class PlayerController {
         return player;
     }
 
-    public Board getPlayersBoard(Player player){
-        return player.getBoard();
-    }
-
-    public void setOpponentBoard(Player player, Board opponent){
-        player.setOpponentBoard(opponent);
-    }
-
-
     public void addPlayerFirebase(Player player){
         Battleships.firebaseConnector.addPlayer(player);
     }
-
-
 
 
 }

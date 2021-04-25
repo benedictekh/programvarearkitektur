@@ -10,12 +10,10 @@ import com.mygdx.game.view.GameStateManager;
 
 public class Battleships extends ApplicationAdapter {
 	private SpriteBatch batch;
-	//gjøre gsm static
 	private GameStateManager gsm;
 	public static int WIDTH;
 	public static int HEIGHT;
 	FirebaseServices firebaseServices;
-	//public static FirebaseConnector firebaseConnector;
 	public static GameCodeHolder firebaseConnector;
 
 	public Battleships(FirebaseServices firebaseServices) {
@@ -27,8 +25,6 @@ public class Battleships extends ApplicationAdapter {
 		Assets.load();
 		WIDTH = Gdx.app.getGraphics().getWidth();
 		HEIGHT = Gdx.app.getGraphics().getHeight();
-
-		//this.firebaseConnector = new FirebaseConnector(firebaseServices);
 		this.firebaseConnector = GameCodeHolder.getInstance(firebaseServices);
 		batch = new SpriteBatch();
 		gsm = GameStateManager.getInstance();

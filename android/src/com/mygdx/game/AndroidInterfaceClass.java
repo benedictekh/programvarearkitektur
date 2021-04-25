@@ -1,10 +1,8 @@
 package com.mygdx.game;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,12 +13,10 @@ import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.controller.ScoreBoardController;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.model.ScoreBoard;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import static android.content.ContentValues.TAG;
 
 
@@ -35,24 +31,20 @@ public class AndroidInterfaceClass implements FirebaseServices {
     Integer playerId;
     private String id;
     static ArrayList<List<Integer>> opponentBoard;
-    static HashMap<String, Integer> scoreboard;
-
 
     /**
      * AndroidInterfaceClass contains all the logic to write and retrieve data from our firebase
-     * realtime database. The class contains the singelton gameCodeHolder to save the gameId
+     * realtime database. The class contains the singleton gameCodeHolder to save the gameId
      * and playerId throughout the game.
      */
     public AndroidInterfaceClass(){
         database = FirebaseDatabase.getInstance("https://battleship-80dca-default-rtdb.firebaseio.com/");
         data = database.getReference();
         gameCodeHolder = GameCodeHolder.getInstance(this);
-
     }
 
-
     /**
-     * Recieve the player and pass it on to the waitingroom method.
+     * Receive the player and pass it on to the waitingroom method.
      * @param player player object from model, contains board and name.
      */
     @Override
@@ -65,13 +57,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
      * For the first player that is added to the waitingRoom the waitingRoom will be created and createGame() is called
      * to initialize a new game. WaitingRoomChildListener() is added to the player detected when another player is added to the game.
      * When the second player enters the waitingroom the player call initializeGame().
-     * The gameId and playerId in the singelton class, gameCodeHolder, is set for both players.
+     * The gameId and playerId in the singleton class, gameCodeHolder, is set for both players.
      */
     private void addWaitingroomListener(){
         data.child("WaitingRoom").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String waitingRoomPlayerId = "";
                 if(snapshot.exists()){
                     String pId="";
                     for (DataSnapshot player : snapshot.getChildren()){
@@ -104,7 +95,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     /**
      * Create the game in firebase where both players will be added when there is two in waitingroom.
-     * Initalize variables; players, LastShot, GameFinished, that are needed and will be updated later.
+     * Initialize variables; players, LastShot, GameFinished, that are needed and will be updated later.
      */
     private void createGame(){
         this.id = this.generateGameId();
@@ -131,7 +122,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     *When both players are added to the waitingroom the last player initalize the game and move them self over to the game
+     *When both players are added to the waitingroom the last player initialize the game and move them self over to the game
      * and the turn will be this players turn the first round.
      * The variable, playersAdded, in loadingController is set to true.
      */
@@ -187,8 +178,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     /**
      * Design pattern: Observer
-     * Initalize a listener to the turn attribute in firebase first time it is called.
-     * onDataChange() is called everytime changeTurn() changes the turn variable after the initial call.
+     * Initialize a listener to the turn attribute in firebase first time it is called.
+     * onDataChange() is called every time changeTurn() changes the turn variable after the initial call.
      * @return true if it is the local players turn and pass it on to PlayController
      */
     @Override
@@ -197,7 +188,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 turnPlayer = Integer.valueOf((String) snapshot.getValue());
-                System.out.println("addturnListener in android: " + turnPlayer);
                 GameStateController.myTurn = turnPlayer.equals(playerId);
             }
             @Override
@@ -208,7 +198,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
 
     /**
-     * Retrieves the opponents board when the game is initalized.
+     * Retrieves the opponents board when the game is initialized.
      * @return linked arraylist with the opponents board to PlayController
      */
     @Override
@@ -222,14 +212,12 @@ public class AndroidInterfaceClass implements FirebaseServices {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 opponentBoard = new ArrayList<List<Integer>>();
                 Iterable<DataSnapshot> snap = snapshot.getChildren();
-                System.out.println("retrieve opponentBoard");
                 for (DataSnapshot data : snap){
                     List<Integer> temp = new ArrayList<>();
                     Iterable<DataSnapshot> children = data.getChildren();
                     for (DataSnapshot child : children){
                         temp.add(Integer.parseInt(String.valueOf (child.getValue())));
                     }
-                    System.out.println(temp);
                     opponentBoard.add(temp);
                 }
             }
@@ -238,14 +226,13 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
             }
         });
-
         return opponentBoard;
     }
 
     /**
-     * Sets the initiale board to this player in firebase so the other player can retrieve it.
+     * Sets the initialize board to this player in firebase so the other player can retrieve it.
      * Calls getOpponentBoard() so the player can retrieve the other players board.
-     * @param board the initial board to this player, sendt from MakeBoardController
+     * @param board the initial board to this player, sent from MakeBoardController
      */
     @Override
     public void sendBoard(ArrayList<List<Integer>> board) {
@@ -273,7 +260,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Everytime this players shoots sendShot is called from Board and updates the variables in firebase.
+     * Every time this players shoots sendShot is called from Board and updates the variables in firebase.
      * @param x the x-coordinate that is shot on.
      * @param y the y-coordinate that is shot on.
      * @param newValue states if the shot is a hit or miss.
@@ -286,7 +273,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     /**
      * Design pattern: observer
-     * PlayController initalize the observer when the game starts. Everytime the shot is changed the new values are retrieved and
+     * PlayController initialize the observer when the game starts. Every time the shot is changed the new values are retrieved and
      * passed on to the PlayController by changing a shotChanged variable to true.
      */
     @Override
@@ -320,7 +307,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     /**
      * When the scoreboard is updated with the scores for this game it is retrieved from firebase with the scores of other
-     * games and sendt to GameFinished Controller.
+     * games and sent to GameFinished Controller.
      */
     @Override
     public void retrieveScoreboard(){
@@ -342,6 +329,9 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    /**
+     * Help method used to store the opponents username in the gameCodeHolder class
+     */
     public void getPlayers(){
         data.child("GameState").child(gameCodeHolder.getGameId()).child("GameInfo").child("Players").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -362,7 +352,7 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * When the game is finsihed the GameFinished variable in firebase is change to true with a call from PlayController.
+     * When the game is finished the GameFinished variable in firebase is change to true with a call from PlayController.
      */
     @Override
     public void gameFinished(){
@@ -372,8 +362,8 @@ public class AndroidInterfaceClass implements FirebaseServices {
 
     /**
      * Design pattern: Listener
-     * When a game startes from PlayController it is added a listener to changes in the variable GameFinished, so
-     * both players will recieve information that a game has ended.
+     * When a game starts from PlayController it is added a listener to changes in the variable GameFinished, so
+     * both players will receive information that a game has ended.
      */
     @Override
     public void gameFinsihedListener(){
@@ -392,11 +382,20 @@ public class AndroidInterfaceClass implements FirebaseServices {
         });
     }
 
+    /**
+     * In GameFinishedView setSinglePlayerScoreboard() is called when the player is finished with the game and the method
+     * sets the score value in firebase.
+     * @param scoreboard    the score and player that have finished the game.
+     */
     @Override
     public void setSinglePLayerScoreboard(ScoreBoard scoreboard){
         data.child("SingleScoreboard").child(scoreboard.getName()).setValue(scoreboard.getScore());
     }
 
+    /**
+     * When the singleplayer scoreboard is updated with the scores for this game it is retrieved from firebase with the scores of other
+     * games and sent to GameFinished Controller.
+     */
     @Override
     public void retrieveSingleScoreboard(){
         data.child("SingleScoreboard").addListenerForSingleValueEvent(new ValueEventListener() {

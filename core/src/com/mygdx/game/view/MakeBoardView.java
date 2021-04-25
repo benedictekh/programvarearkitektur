@@ -32,11 +32,11 @@ public class MakeBoardView extends State implements Feedback {
 
     /**
      * the constructor, sets the background, MakeBoardController, board and "next-button"
-     */
+     **/
 
     /**
      * QUALITY ATTRIBUTE: USABILITY
-     *          The user can initilize the board by placing the ships where the user wants.
+     *          The user can initialize the board by placing the ships where the user wants.
      *
      * This view presents the board for the player
      * The player can place the ships at preferred position.
@@ -56,6 +56,7 @@ public class MakeBoardView extends State implements Feedback {
     public void setNextTouch(boolean bool){
         this.nextTouch = bool;
     }
+
     public void setmarkedShip(ArrayList<List<Integer>> location){
         this.location = location;
     }
@@ -86,12 +87,9 @@ public class MakeBoardView extends State implements Feedback {
             y_position = Gdx.input.getY();
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
             gsc.getShipController().findShip(gsc.getBoard(),gsc.getIndex(x_position,y_position));
-
-            //ønsker å få opp feedback om spilleren er feridg med å plassere skip
             if(next.getRectangle().contains(touch.x,touch.y)){
                 gsc.sendBoard();
                 gsm.set(new LoadingView(gsm, gsc));
-                
             }
             if(getNextTouch()){
                 gsc.moveShip(x_position,y_position,getShipLocation());
@@ -130,7 +128,6 @@ public class MakeBoardView extends State implements Feedback {
         if(!bool){
             sb.draw(wrong, Battleships.WIDTH/2+40, 40,280,200);
         }
-        //sb.draw(playGame.getTexture(),playGame.Buttonx,playGame.Buttony,playGame.Width,playGame.Height);
         sb.end();
         drawBoardView();
         drawMarkedShip();

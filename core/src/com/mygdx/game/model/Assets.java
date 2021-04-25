@@ -1,9 +1,6 @@
 package com.mygdx.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.Battleships;
-import java.awt.TextComponent;
-
 public class Assets {
 
     // Backgrounds
@@ -80,8 +77,6 @@ public class Assets {
 
         // PlayView
         missed = new Texture("missed.png");
-
-
     }
 
     public void update(){

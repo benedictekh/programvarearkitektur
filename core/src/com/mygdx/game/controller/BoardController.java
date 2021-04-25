@@ -1,8 +1,5 @@
 package com.mygdx.game.controller;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
@@ -16,9 +13,6 @@ import com.mygdx.game.model.ships.SubmarineShip;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class BoardController {
 
@@ -30,7 +24,7 @@ public class BoardController {
      *
      * @param size       the size the board should have, how many cells it should contain in x- and y-direction
      *                   the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
-     * @param sidemargin the distance the board should have from the endge of the device when its drawn
+     * @param sidemargin the distance the board should have from the edge of the device when its drawn
      */
 
     public Board createBoard(int size, int sidemargin){
@@ -44,13 +38,16 @@ public class BoardController {
             board.setWidth(Battleships.WIDTH - (2 * sidemargin));
         }
         makeBoard(board, size);
-        System.out.println("Nytt brett kommer nå \n");
         initShips(board, new ShipController());
-        //initNewShip();
         return board;
     }
 
-    //generates a board from an opponentlist
+    /**
+     * generates a new board, which is going to be the opponent board, from a boardlist retried from firebase
+     *
+     * @param initializeOpponentBoard The opponents board retrieved from firebase
+     * @param sidemargin the distance the board should have from the edge of the device when its drawn
+     */
     public Board createBoardFromOpponent(ArrayList<List<Integer>> initializeOpponentBoard, int sidemargin) {
         Board board = new Board();
         board.setCell(new Cell());
@@ -65,16 +62,15 @@ public class BoardController {
         return board;
     }
 
-
-
-
-
-
+    /**
+     * Adds ships to the opponents board and creates the shiplist to the opponent
+     *
+     * @param board The opponents board
+     * @param initializeOpponentBoard The opponents board retrieved from firebase
+     */
     public void createOpponentLists(Board board, ArrayList<List<Integer>> initializeOpponentBoard){
-        System.out.println("Nå skal jeg lage et nytt brett fra dette: " + initializeOpponentBoard);
         board.createNewShipsList();
         board.addShip(new DestroyerShip(true));
-
         board.addShip(new CarrierShip(true));
         board.addShip(new CruiserShip(false));
         board.addShip(new SubmarineShip(true));
@@ -93,17 +89,6 @@ public class BoardController {
                 }
             }
         }
-        System.out.println("Board laget av createOpponentLists"+ board.getBoard());
-        System.out.println("Ships laget av createOpponentLists"+ printShipslocation(board));
-
-    }
-
-    private String printShipslocation(Board board) {
-        String s = "\n";
-        for (Ship ship: board.getShips()){
-            s = s + "Skip nr " + ship.getShipNr() + ", location: " + ship.getLocation() + "\n";
-        }
-        return s;
     }
 
     /**
@@ -114,7 +99,6 @@ public class BoardController {
      * @param size  the size the board should have, how many cells it should contain in x- and y-direction
      *              the board is a square -> size = 10 would mean a 10x10 board -> 100 cells on the board
      */
-
     private void makeBoard(Board board, int size) {
         board.createNewBoardList();
         board.createNewInitializeOpponentBoardList();
@@ -129,24 +113,17 @@ public class BoardController {
             board.getBoard().add(kolonne);
             board.getInitializeOpponentBoard().add(kolonne2);
         }
-        printBoard(board);
     }
 
 
     public void makeInitalizeOpponentBoard(Board board){
         for (Ship ship: board.getShips()){
-            System.out.println("location: " + ship.getLocation());
-
-            // the location is valid, update the values on the board
             for (List<Integer> coordinate : ship.getLocation()) {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateInitalizeOpponentBoard(board, x, y, ship.getShipNr());
             }
         }
-        System.out.println("dette kommer fra initShip");
-        printBoard(board);
-
     }
 
     /**
@@ -154,10 +131,7 @@ public class BoardController {
      * the ships cannot overlap
      * every cell the different ships occupies will get the value SHIP (0) on the board (ArrayList<List<Integer>)
      */
-
     private void initShips(Board board, ShipController controller){
-        // init ships from Ship class
-
         board.addShip(new DestroyerShip(true));
         board.addShip(new CarrierShip(true));
         board.addShip(new CruiserShip(false));
@@ -168,30 +142,17 @@ public class BoardController {
             controller.createRandomLocation(ship);
         }
         for (Ship ship: board.getShips()){
-            System.out.println("location: " + ship.getLocation());
-            // while the ships random location is partly occupied, create a new random location
             while (!isValidLocation(board, ship.getLocation())) {
                 controller.createRandomLocation(ship);
             }
-            // the location is valid, update the values on the board
             for (List<Integer> coordinate : ship.getLocation()) {
                 int x = coordinate.get(0);
                 int y = coordinate.get(1);
                 updateBoard(board, x, y, board.getCell().SHIP);
             }
         }
-        System.out.println("dette kommer fra initShip");
-        printBoard(board);
     }
 
-    public void printBoard(Board board){
-        for (int row = 0; row < board.getBoard().size(); row ++){
-            System.out.println(board.getBoard().get(row) + "\n");
-        }
-        for (int row = 0; row < board.getInitializeOpponentBoard().size(); row ++){
-            System.out.println(board.getInitializeOpponentBoard().get(row) + "\n");
-        }
-    }
 
     /**
      * checks of the coordinates of a move is valid
@@ -203,7 +164,6 @@ public class BoardController {
      */
     private boolean isValidMove(Board board, int x, int y){
         if (( 0 <= x && x < 10) && (0 <= y && y < 10) ){
-            // coordinates is within range, check if cell is already been shot at
             int value = board.getBoard().get(y).get(x);
             return board.getCell().isValidMove(value);
         }
@@ -215,19 +175,13 @@ public class BoardController {
      * @param shipPosition  the coordinates of the different cells the ship is occupying
      * @return  true if the whole ship is placed inside the board, false if not
      */
-    public Boolean isInsideBoard(Board board, ArrayList<List<Integer>> shipPosition){
+    public Boolean isInsideBoard(ArrayList<List<Integer>> shipPosition){
         boolean bool = true;
-        System.out.println(shipPosition);
-        // iterates trough the index for every cell the ship is occupying
         for(List<Integer> index: shipPosition){
             int x= index.get(0);
             int y = index.get(1);
-            // cheks that both values is between 0 and 9
             if(!(( 0 <= x && x < 10) && (0 <= y && y < 10))) {
                 bool =  false;
-            }
-            else {
-                System.out.println(index+" er  lov");
             }
         }
         return bool;
@@ -240,13 +194,10 @@ public class BoardController {
      * @return  false if the the shot vas not valid or a hit, true if both valid and a miss
      *          (returns true if it should be a change of turn after this shot)
      */
-    // return true if valid move and miss, false if not valid move or hit
     public boolean shoot(Board board, int x, int y){
         ShipController controller = new ShipController();
-        // is the cell you are trying to shoot at a valid cell? (on the board and not shot at earlier)
         if (isValidMove(board, x, y)){
             int value = board.getBoard().get(y).get(x);
-            System.out.println("Valid move");
             if (board.getCell().isHit(value)){
                 for (Ship ship :board.getShips()){
                     controller.boardChange(ship, x, y);
@@ -260,20 +211,16 @@ public class BoardController {
                 Battleships.firebaseConnector.sendShot(x,y,board.getCell().setCell(value));
                 return true;
             }
-
         }
         else{
-            System.out.println("Not a valid move");
             return false;
         }
     }
 
     public boolean singleShoot(Board board, int x, int y){
         ShipController controller = new ShipController();
-        // is the cell you are trying to shoot at a valid cell? (on the board and not shot at earlier)
         if (isValidMove(board, x, y)){
             int value = board.getBoard().get(y).get(x);
-            System.out.println("Valid move");
             if (board.getCell().isHit(value)){
                 for (Ship ship :board.getShips()){
                     controller.boardChange(ship, x, y);
@@ -285,10 +232,8 @@ public class BoardController {
                 updateBoard(board, x, y, board.getCell().setCell(value));
                 return true;
             }
-
         }
         else{
-            System.out.println("Not a valid move");
             return false;
         }
     }
@@ -367,9 +312,5 @@ public class BoardController {
         }
         return true;
     }
-
-
-
-
 
 }

@@ -20,13 +20,11 @@ public class LoadingView extends State {
     boolean which_texture = true;
     Texture texture;
     float timecount;
-    float totaleTime;
     BitmapFont font;
     private boolean musicBool;
     private Music loading_song ;
     private ButtonCreator soundOnButton;
     private ButtonCreator soundOffButton;
-    private ButtonCreator soundButton;
     private boolean music = true;
 
     /**
@@ -34,8 +32,10 @@ public class LoadingView extends State {
      * @param gsm
      * @param gsc
      *
-     * the LoadingView is anintermidian stage / state where the handling of the database is done
-     * The user will be sent into the game when they are connected to another user on aother divice.
+     * the LoadingView is a waiting stage / state where the handling of the database is done and the player
+     * waits for the other player to be ready
+     *
+     * The user will be sent into the game when they are connected to another user on another device.
      *
      * QUALITY ATTRIBUTE: USABILITY
      *
@@ -53,9 +53,6 @@ public class LoadingView extends State {
         musicBool = true;
         soundOnButton = new ButtonCreator(Assets.soundOn,Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
         soundOffButton = new ButtonCreator(Assets.soundOff,Battleships.WIDTH/2+850, Battleships.HEIGHT-180, 100, 100);
-        //setMusicButton(soundOnButton);
-
-
     }
 
     @Override
@@ -90,6 +87,7 @@ public class LoadingView extends State {
     public void setMusic(boolean music){
         this.music = music;
     }
+
     public void pauseMusic(){
         loading_song.pause();
     }
@@ -144,17 +142,13 @@ public class LoadingView extends State {
                 switchImage(which_texture);
                 timecount=0;
             }
-            // om framen har vart i mer enn 4 sekunder, så skifter den
-            //dersom det er to spillere kommer de til playView
 
             if (gsc.checkPlayersAdded()){
                 gsm.set(new MakeBoardView(gsm, gsc));
-
             }
 
             if(gsc.checkPlayersReady()){
                 gsc.getOpponentBoardFromFirebase();
-                //spørsmål: rekker ikke hente ut opponentBrett
                 try{
                     TimeUnit.SECONDS.sleep(3);
                 }catch(Exception e){

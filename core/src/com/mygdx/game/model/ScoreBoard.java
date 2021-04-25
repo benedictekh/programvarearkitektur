@@ -6,15 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ScoreBoard {
 
     private ArrayList<List<Integer>> boardList;
     private Player player;
-    private Stage stage;
-
     private int opponentScore;
     private int score;
 
@@ -46,12 +43,6 @@ public class ScoreBoard {
     public void setOpponentScore(int score){
         this.opponentScore = score;
     }
-
-    public void makeScoreBoard(){
-        stage = new Stage(new ScreenViewport());
-        Container<Table> tableContainer = new Container<Table>();
-    }
-
 
     public ArrayList<List<Integer>> getBoardList() {
         return boardList;

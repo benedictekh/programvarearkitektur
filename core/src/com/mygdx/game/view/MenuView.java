@@ -19,12 +19,10 @@ public class MenuView extends State {
     private TutorialView TutorialView;
 
     /**
-<<<<<<< HEAD
      * This is the first view and state that is added to the stack in the gsm.
      * It is the front page of the application.
      * There are two buttons witch sends the user to the game or to a tutorial of the game.
      */
-
     public MenuView(GameStateManager gsm) {
         super(gsm, new GameStateController());
         logo = Assets.coverLogo;
@@ -35,31 +33,21 @@ public class MenuView extends State {
     }
 
     /**
-<<<<<<< HEAD
-     * By pressing the playbutton the game is sent to the inlog site.
-     * By pressing the intit button the user is sent to the ........
+     * By pressing the playbutton the game is sent to the play site to chose between muliplayer and singleplayer
+     * By pressing the init button the user is sent to the tutorial
      */
-
-
     @Override
     protected void handleInput() {
         if(Gdx.input.justTouched()){
-
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT-Gdx.input.getY(), 0);
-
             if(playbutton.getRectangle().contains(touch.x,touch.y)){
                 gsm.push(new InitializeGameView(gsm, new GameStateController()));
             }
             else if(initButton.getRectangle().contains(touch.x,touch.y)) {
                 TutorialView = new TutorialView(gsm, gsc);
                 gsm.push(TutorialView);
-
-            }
-            else{
-                System.out.println("pressed outside");
             }
         }
-
     }
 
     @Override

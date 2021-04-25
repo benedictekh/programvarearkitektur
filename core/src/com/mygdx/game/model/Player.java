@@ -5,7 +5,6 @@ public class Player {
     public String name;
     private Board board;
     private Board opponentBoard;
-    private int Score = 0;
 
     /**
      * the constructor, sets the name and the boolean, creates a board that is 10x10 and has a sidemargin with size 10

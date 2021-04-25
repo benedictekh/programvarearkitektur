@@ -1,6 +1,5 @@
 package com.mygdx.game.controller;
 
-import com.badlogic.gdx.Game;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.model.Player;
@@ -76,8 +75,6 @@ public class ScoreBoardController {
             e.printStackTrace();
         }
         this.sortScoreboard();
-        //sende tilbake til view
-        System.out.println("Controller: " + printScoreboard);
     }
 
     private void opponentScore(ScoreBoard scoreboard) {

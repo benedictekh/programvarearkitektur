@@ -13,14 +13,12 @@ import com.mygdx.game.model.Assets;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
 import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 
-import java.awt.Button;
-
 public class SinglePlayerView extends State implements FeedbackDelay {
     private Texture background;
     private Texture logo;
     private float x_position;
     private float y_position;
-    private BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private BitmapFont font = new BitmapFont();
     private BitmapFont turn = new BitmapFont();
     private GameBoardView gameBoardView;
     private ButtonCreator tutorialButton;
@@ -87,7 +85,6 @@ public class SinglePlayerView extends State implements FeedbackDelay {
         sb.draw(tutorialButton.getTexture(),tutorialButton.Buttonx,tutorialButton.Buttony,tutorialButton.Width,tutorialButton.Height);
         sb.end();
         gameBoardView.drawBoardView(gsc.getSingleTurn(), gsc.getSingleBoard());
-
     }
 
     @Override

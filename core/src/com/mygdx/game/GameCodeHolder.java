@@ -66,7 +66,6 @@ public class GameCodeHolder implements FirebaseServices{
         firebaseServices.addPlayer(player);
     }
 
-
     @Override
     public void changeTurn() {
         firebaseServices.changeTurn();

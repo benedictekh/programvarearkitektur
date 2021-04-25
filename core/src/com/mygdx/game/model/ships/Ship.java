@@ -14,23 +14,19 @@ public abstract class Ship {
     private Color color;    //the color the ship should be drawn in
     private Boolean isSunk; //keeps track of whether the whole ship is hit
     private ArrayList<List<Integer>> location;  //the different cells the ships occupies on the board
-    // example location: [[0,0],[0,1],[1,0],[1,1]]
     private ArrayList<List<Integer>> shotCoordinates;
     private int shipNr;
 
     /**
      * Sets the color of the ships, creates a new list for the shotCoordinates and sets isSunk to false
-     * @param color
+     * @param color The color of the ship
      */
     protected Ship(Color color, int shipNr){
-        // får inn koordinatene der dette skipet skal ligge på brettet
-        // burde legge til validering om det er gyldig koordinater
         this.color = color;
         this.shipNr = shipNr;
         isSunk = false;
         shotCoordinates = new ArrayList<List<Integer>>();
         this.location = new ArrayList<List<Integer>>();
-
     }
 
     public int getSizex() {
@@ -62,30 +58,14 @@ public abstract class Ship {
         return shotCoordinates;
     }
 
-    public void setShotCoordinates(ArrayList<List<Integer>> shotCoordinates) {
-        this.shotCoordinates = shotCoordinates;
-    }
-
-    public void setShipNr(int shipNr) {
-        this.shipNr = shipNr;
-    }
-
-
-
     /**
      *
      * @return the ships location
      */
-
     public ArrayList<List<Integer>> getLocation() {
         return this.location;
     }
 
-
-
-    /**
-     * @return the color of the ship
-     */
     public void addLocation(int row, int col){
         this.location.add(Arrays.asList(col, row));
     }
@@ -110,10 +90,6 @@ public abstract class Ship {
         this.sizey = size;
     }
 
-
-
     public int getShipNr(){  return shipNr; }
-
-
 
 }

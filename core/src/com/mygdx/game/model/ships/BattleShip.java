@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class BattleShip extends Ship{
 
-    // the size is based on a horizontal direction
     int sizeX = 2;
     int sizeY = 2;
-
 
     /**
      * the constructor for the ship, sets a given color for the ship an sets sizeX and sizeY according to the boolean horizontal
