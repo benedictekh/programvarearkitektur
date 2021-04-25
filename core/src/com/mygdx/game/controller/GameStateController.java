@@ -180,7 +180,10 @@ public class GameStateController {
 
     public void shootSingle(ArrayList<Integer> indexes) {
         if (boardController.singleShoot(board, indexes.get(0), indexes.get(1))) {
-            FeedbackDelay();
+            setCanShoot(false);
+        }
+        else{
+            setCanShoot(true);
         }
     }
 

@@ -11,10 +11,11 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.model.Assets;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 
 import java.awt.Button;
 
-public class SinglePlayerView extends State{
+public class SinglePlayerView extends State implements FeedbackDelay {
     private Texture background;
     private Texture logo;
     private float x_position;
@@ -25,6 +26,10 @@ public class SinglePlayerView extends State{
     private ButtonCreator tutorialButton;
     private TutorialView TutorialView;
     private int i=0;
+    private boolean feedback = false;
+    private static Sound hitSound;
+    private static Sound missSound;
+
 
 
 
@@ -36,6 +41,9 @@ public class SinglePlayerView extends State{
         tutorialButton = new ButtonCreator(Assets.tutorialButton, Battleships.WIDTH/2+380, 135,250,100);
         gsc.setSinglePlayer(true);
         gsc.setScoreBoard(gsc.getScoreBoardController().createNewSingleScoreBoard(gsc.getPlayer(), gsc.getSinglePlayer()));
+        GameStateController.addFeedbackDelayListener(this);
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/hitshoot.wav"));
+        missSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/miss.mp3"));
     }
 
     @Override
@@ -84,6 +92,36 @@ public class SinglePlayerView extends State{
 
     @Override
     public void dispose() {
+        hitSound.dispose();
+    }
+    public void playSoundHit(){
+        if(!feedback && i>0){
+            long id = hitSound.play(4f);
+            hitSound.setPitch(id,0.6f);
+            i=0;
+        }
+    }
+    public void playSoundMiss(){
+        long id = missSound.play(4f);
+        hitSound.setPitch(id,0.6f);
+
+    }
+
+    public void setFeedback(boolean feedback){
+        if(!feedback){
+            this.i+=1;
+            playSoundHit();
+        }
+        else if(feedback){
+            playSoundMiss();
+        }
+        this.feedback = feedback;
+    }
+
+
+    @Override
+    public void fireActionDelay(boolean feedbackDelay) {
+        setFeedback(feedbackDelay);
     }
 
 }
