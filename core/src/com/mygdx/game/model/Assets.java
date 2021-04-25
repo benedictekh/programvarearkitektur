@@ -76,7 +76,7 @@ public class Assets {
 
         // MakeBoard
         notPossible = new Texture("notpossible.png");
-        setUpBoard = new Texture("boardSetup.png");
+        setUpBoard = new Texture("boardSetup0.png");
 
         // PlayView
         missed = new Texture("missed.png");
