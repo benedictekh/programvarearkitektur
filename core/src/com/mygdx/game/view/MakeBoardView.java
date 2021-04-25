@@ -9,6 +9,7 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
 import com.mygdx.game.view.ViewComponents.Feedback;
+import com.mygdx.game.model.Assets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +26,7 @@ public class MakeBoardView extends State implements Feedback {
     private Texture setUpTutorial;
     private BitmapFont setUp;
     private boolean bool = true;
-    private boolean pressedOK = false;
-    private BitmapFont font;
-
-
-    private ButtonCreator playGame;
-    private ButtonCreator wrongButton;
-    private ButtonCreator rightButton;
-    private Texture notValidMove;
+    private Texture wrong;
     private GameBoardView gameBoardView = new GameBoardView();
 
 
@@ -51,17 +45,12 @@ public class MakeBoardView extends State implements Feedback {
 **/
     protected MakeBoardView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
-
-        background = new Texture("background3.jpeg");
-        playGame = new ButtonCreator("Settings.png",Battleships.WIDTH/2-100, Battleships.HEIGHT/2-100,200,75);
-        next = new ButtonCreator("done.png", Battleships.WIDTH/2+650, 90, 250, 95);
-        logo = new Texture("logo.png");
-        setUpTutorial = new Texture("BoardSetup.png");
-        font = new BitmapFont();
-        wrongButton = new ButtonCreator("notpossible.png",Battleships.WIDTH/2+40, 40,280,200);
+        background = Assets.playBackground;
+        next = new ButtonCreator(Assets.doneButton, Battleships.WIDTH/2+650, 90, 250, 95);
+        logo = Assets.smallLogo;
+        setUpTutorial = Assets.setUpBoard;
+        wrong = Assets.notPossible;
         GameStateController.addFeedbackListener(this);
-
-
     }
 
     public void setNextTouch(boolean bool){
@@ -139,7 +128,7 @@ public class MakeBoardView extends State implements Feedback {
         sb.draw(setUpTutorial, Battleships.WIDTH/2+100, 230, 850, 780);
         sb.draw(next.getTexture(),next.Buttonx,next.Buttony,next.Width, next.Height);
         if(!bool){
-            sb.draw(wrongButton.getTexture(),wrongButton.Buttonx,wrongButton.Buttony,wrongButton.Width ,wrongButton.Height);
+            sb.draw(wrong, Battleships.WIDTH/2+40, 40,280,200);
         }
         //sb.draw(playGame.getTexture(),playGame.Buttonx,playGame.Buttony,playGame.Width,playGame.Height);
         sb.end();

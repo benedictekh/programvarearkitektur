@@ -10,6 +10,9 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.controller.ScoreBoardController;
+import com.mygdx.game.model.Assets;
+
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,23 +29,13 @@ public class GameFinishedView extends State {
 
     protected GameFinishedView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
-        logo = new Texture("cover.png");
-        background = new Texture("background1.jpg");
+        logo = Assets.coverLogo;
+        background = Assets.mainBackground;
         font = new BitmapFont();
-        newGame = new ButtonCreator("newGame.png", Battleships.WIDTH/2-150, 90, 300, 110);
+        newGame = new ButtonCreator(Assets.newGame, Battleships.WIDTH/2-150, 90, 300, 110);
         temp = gsc.getScoreBoardController().getScoreboard();
         gch = GameCodeHolder.getInstance(Battleships.firebaseConnector);
 
-
-        /*
-        temp = new LinkedHashMap<String, Integer>();
-        temp.put("isa", 52);
-        temp.put("Anne", 35);
-        temp.put("Benedicte", 20);
-        temp.put("Helena", 5);
-        temp.put("Live", 10);
-
-         */
     }
 
 
@@ -67,7 +60,7 @@ public class GameFinishedView extends State {
         sb.begin();
         if(gsc.getSinglePlayer()){
             sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
-            sb.draw(logo, Battleships.WIDTH/2-300, Battleships.HEIGHT-200, 600, 250);
+            sb.draw(logo, Battleships.WIDTH/2-350, Battleships.HEIGHT-200, 600, 250);
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             font.getData().setScale(4,4);
             font.setColor(Color.BLACK);

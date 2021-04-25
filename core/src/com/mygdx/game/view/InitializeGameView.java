@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
+import com.mygdx.game.model.Assets;
 import com.mygdx.game.model.Player;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class InitializeGameView extends State{
-
 
     private Player player;
     private Texture background;
@@ -20,9 +20,10 @@ public class InitializeGameView extends State{
     private BitmapFont font;
     public String name1;
     public ButtonCreator nextButton;
-    public ButtonCreator loginButton;
+    public ButtonCreator multiplayerButton;
     public ButtonCreator singlePlayerButton;
-
+    public Texture infotext;
+    public ButtonCreator backButton;
 
     /**
      * the constructor sets the background, buttons, logo, and font
@@ -31,12 +32,12 @@ public class InitializeGameView extends State{
     protected InitializeGameView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
         logo = new Texture("cover.png");
-        background = new Texture("background1.jpg");
+        background = Assets.mainBackground;
         font = new BitmapFont();
-        nextButton = new ButtonCreator("next.png", Battleships.WIDTH/2-150, Battleships.HEIGHT/2-50,300,100);
-        loginButton = new ButtonCreator("username.png", Battleships.WIDTH/2-200, Battleships.HEIGHT/2,420,110);
-        singlePlayerButton = new ButtonCreator("username.png", Battleships.WIDTH/2-200, 300,420,110);
-
+        infotext = Assets.infotext;
+        multiplayerButton = new ButtonCreator(Assets.multiplayerButton, Battleships.WIDTH/2-200, Battleships.HEIGHT/2,360,125);
+        singlePlayerButton = new ButtonCreator(Assets.singleplayerButton, Battleships.WIDTH/2-200, 300,360,125);
+        backButton = new ButtonCreator(Assets.backButton, 50, Battleships.HEIGHT-120, 100, 100);
     }
 
     /**
@@ -49,7 +50,10 @@ public class InitializeGameView extends State{
         if(Gdx.input.justTouched()) {
             //lagre vektoren som blir trykket
             Vector3 touch = new Vector3(Gdx.input.getX(), Battleships.HEIGHT - Gdx.input.getY(), 0);
-            if (loginButton.getRectangle().contains(touch.x, touch.y)) {
+            if (backButton.getRectangle().contains(touch.x, touch.y)) {
+                gsm.pop();
+            }
+            if (multiplayerButton.getRectangle().contains(touch.x, touch.y)) {
                 //med den innebgyde funksjonen textinputlistener har
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
@@ -125,18 +129,19 @@ public class InitializeGameView extends State{
         sb.begin();
         sb.draw(background, 0, 0, Battleships.WIDTH, Battleships.HEIGHT);
         sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
+        sb.draw(infotext, Battleships.WIDTH/2 + 350, Battleships.HEIGHT-550, 500, 130);
+        sb.draw(backButton.getTexture(),backButton.Buttonx,backButton.Buttony,backButton.Width,backButton.Height);
         if(name1==null){
-            sb.draw(loginButton.getTexture(),loginButton.Buttonx,loginButton.Buttony,loginButton.Width,loginButton.Height);
+            sb.draw(multiplayerButton.getTexture(),multiplayerButton.Buttonx,multiplayerButton.Buttony,multiplayerButton.Width,multiplayerButton.Height);
         }
 
         if(name1!=null){
             font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             font.getData().setScale(3,3);
-            font.draw(sb, "USERNAME:  " + getName(), Battleships.WIDTH/2-150, Battleships.HEIGHT/2+175);
+            font.draw(sb, "PLAYERNAME:  " + getName(), Battleships.WIDTH/2-150, Battleships.HEIGHT/2+175);
             sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width,nextButton.Height);
         }
         sb.draw(singlePlayerButton.getTexture(),singlePlayerButton.Buttonx,singlePlayerButton.Buttony,singlePlayerButton.Width,singlePlayerButton.Height);
-
         sb.end();
 
     }
