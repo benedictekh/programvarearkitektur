@@ -54,11 +54,15 @@ public class InitializeGameView extends State{
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String name) {
-                        gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
-                        gsc.getPlayerController().addPlayerFirebase(gsc.getPlayer());
-                        name1 = name;
-                        setName(name1);
-                        gsm.set(new LoadingView(gsm, gsc));
+                        if (name.equals("") || name.equals(" ")){
+                            return;
+                        }else {
+                            gsc.setPlayer(gsc.getPlayerController().createPlayer(name));
+                            gsc.getPlayerController().addPlayerFirebase(gsc.getPlayer());
+                            name1 = name;
+                            setName(name1);
+                            gsm.set(new LoadingView(gsm, gsc));
+                        }
                     }
 
                     @Override
@@ -111,15 +115,8 @@ public class InitializeGameView extends State{
         sb.draw(logo, Battleships.WIDTH/2-750, Battleships.HEIGHT-500, 1500, 600);
         sb.draw(infotext, Battleships.WIDTH/2 + 350, Battleships.HEIGHT-550, 500, 130);
         sb.draw(backButton.getTexture(),backButton.Buttonx,backButton.Buttony,backButton.Width,backButton.Height);
-        if(name1==null){
+        if(name1==null || name1==""){
             sb.draw(multiplayerButton.getTexture(),multiplayerButton.Buttonx,multiplayerButton.Buttony,multiplayerButton.Width,multiplayerButton.Height);
-        }
-
-        if(name1!=null){
-            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-            font.getData().setScale(3,3);
-            font.draw(sb, "PLAYERNAME:  " + getName(), Battleships.WIDTH/2-150, Battleships.HEIGHT/2+175);
-            sb.draw(nextButton.getTexture(),nextButton.Buttonx,nextButton.Buttony,nextButton.Width,nextButton.Height);
         }
         sb.draw(singlePlayerButton.getTexture(),singlePlayerButton.Buttonx,singlePlayerButton.Buttony,singlePlayerButton.Width,singlePlayerButton.Height);
         sb.end();
