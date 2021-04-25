@@ -23,9 +23,7 @@ public class SinglePlayerView extends State{
     private GameBoardView gameBoardView;
     private ButtonView tutorialButton;
     private TutorialView TutorialView;
-    private static Sound hitSound;
     private int i=0;
-    private boolean feedback = false;
 
 
 
@@ -37,7 +35,6 @@ public class SinglePlayerView extends State{
         tutorialButton = new ButtonView(Assets.tutorialButton, Battleships.WIDTH/2+380, 135,250,100);
         gsc.setSinglePlayer(true);
         gsc.setScoreBoard(gsc.getScoreBoardController().createNewSingleScoreBoard(gsc.getPlayer(), gsc.getSinglePlayer()));
-        hitSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/hitshoot.wav"));
     }
 
     @Override
@@ -86,24 +83,6 @@ public class SinglePlayerView extends State{
 
     @Override
     public void dispose() {
-       // hitSound.dispose();
     }
 
-    /*
-    public void playSound(){
-        if(!feedback && i>0){
-            long id = hitSound.play(4f);
-            hitSound.setPitch(id,0.6f);
-            i=0;
-        }
-    }
-
-    public void setFeedback(boolean feedback){
-        if(!feedback){
-            this.i+=1;
-            playSound();
-        }
-        this.feedback = feedback;
-    }
-    */
 }
