@@ -7,11 +7,11 @@ This project was created inline with the cource TDT4240 - Software Architecture,
 ## 1 Installing project <br/>
 ### 1.1 Getting started <br/>
 To run the application you need to install [Android Studio](https://developer.android.com/studio/?gclid=CjwKCAjwv4_1BRAhEiwAtMDLsozFvTbQdD1gDDKtKmX58Udj2DvLeoF2hyhyzdcBArlbnsQCdAUq6RoCfMYQAvD_BwE&gclsrc=aw.ds).
-The project is andorid speciefied so you need two android emulators to run the multiplayer game. If you dont have an adoid device Android Studio comes with the possibility to run on an emulator (see section 1.3) <br/>
+The project is andorid speciefied so you need two android emulators to run the multiplayer game. If you dont have an android device Android Studio comes with the possibility to run on an emulator (see section 1.3) <br/>
 
 ### 1.2 Cloning the project </br>
 
- After downloading Android Studio you can clone the prodject. This is done by entering the termningal and navigate into the folder of your choosing, then clone gitLab repo with SSH/HTTP key:
+ After downloading Android Studio you can clone the project. This is done by entering the termnial and then navigate into the folder of your choosing.  Clone gitLab repo with SSH/HTTP key:
  ```bash
   git clone https://gitlab.stud.idi.ntnu.no/progark_25/battleships.git
 ```
@@ -26,10 +26,15 @@ Now you can open Andorid studios -  Open an existing Anroid studio Project - Cho
 
 You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to have internet. <br/>
 
+#### Andorid Device
+
+Running on Android device: Connect your device to your computer with USB, enable needed permissions, see the documentation [here](https://developer.android.com/training/basics/firstapp/running-app), and select your android device in “Connected devices”.
+
 #### Andorid Emulator
 Click on “Tools” in Android Studio and open the AVD manager to add a new virtual device. We recommend using Pixel 3a. When selecting system image make sure ABI is set to x86. When verifying configurations make sure startup orientation is set to landscape and set graphics to “Software - GLES 2.0”.
 
 You should have the latest Android Emulator version to make your emulator run faster, we reccommend version 30.5.4
+
 We reccomend to set up this virtual device: <br/>
 ```bash
 Name: Pixel 3a 
@@ -41,9 +46,6 @@ Settings:
 
 <img width="500" alt="Skjermbilde 2021-04-26 kl  14 56 53" src="https://user-images.githubusercontent.com/69898083/116086086-bd3f8680-a69f-11eb-908d-f26367c43645.png">
 
-#### Andorid Device
-
-Running on Android device: Connect your device to your computer with USB, enable needed permissions, see the documentation [here](https://developer.android.com/training/basics/firstapp/running-app), and select your android device in “Connected devices”.
 
 
 # 2 Technology and Frameworks
