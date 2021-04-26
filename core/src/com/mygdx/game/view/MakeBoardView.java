@@ -8,8 +8,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.DrawGameBoard;
 import com.mygdx.game.view.ViewComponents.Feedback;
-import com.mygdx.game.model.Assets;
+import com.mygdx.game.view.ViewComponents.Assets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class MakeBoardView extends State implements Feedback {
     private BitmapFont setUp;
     private boolean bool = true;
     private Texture wrong;
-    private GameBoardView gameBoardView = new GameBoardView();
+    private DrawGameBoard drawGameBoard = new DrawGameBoard();
 
 
     /**
@@ -139,7 +140,7 @@ public class MakeBoardView extends State implements Feedback {
      */
 
     public void drawBoardView(){
-        gameBoardView.drawBoardandShips(gsc.getBoard());
+        drawGameBoard.drawBoardandShips(gsc.getBoard());
     }
 
     /**
@@ -147,7 +148,7 @@ public class MakeBoardView extends State implements Feedback {
      */
     public void drawMarkedShip() {
         if(gsc.getShipController().getMarkedShip() != null){
-            gameBoardView.drawMarkedShip(gsc.getShipController().getMarkedShip(), gsc.getBoard());
+            drawGameBoard.drawMarkedShip(gsc.getShipController().getMarkedShip(), gsc.getBoard());
         }
     }
 

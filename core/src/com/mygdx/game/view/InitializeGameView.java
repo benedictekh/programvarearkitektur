@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
-import com.mygdx.game.model.Assets;
-import com.mygdx.game.model.Player;
+import com.mygdx.game.view.ViewComponents.Assets;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
 
 public class InitializeGameView extends State{

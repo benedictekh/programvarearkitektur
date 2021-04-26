@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
-import com.mygdx.game.model.Assets;
+import com.mygdx.game.view.ViewComponents.Assets;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.DrawGameBoard;
 import com.mygdx.game.view.ViewComponents.FeedbackDelay;
 
 public class SinglePlayerView extends State implements FeedbackDelay {
@@ -20,7 +21,7 @@ public class SinglePlayerView extends State implements FeedbackDelay {
     private float y_position;
     private BitmapFont font = new BitmapFont();
     private BitmapFont turn = new BitmapFont();
-    private GameBoardView gameBoardView;
+    private DrawGameBoard drawGameBoard;
     private ButtonCreator tutorialButton;
     private TutorialView TutorialView;
     private int i=0;
@@ -35,7 +36,7 @@ public class SinglePlayerView extends State implements FeedbackDelay {
         super(gsm, gsc);
         background = Assets.playBackground;
         logo = Assets.coverLogo;
-        this.gameBoardView = new GameBoardView();
+        this.drawGameBoard = new DrawGameBoard();
         tutorialButton = new ButtonCreator(Assets.tutorialButton, Battleships.WIDTH/2+380, 135,250,100);
         gsc.setSinglePlayer(true);
         gsc.setScoreBoard(gsc.getScoreBoardController().createNewSingleScoreBoard(gsc.getPlayer(), gsc.getSinglePlayer()));
@@ -84,7 +85,7 @@ public class SinglePlayerView extends State implements FeedbackDelay {
         font.draw(sb, "X - Represents HIT", Battleships.WIDTH / 2 + 320, 450);
         sb.draw(tutorialButton.getTexture(),tutorialButton.Buttonx,tutorialButton.Buttony,tutorialButton.Width,tutorialButton.Height);
         sb.end();
-        gameBoardView.drawBoardView(gsc.getSingleTurn(), gsc.getSingleBoard());
+        drawGameBoard.drawBoardView(gsc.getSingleTurn(), gsc.getSingleBoard());
     }
 
     @Override

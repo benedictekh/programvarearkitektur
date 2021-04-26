@@ -1,4 +1,4 @@
-package com.mygdx.game.model;
+package com.mygdx.game.view.ViewComponents;
 
 import com.badlogic.gdx.graphics.Texture;
 public class Assets {

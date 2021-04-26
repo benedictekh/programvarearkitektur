@@ -10,8 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
+import com.mygdx.game.view.ViewComponents.DrawGameBoard;
 import com.mygdx.game.view.ViewComponents.FeedbackDelay;
-import com.mygdx.game.model.Assets;
+import com.mygdx.game.view.ViewComponents.Assets;
 
 
 public class PlayView extends  State implements FeedbackDelay {
@@ -19,7 +20,7 @@ public class PlayView extends  State implements FeedbackDelay {
     private Texture background;
     private float x_position;
     private float y_position;
-    private GameBoardView gameBoardView;
+    private DrawGameBoard drawGameBoard;
     private BitmapFont font = new BitmapFont();
     private BitmapFont turn = new BitmapFont();
     private boolean feedback = false;
@@ -42,7 +43,7 @@ public class PlayView extends  State implements FeedbackDelay {
         background = Assets.playBackground;
         logo = Assets.coverLogo;
         missed = Assets.missed;
-        this.gameBoardView = new GameBoardView();
+        this.drawGameBoard = new DrawGameBoard();
         tutorialButton = new ButtonCreator(Assets.tutorialButton, Battleships.WIDTH/2+380, 135,250,100);
         gsc.setOpponentBoard(gsc.getBoardController().createBoardFromOpponent(gsc.getOpponentBoardFromFirebase(), gsc.getPlayer().getBoard().getSidemargin()));
         GameStateController.addFeedbackDelayListener(this);
@@ -102,7 +103,7 @@ public class PlayView extends  State implements FeedbackDelay {
             sb.draw(missed, Battleships.WIDTH/2+40, 40,280,200);
         }
         sb.end();
-        gameBoardView.drawBoardView(gsc.myTurn, gsc.getBoard());
+        drawGameBoard.drawBoardView(gsc.myTurn, gsc.getBoard());
     }
 
     @Override

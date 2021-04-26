@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Battleships;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
-import com.mygdx.game.model.Assets;
+import com.mygdx.game.view.ViewComponents.Assets;
 
 
 public class MenuView extends State {

@@ -10,8 +10,7 @@ import com.mygdx.game.Battleships;
 import com.mygdx.game.GameCodeHolder;
 import com.mygdx.game.controller.GameStateController;
 import com.mygdx.game.view.ViewComponents.ButtonCreator;
-import com.mygdx.game.controller.ScoreBoardController;
-import com.mygdx.game.model.Assets;
+import com.mygdx.game.view.ViewComponents.Assets;
 
 
 import java.util.HashMap;
