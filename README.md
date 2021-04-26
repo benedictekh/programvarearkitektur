@@ -1,13 +1,13 @@
 # Battleships<br/>
 
-This project was created inline with the cource TDT4240 - Software Architecture, where we develop med mulitplayer game focusing on using methods and patterns from the course. 
+This project was created inline with the cource TDT4240 - Software Architecture, where we develop a mulitplayer game focusing on using methods and patterns from the course. 
 
 <img width="749" alt="Skjermbilde 2021-04-26 kl  15 26 05" src="https://user-images.githubusercontent.com/69898083/116090023-ba469500-a6a3-11eb-9284-13ed0016c325.png">
 
 ## 1 Installing project <br/>
 ### 1.1 Getting started <br/>
 To run the application you need to install [Android Studio](https://developer.android.com/studio/?gclid=CjwKCAjwv4_1BRAhEiwAtMDLsozFvTbQdD1gDDKtKmX58Udj2DvLeoF2hyhyzdcBArlbnsQCdAUq6RoCfMYQAvD_BwE&gclsrc=aw.ds).
-The project is andorid speciefied so you need two android emulators to run the multiplayer game. If you dont have an android device Android Studio comes with the possibility to run on an emulator (see section 1.3) <br/>
+The project is andorid speciefied so you need two android emulators to run the multiplayer game, and one emulator for single player. If you don't have an android device Android Studio comes with the possibility to run the game on an emulator (see section 1.3) <br/>
 
 ### 1.2 Cloning the project </br>
 
@@ -24,11 +24,11 @@ Now you can open Andorid studios -  Open an existing Anroid studio Project - Cho
 
 ### 1.3 Running the project <br>
 
-You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to have internet. <br/>
+You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to be connected to internet. <br/>
 
 #### Andorid Device
 
-Running on Android device: Connect your device to your computer with USB, enable needed permissions, see the documentation [here](https://developer.android.com/training/basics/firstapp/running-app), and select your android device in “Connected devices”.
+Running on Android device: Enable needed permissions for your phone, see the documentation [here](https://developer.android.com/training/basics/firstapp/running-app). Connect your device to your computer with USB, and select your android device in “Connected devices”.
 
 #### Andorid Emulator
 Click on “Tools” in Android Studio and open the AVD manager to add a new virtual device. We recommend using Pixel 3a. When selecting system image make sure ABI is set to x86. When verifying configurations make sure startup orientation is set to landscape and set graphics to “Software - GLES 2.0”.
@@ -68,7 +68,7 @@ Play game will take you here:
 
 <img width="540" alt="Skjermbilde 2021-04-26 kl  16 21 11" src="https://user-images.githubusercontent.com/69898083/116098498-6c358f80-a6ab-11eb-8c07-86ad9b479b57.png">
 
-After choosing mulitplayer or singleplayer you will have to wirte in a username. 
+After choosing mulitplayer or single player you will have to wirte in a username. 
 
 Before the game begins each player arranges their ships on their board. 
 
@@ -86,7 +86,7 @@ The scoreboard:
 
 
 
-# Developrs
+# Developers
 * Ane Dyveke Blaauw
 * Anne Skjærseth
 * Benedicte Hansen
