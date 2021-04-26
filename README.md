@@ -27,6 +27,8 @@ Now you can open Andorid studios -  Open an existing Anroid studio Project - Cho
 You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to have internet. <br/>
 
 #### Andorid Emulator
+Click on “Tools” in Android Studio and open the AVD manager to add a new virtual device. We recommend using Pixel 3a. When selecting system image make sure ABI is set to x86. When verifying configurations make sure startup orientation is set to landscape and set graphics to “Software - GLES 2.0”.
+
 You should have the latest Android Emulator version to make your emulator run faster, we reccommend version 30.5.4
 We reccomend to set up this virtual device: <br/>
 ```bash
@@ -41,15 +43,56 @@ Settings:
 
 #### Andorid Device
 
+Running on Android device: Connect your device to your computer with USB, enable needed permissions, see the documentation [here](https://developer.android.com/training/basics/firstapp/running-app), and select your android device in “Connected devices”.
 
-# Technology and Frameworks
+
+# 2 Technology and Frameworks
 * [Android Studio](https://developer.android.com/studio/?gclid=CjwKCAjwv4_1BRAhEiwAtMDLsozFvTbQdD1gDDKtKmX58Udj2DvLeoF2hyhyzdcBArlbnsQCdAUq6RoCfMYQAvD_BwE&gclsrc=aw.ds)
 * [LibGDX](https://libgdx.com/)
 * [Firebase](https://firebase.google.com/)
 
-# Developrs
+# 3 Demo / user manual
+Battleships is one of the most famous games of all time! The game is originally played by two people, and the goal is to destroy the opponent’s fleet of ships.
 
-#
+The user will have the opportunity to play either a turn based multiplayer or single player. Each player has a ruled grid board that contains 10 x 10 squares. They also have six different ships occupying a different number of squares. In the singleplayer the goal is to have as few trys as possible to sink all the ships. When playing against an opponent you must sink all their ships before they sink yours! 
+
+Good luck on getting on the Scoreboard!
+
+<img width="546" alt="Skjermbilde 2021-04-26 kl  16 20 31" src="https://user-images.githubusercontent.com/69898083/116098392-545e0b80-a6ab-11eb-8315-0edeb0de901f.png">
+
+Here you can choose by watching the tutorial or start playing the game. 
+
+Play game will take you here:
+
+<img width="540" alt="Skjermbilde 2021-04-26 kl  16 21 11" src="https://user-images.githubusercontent.com/69898083/116098498-6c358f80-a6ab-11eb-8c07-86ad9b479b57.png">
+
+After choosing mulitplayer or singleplayer you will have to wirte in a username. 
+
+Before the game begins each player arranges their ships on their board. 
+
+<img width="535" alt="Skjermbilde 2021-04-26 kl  16 21 48" src="https://user-images.githubusercontent.com/69898083/116098618-82435000-a6ab-11eb-824b-bccd327a0499.png">
+
+Here you are playing against an opponent. 
+
+The view shows the opponent’s turn and they are trying to hit your ships. 
+
+<img width="546" alt="Skjermbilde 2021-04-26 kl  16 22 20" src="https://user-images.githubusercontent.com/69898083/116098723-95eeb680-a6ab-11eb-9fea-09ef04a0a321.png">
+
+The scoreboard:
+
+<img width="546" alt="Skjermbilde 2021-04-26 kl  16 22 52" src="https://user-images.githubusercontent.com/69898083/116098830-a99a1d00-a6ab-11eb-8c32-2a227cac25fa.png">
+
+
+
+# Developrs
+* Ane Dyveke Blaauw
+* Anne Skjærseth
+* Benedicte Hansen
+* Helena Phan
+* Isabel Slorer
+* Live Melkild
+
+
 
 
 
