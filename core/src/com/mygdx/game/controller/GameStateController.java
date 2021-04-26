@@ -42,6 +42,10 @@ public class GameStateController {
     private static Collection<FeedbackDelay> feedbackDelayListeners = new ArrayList<FeedbackDelay>();
     private static Collection<Feedback> feedbackListeners = new ArrayList<>();
 
+    /**
+     * DESIGN PATTERN: Observer
+     * Feedback listeners and feedback delay listener use the observer pattern
+     */
 
     public  GameStateController(){
         this.playerController = new PlayerController();

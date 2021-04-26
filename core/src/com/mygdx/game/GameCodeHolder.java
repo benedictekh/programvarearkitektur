@@ -16,7 +16,7 @@ public class GameCodeHolder implements FirebaseServices{
     private  FirebaseServices firebaseServices;
 
     /**
-     * Design pattern: Singelton
+     * DESIGN PATTERN: Singelton
      */
     private GameCodeHolder(FirebaseServices firebaseServices){
         this.firebaseServices = firebaseServices;

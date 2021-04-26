@@ -31,7 +31,6 @@ public class SinglePlayerView extends State implements FeedbackDelay {
 
 
 
-
     public SinglePlayerView(GameStateManager gsm, GameStateController gsc) {
         super(gsm, gsc);
         background = Assets.playBackground;

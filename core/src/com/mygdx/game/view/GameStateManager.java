@@ -6,6 +6,8 @@ import java.util.Stack;
 
 public class GameStateManager {
     /**
+     * DESIGN PATTERN: State and Singelton
+     *
      * The game state manager (gsm) has the overview of the state.
      * This is out state pattern whitch controls what view is used and showed on the screen.
      * Witch state that is used is controlled by making a Stack, where you will have access to the top element/"plate"

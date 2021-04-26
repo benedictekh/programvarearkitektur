@@ -34,6 +34,10 @@ public class PlayView extends  State implements FeedbackDelay {
     private static Sound hitSound;
     private static Sound missSound;
 
+    /**
+     * QUALITY ATTRIBUTE: Usability
+     *          tactic: Tutorial
+     */
 
     /**
      * the constructor, sets background

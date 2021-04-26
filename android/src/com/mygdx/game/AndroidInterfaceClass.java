@@ -33,6 +33,9 @@ public class AndroidInterfaceClass implements FirebaseServices {
     static ArrayList<List<Integer>> opponentBoard;
 
     /**
+     * DESIGN PATTERN: observer
+     * The methods that use a ValueEventListener use the observer pattern.
+     *
      * AndroidInterfaceClass contains all the logic to write and retrieve data from our firebase
      * realtime database. The class contains the singleton gameCodeHolder to save the gameId
      * and playerId throughout the game.
@@ -136,7 +139,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Design pattern: Listener
      * A listener to when it is two players in the waitingRoom and when onChildRemoved() is fired the player
      * moves them self to the game. The LoadingController knows that both players are ready.
      * Remove the waitingRoom in firebase since there are no players left.
@@ -177,7 +179,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Design pattern: Observer
      * Initialize a listener to the turn attribute in firebase first time it is called.
      * onDataChange() is called every time changeTurn() changes the turn variable after the initial call.
      * @return true if it is the local players turn and pass it on to PlayController
@@ -241,7 +242,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Design pattern: Listener
      * Checks if both players have initialized their board, so the Board attribute in firebase have more then one child.
      * The boolean variable, playersReady, in LoadingController is then set to true.
      */
@@ -272,7 +272,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Design pattern: observer
      * PlayController initialize the observer when the game starts. Every time the shot is changed the new values are retrieved and
      * passed on to the PlayController by changing a shotChanged variable to true.
      */
@@ -361,7 +360,6 @@ public class AndroidInterfaceClass implements FirebaseServices {
     }
 
     /**
-     * Design pattern: Listener
      * When a game starts from PlayController it is added a listener to changes in the variable GameFinished, so
      * both players will receive information that a game has ended.
      */

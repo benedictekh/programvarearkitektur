@@ -19,6 +19,9 @@ public class MenuView extends State {
     private TutorialView TutorialView;
 
     /**
+     *  QUALITY ATTRIBUTE: Usability
+     *          Tactics: Tutorial
+     *
      * This is the first view and state that is added to the stack in the gsm.
      * It is the front page of the application.
      * There are two buttons witch sends the user to the game or to a tutorial of the game.

@@ -3,6 +3,11 @@ package com.mygdx.game.view.ViewComponents;
 import com.badlogic.gdx.graphics.Texture;
 public class Assets {
 
+    /**
+     * QUALITY ATTRIBUTE: Performance
+     *          Tactic: Increase efficiency
+     */
+
     // Backgrounds
     public static Texture mainBackground;
     public static Texture playBackground;

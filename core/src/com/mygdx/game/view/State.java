@@ -7,9 +7,12 @@ import com.mygdx.game.controller.GameStateController;
 
 public abstract class State {
 
-    /*
-    State is an abstract class that is implemented in all the View classes. With the gsm we can control
-     which state that is showing on the screen.
+    /**
+     *  QUALITY ATTRIBUTE: MODIFIABILITY
+     *           tactic: Abstract common services
+     *
+     *   State is an abstract class that is implemented in all the View classes. With the gsm we can control
+     * which state that is showing on the screen.
      */
     protected OrthographicCamera cam;
     protected Vector3 mouse;

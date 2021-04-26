@@ -18,6 +18,9 @@ public abstract class Ship {
     private int shipNr;
 
     /**
+     * QUALITY ATTRIBUTE: Modifiability
+     *          Tactic: Abstract common services
+     *
      * Sets the color of the ships, creates a new list for the shotCoordinates and sets isSunk to false
      * @param color The color of the ship
      */

@@ -37,7 +37,10 @@ public class MakeBoardView extends State implements Feedback {
 
     /**
      * QUALITY ATTRIBUTE: USABILITY
-     *          The user can initialize the board by placing the ships where the user wants.
+     *          The user can initialize the board by placing the ships where the user wants and recieve feedback.
+     *          The user can also read a tutorial.
+     *          Tactics: Tutorial, support user initative
+     *
      *
      * This view presents the board for the player
      * The player can place the ships at preferred position.
