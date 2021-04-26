@@ -1,4 +1,4 @@
-package com.mygdx.game.view;
+package com.mygdx.game.view.ViewComponents;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +9,7 @@ import com.mygdx.game.model.ships.Ship;
 
 import java.util.List;
 
-public class GameBoardView {
+public class DrawGameBoard {
 
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private int linewitdh = 8;
