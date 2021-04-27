@@ -24,7 +24,7 @@ Now you can open Andorid studios -  Open an existing Anroid studio Project - Cho
 
 ### 1.3 Running the project <br>
 
-You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two of these devices on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to be connected to internet. <br/>
+You can either run on an andoid device or on the emulator in Andorid Studio. You can set up two emulators on your computer, or have one on the computer and run the game simontaniously on your android phone. The app runs faster on your phone, so we reccomend this if you have an android phone. To play multiplayer and see the highscore list, which is online, you need to be connected to internet. To play the multiplayer mode you have to use two devices or emulators. <br/>
 
 #### Andorid Device
 
